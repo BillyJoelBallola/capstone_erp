@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    color: #212121;
+}
+
+html{
+    @apply bg-gray-100;
+}
+
+input[type="search"],
+input[type="text"], 
+input[type="password"],
+input[type="email"],
+textarea, 
+input[type="number"]{ @apply resize-none border bg-transparent border-gray-300 rounded-md px-3 py-2 text-sm focus:bg-gray-100 w-full h-full; }
+
+select,
+input[type="date"],
+input[type="month"]{ 
+    @apply border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-400 w-full; 
+}
+
+.btn-outlined{ 
+    @apply py-1 px-4 bg-white text-blue-400 text-sm border border-blue-400 font-bold rounded-md hover:bg-blue-100 hover:border-blue-100 transition-all delay-100 ease-in-out; 
+}
+
+.btn-red{ 
+    @apply py-1 px-4 bg-white text-red-400 text-sm border border-red-400 font-bold rounded-md hover:bg-red-100 hover:border-red-100 transition-all delay-100 ease-in-out; 
+}
+
+.btn-green{ 
+    @apply py-1 px-4 bg-white text-green-400 text-sm border border-green-400 font-bold rounded-md hover:bg-green-100 hover:border-green-100 transition-all delay-100 ease-in-out; 
+}
+
+.btn-dark-outlined{ 
+    @apply py-1 px-4 bg-white text-[#212121] text-sm border border-[#212121] font-bold rounded-md hover:bg-[#212121] hover:text-white transition-all delay-100 ease-in-out; 
+}
+
+.btn-dark{ 
+    @apply py-2 bg-darker text-sm text-white font-semibold rounded-md hover:bg-dark/[.9] transition-all delay-100 ease-in-out; 
+}
+
+.btn-primary{ 
+    @apply bg-gradient-to-r from-blue-400 to-blue-500 text-sm text-white font-bold rounded-md hover:from-blue-400/[.8] hover:to-blue-500/[.8] transition-all delay-100 ease-in-out; 
+}
+
+.btn-gray{
+    @apply text-sm py-2 px-4 bg-gray-200 font-semibold hover:bg-gray-300 rounded-md;
+}
+
+.btn-dark-gray{
+    @apply text-sm py-1 px-4 bg-gray-300 font-semibold hover:bg-gray-400 rounded-md;
+}
+
+.searchBar{
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+
+.searchBar:focus{
+    background: transparent !important;
+}
+
+.form-group{ 
+    @apply flex flex-col gap-2; 
+}
+
+.form-group label{ 
+    @apply text-sm; 
+}
+
+.p-paginator {
+    justify-content: end;
+}
+
+.p-datatable-wrapper .p-datatable-table .p-datatable-thead tr th{
+    font-weight: 600;
+    font-size: .95rem;
+}
+.p-datatable-wrapper .p-datatable-table .p-datatable-tbody tr td{
+    font-size: .9rem;
+}
+
+.p-datatable-wrapper .p-datatable-table .p-datatable-thead tr th,
+.p-datatable-wrapper .p-datatable-table .p-datatable-tbody tr td{
+    padding-block: .5rem;
+}
+.p-datatable-wrapper .p-datatable-table .p-datatable-tbody tr th div{
+    @apply grid place-items-center;
+}
