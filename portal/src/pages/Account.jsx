@@ -35,6 +35,7 @@ const Account = () => {
     const [completed, setCompleted] = useState(null);
     const [cancelled, setCancelled] = useState(null);
     const [cancel, setCancel] = useState(null);
+    const [shipments, setShipments] = useState(null);
 
     useEffect(() => {
         if(orders || orderAction){
@@ -45,7 +46,7 @@ const Account = () => {
             setCancelled(() => orders.filter(item => item.state === 5));
         }
     }, [orders])
-
+    
     useEffect(() => {
         if(!orders || orderAction){
             axios.get("/erp/customer_orders").then(({ data }) => {
@@ -55,6 +56,12 @@ const Account = () => {
         }
     }, [orderAction]) 
 
+    useEffect(() => {
+        axios.get("/erp/shipments").then(({ data }) => {
+            setShipments(data);
+        })
+    }, []) 
+    
     useEffect(() => {
         if(currentCustomer || cancel){
             setLoading(false);
@@ -377,7 +384,12 @@ const Account = () => {
                                                 <div  className='grid gap-5'>
                                                     <div className='flex items-center justify-between'>
                                                         <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
-                                                        <span>Expected Arrival: {moment(order.expectedArrival).format("LL")}</span>
+                                                        {
+                                                            shipments?.map(item => (
+                                                                item.order._id === order._id &&
+                                                                <span key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                            ))
+                                                        }
                                                     </div>
                                                     <div className='grid gap-3 pl-10'>
                                                         {

@@ -35,22 +35,19 @@ const ProductForecast = () => {
                     let outGoing = [];
                     let equalProdId = false;
                     data.map(shipment => {
-                        if(shipment.state === 2){
+                        if(shipment.state === 2 && shipment.order.state === 2){
                             shipment?.order?.orders?.filter(prod => {
                                 if(prod.productId === id){
-                                    equalProdId = true;
+                                    return outGoing.push(shipment)
                                 }
                             })
-                        }
-                        if(equalProdId){
-                            outGoing.push(shipment);
                         }
                     });
                     setForecasts([...incomingProduct, ...outGoing]);    
                 })
             })
     }, [])
-    
+
     useEffect(() => {
         if(forecasts.length !== 0){
             let inComing = 0;
@@ -143,7 +140,7 @@ const ProductForecast = () => {
                                     item?.reference?.includes("SHP") ?
                                     <>
                                         <span>{moment(item.scheduledDate).format("LL")}</span>
-                                        <span>{item?.order?.orders?.map(item => item.productId === id ? item.quantity : 0)}</span>
+                                        <span>{item?.order?.orders?.map(item => item.productId === id && item.quantity )}</span>
                                     </>
                                     :
                                     <></>

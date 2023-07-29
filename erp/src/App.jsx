@@ -44,7 +44,7 @@ import MaterialForecast from './pages/shared/MaterialForecast';
 import HumanResource from './pages/humanResource/HumanResource';
 import Dashboard from './pages/dashboard/Dashboard';
 
-import Sales from './pages/sales/Sales';
+import Customers from './pages/sales/Customers';
 import Orders from './pages/sales/Orders';
 import OrderForm from './pages/sales/OrderForm';
 
@@ -86,7 +86,7 @@ const App = () => {
                 <Route path='/:op/product_forecast/:id?' element={<ProductForecast />} />
                 <Route path='/:op/material_forecast/:id?' element={<MaterialForecast />} />
                 <Route path='/human-resource' element={<HumanResource />} />
-                <Route path='/sales' element={<Sales />} />
+                <Route path='/sales' element={<Customers />} />
                 <Route path='/sales/orders' element={<Orders />} />
                 <Route path='/sales/orders/order-form/:id?' element={<OrderForm />} />
             </Route>

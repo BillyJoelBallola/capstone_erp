@@ -84,7 +84,7 @@ const ShipmentForm = () => {
                     {
                         shipment?.order?.state === 4 &&
                         <div className={`${shipment.state === 4 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10`}>Done</div>
-                    }
+                    } 
                 </div>
             </div>
         )

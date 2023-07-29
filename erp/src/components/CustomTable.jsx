@@ -32,6 +32,11 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
         })
     }, [])
 
+    const addressFormat = (rowData) => {
+        const { address } = rowData;
+        return <span>{`${address?.street}, ${address?.barangay}, ${address?.municipal}, ${address?.province}, ${address?.country}`}</span>
+    }
+
     const quantityStatus = (rowData) => {
         const { quantity } = rowData;
         let color = "";
@@ -178,7 +183,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
     }
 
     const orderState = (rowData) => {
-        const { invoice, state } = rowData;
+        const { invoice, state, order } = rowData;
         let colorStyle = "";
         let textColorStyle = "";
         let indicator = "";
@@ -221,6 +226,11 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                 colorStyle = "bg-green-100";
                 textColorStyle = "text-green-700";
                 indicator = "Done";
+            }
+            if(order?.state === 5){
+                colorStyle = "bg-red-100";
+                textColorStyle = "text-red-700";
+                indicator = "Cancelled";
             }
         }
         
@@ -430,6 +440,8 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                             amountAndTotal :
                             item.body === "orderState" ?
                             orderState : 
+                            item.body === "addressFormat" ?
+                            addressFormat : 
                             item.body === "source" ?
                             source : null 
                         }

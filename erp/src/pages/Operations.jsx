@@ -16,7 +16,7 @@ const Operations = () => {
         location = "/" + acs.name;
       }
     });
-
+    
     if(location !== ""){
       navigate(location);
     }else{

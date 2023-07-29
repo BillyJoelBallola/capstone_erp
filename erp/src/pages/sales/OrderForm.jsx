@@ -26,7 +26,7 @@ const OrderForm = () => {
     }, [id, action])
     
     const confirmOrder = async () => {
-        const response = await axios.put("/erp/change_order_state", { id: id, invoice: 2, state: order.state , shipment: order.shipment });
+        const response = await axios.put("/erp/change_order_state", { id: id, invoice: 2, state: 2 , shipment: order.shipment });
         if(response.statusText === "OK"){
             axios.post("/erp/add_shipment", { orderId: id, reference: referenceGenerator("SHP") });
             setAction("confirm");
