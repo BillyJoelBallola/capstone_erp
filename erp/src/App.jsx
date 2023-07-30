@@ -88,7 +88,7 @@ const App = () => {
                 <Route path='/human-resource' element={<HumanResource />} />
                 <Route path='/sales' element={<Customers />} />
                 <Route path='/sales/orders' element={<Orders />} />
-                <Route path='/sales/orders/order-form/:id?' element={<OrderForm />} />
+                <Route path='/:op/orders/order-form/:id?' element={<OrderForm />} />
             </Route>
         </Routes>
     )

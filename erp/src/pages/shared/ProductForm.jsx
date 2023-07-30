@@ -15,7 +15,6 @@ const ProductForm = () => {
     const op = useParams().op;
     const navigate = useNavigate();
     const location = op === "inventory" ? "inventory" : "supply-chain";  
-    const [forecasted, setForecasted] = useState(0);
     const [data, setData] = useState({});
     const [action, setAction] = useState("");
     const [visible, setVisible] = useState(false);
@@ -38,14 +37,55 @@ const ProductForm = () => {
         inStock: "",
         qty: 0
     });
-    
+    const [forecasts, setForecasts] = useState([]);
+    const [total, setTotal] = useState({
+        inComing: 0,
+        outGoing: 0,
+        totalUnit: 0
+    });
+
     useEffect(() => {
-        if(productions.length !== 0){
-            productions.map(item => {
-                setForecasted(item.quantity += item.quantity)
+        axios.get("/erp/productions")
+            .then(({ data }) => {
+                const incomingProduct = data.filter(item => (item.product._id === id && item.state === 2));
+                return incomingProduct;
             })
+            .then((incomingProduct) => {
+                axios.get("/erp/shipments").then(({ data }) => {
+                    let outGoing = [];
+                    data.map(shipment => {
+                        if(shipment.state === 2 && shipment.order.state === 2){
+                            shipment?.order?.orders?.filter(prod => {
+                                if(prod.productId === id){
+                                    return outGoing.push(shipment)
+                                }
+                            })
+                        }
+                    });
+                    setForecasts([...incomingProduct, ...outGoing]);    
+                })
+            })
+    }, [])
+
+    useEffect(() => {
+        if(forecasts.length !== 0){
+            let inComing = 0;
+            let outGoing = 0;
+            forecasts.map(item => {
+                if(item.reference.includes("PRD")){
+                    inComing = item.quantity;
+                }
+                if(item.reference.includes("SHP")){
+                    item.order.orders.map(prod => {
+                        if(prod.productId === id){
+                            return outGoing += prod.quantity;
+                        }
+                    })
+                }
+            })
+            setTotal(prev => ({...prev, inComing: inComing, outGoing: outGoing}));
         }
-    }, [productions])
+    }, [forecasts]);
     
     useEffect(() => {
         axios.get("/erp/productions").then(({ data }) => {
@@ -363,7 +403,7 @@ const ProductForm = () => {
                                 </div>
                                 <div className='grid text-left'>
                                     <span>Forecasted</span>
-                                    <span className='-mt-1 font-semibold'>{formik.values.quantity + forecasted} Units</span>
+                                    <span className='-mt-1 font-semibold'>{formik.values.quantity + total.inComing - total.outGoing} Units</span>
                                 </div>
                             </NavLink>
                             <div className='h-7 bg-gray-400 w-[1px]'/>

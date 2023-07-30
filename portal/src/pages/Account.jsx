@@ -387,7 +387,13 @@ const Account = () => {
                                                         {
                                                             shipments?.map(item => (
                                                                 item.order._id === order._id &&
-                                                                <span key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                                <div key={item._id}>
+                                                                    <span className='text-sm'>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                                    {
+                                                                        item.status === 3 &&
+                                                                        <button className='btn-outlined-dark'>Receive All</button>
+                                                                    }
+                                                                </div>
                                                             ))
                                                         }
                                                     </div>

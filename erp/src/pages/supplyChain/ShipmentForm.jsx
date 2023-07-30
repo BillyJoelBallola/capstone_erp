@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { useFormik } from "formik";
-import { useEffect } from 'react';
 import * as Yup from "yup";
 import axios from "axios";
 import moment from 'moment';
@@ -108,9 +107,9 @@ const ShipmentForm = () => {
                                 <span>
                                     {shipment?.reference}
                                 </span>
-                                <span>
+                                <NavLink className="text-blue-500" to={`/suppy-chain/orders/order-form/${shipment?.order?._id}`}>
                                     ({shipment?.order?.reference})
-                                </span>
+                                </NavLink>
                             </div>
                         </div>
                     </div>

@@ -33,7 +33,6 @@ const ProductForecast = () => {
             .then((incomingProduct) => {
                 axios.get("/erp/shipments").then(({ data }) => {
                     let outGoing = [];
-                    let equalProdId = false;
                     data.map(shipment => {
                         if(shipment.state === 2 && shipment.order.state === 2){
                             shipment?.order?.orders?.filter(prod => {
