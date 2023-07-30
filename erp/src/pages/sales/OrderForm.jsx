@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import moment from "moment";
 
@@ -8,7 +8,7 @@ import moment from "moment";
 
 const OrderForm = () => {
     const id = useParams().id;
-    const navigate = useNavigate();
+    const op = useParams().op;
     const [action, setAction] = useState("");
     const [shipment, setShipment] = useState({});
     const [order, setOrder] = useState({});
@@ -67,7 +67,7 @@ const OrderForm = () => {
             <ToastContainer draggable={false} hideProgressBar={true} />
             <div>
                 <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
                         <div className="grid justify-center">
                             <span className="text-lg font-semibold">
                                 Sales Order
@@ -78,10 +78,12 @@ const OrderForm = () => {
                                 </span>
                             </div>
                         </div>
-                        {
-                            shipment &&
-                             <div className='flex border border-gray-400 py-[1px] rounded-md text-xs'>
-                                 <NavLink to={`/sales/shipments/shipment-form/${shipment._id}`} className="flex gap-1 items-center px-2 rounded-s-md hover:bg-gray-200">
+                    </div>
+                    {
+                        shipment &&
+                        <div className='grid place-items-center'>
+                            <div className='flex border border-gray-400 py-[1px] rounded-md text-xs'>
+                                <NavLink to={`/sales/shipments/shipment-form/${shipment._id}`} className="flex gap-1 items-center px-2 rounded-s-md hover:bg-gray-200">
                                     <div>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
@@ -91,19 +93,19 @@ const OrderForm = () => {
                                         <span>Shipment</span>
                                     </div>
                                 </NavLink>
-                            </div>
-                        }
-                    </div>
-                </div>
+                            </div>  
+                        </div>
+                    }
+            </div>
                 <div className="px-6 py-8 pt-32 bg-gray-100">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                             {
-                                order.invoice === 1 &&
+                                (order.invoice === 1 && op === "sales") &&
                                 <button onClick={confirmOrder} className='btn-dark-gray'>Confirm</button>
                             }
                             {
-                                order.invoice === 2 &&
+                                (order.invoice === 2 && op === "sales") &&
                                 <button className='btn-primary p-2'>Create Invoice</button>
                             }
                         </div>

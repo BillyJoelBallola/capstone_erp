@@ -77,7 +77,6 @@ const Header = () => {
             )
         }
     }
-
     return (
         <>
             <SideCart
@@ -90,15 +89,24 @@ const Header = () => {
                 func={buttonFuction}
             />
             <header className='w-screen bg-white fixed border border-t-0 border-x-0 z-10'>
-                <div className='bg-gradient-to-r from-[#e02c4d] to-[#d73b6c]'>
+                <div className='bg-gradient-to-r from-[#e02c4d] to-[#d73b6c] border border-x-0 border-t-0'>
                     <div className='side-margin text-white font-semibold text-xs py-1 flex items-center justify-between'>
-                        <span>MICAELLA'S MEAT PRODUCTS</span>       
-                        <div className='flex gap-1 items-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                            </svg>
-                            <span>+63 905 164 3531</span>
-                        </div>
+                        <span>MICAELLA'S MEAT PRODUCTS</span>      
+                        <div className='flex gap-4'>
+                            <div className='flex gap-1 items-center'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                                </svg>
+                                <span>+63 905 164 3531</span>
+                            </div>
+                            {
+                                !currentCustomer &&
+                                <div className='flex gap-3'>
+                                    <NavLink to="/login">Login</NavLink>
+                                    <NavLink to="/register">Register</NavLink>
+                                </div>
+                            }
+                        </div> 
                     </div>
                 </div>
                 <div className='side-margin py-2 flex items-center justify-between'>

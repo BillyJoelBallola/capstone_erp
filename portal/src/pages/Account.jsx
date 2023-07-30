@@ -383,19 +383,15 @@ const Account = () => {
                                                 { idx !== 0 && <Divider />}
                                                 <div  className='grid gap-5'>
                                                     <div className='flex items-center justify-between'>
-                                                        <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
-                                                        {
-                                                            shipments?.map(item => (
-                                                                item.order._id === order._id &&
-                                                                <div key={item._id}>
-                                                                    <span className='text-sm'>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
-                                                                    {
-                                                                        item.status === 3 &&
-                                                                        <button className='btn-outlined-dark'>Receive All</button>
-                                                                    }
-                                                                </div>
-                                                            ))
-                                                        }
+                                                        <div className='grid'>
+                                                            <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
+                                                            {
+                                                                shipments?.map(item => (
+                                                                    item.order._id === order._id &&
+                                                                    <span className='text-sm' key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                                ))
+                                                            }
+                                                        </div>
                                                     </div>
                                                     <div className='grid gap-3 pl-10'>
                                                         {
@@ -429,8 +425,16 @@ const Account = () => {
                                                 { idx !== 0 && <Divider />}
                                                 <div  className='grid gap-5'>
                                                     <div className='flex items-center justify-between'>
-                                                        <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
-                                                        <button className='text-sm whitespace-nowrap underline hover:text-red-500'>Cancel Order</button>
+                                                        <div className='grid'>
+                                                            <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
+                                                            {
+                                                                shipments?.map(item => (
+                                                                    item.order._id === order._id &&
+                                                                    <span className='text-sm' key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                                ))
+                                                            }
+                                                        </div>
+                                                        <button className='btn-gray'>Receive All</button>
                                                     </div>
                                                     <div className='grid gap-3 pl-10'>
                                                         {
@@ -464,8 +468,15 @@ const Account = () => {
                                                 { idx !== 0 && <Divider />}
                                                 <div  className='grid gap-5'>
                                                     <div className='flex items-center justify-between'>
-                                                        <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
-                                                        <button className='text-sm whitespace-nowrap underline hover:text-red-500'>Cancel Order</button>
+                                                        <div className='grid'>
+                                                            <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
+                                                            {
+                                                                shipments?.map(item => (
+                                                                    item.order._id === order._id &&
+                                                                    <span className='text-sm' key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                                ))
+                                                            }
+                                                        </div>
                                                     </div>
                                                     <div className='grid gap-3 pl-10'>
                                                         {

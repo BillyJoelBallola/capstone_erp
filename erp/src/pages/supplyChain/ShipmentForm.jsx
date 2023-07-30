@@ -8,6 +8,7 @@ import moment from 'moment';
 
 const ShipmentForm = () => {
     const id = useParams().id;
+    const op = useParams().op;
     const [shipment, setShipment] = useState({});
     const [products, setProducts] = useState([]);
     const [customers, setCustomers] = useState(null);
@@ -89,8 +90,15 @@ const ShipmentForm = () => {
         )
     }
 
-    const confirmShipment = async () => {
-        console.log("confirm");
+    const handleShip = async () => {
+        const response = await axios.put("/erp/change_shipment_state", { id: id, state: 3 });
+        if(response.statusText === "OK"){
+            await axios.put("/erp/change_order_state", { id: shipment.order._id, invoice: shipment.order.invoice, state: 3 });
+            setAction("ship");
+            return toast.success("Order has been set to ship.", { position: toast.POSITION.TOP_RIGHT });
+        }else{
+            return toast.error("Failed to ship the orders.", { position: toast.POSITION.TOP_RIGHT });
+        }
     }
 
     return (
@@ -107,7 +115,7 @@ const ShipmentForm = () => {
                                 <span>
                                     {shipment?.reference}
                                 </span>
-                                <NavLink className="text-blue-500" to={`/suppy-chain/orders/order-form/${shipment?.order?._id}`}>
+                                <NavLink className="text-blue-500" to={`/${op === "sales" ? "sales" : "supply-chain"}/orders/order-form/${shipment?.order?._id}`}>
                                     ({shipment?.order?.reference})
                                 </NavLink>
                             </div>
@@ -118,12 +126,12 @@ const ShipmentForm = () => {
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                             {
-                                shipment.state === 1 &&
+                                (shipment.state === 1 && op === "supply-chain") &&
                                 <button form='shipment-form' className='btn-dark-gray' type='submit' >Confirm</button>
                             }
                             {
-                                shipment.state === 2 &&
-                                <button className='btn-primary px-4 py-2'>Ship</button>
+                                (shipment.state === 2 && op === "supply-chain") &&
+                                <button className='btn-primary px-4 py-2' onClick={handleShip}>Ship</button>
                             }
                         </div>
                         { id && <StateStyle /> }
@@ -157,7 +165,7 @@ const ShipmentForm = () => {
                                             : "Schedule Date"}
                                     </label>
                                     <input     
-                                        disabled={shipment?.state === 2 ? true : false}
+                                        disabled={shipment?.state >= 2 ? true : false}
                                         type="date"
                                         name='scheduledDate'
                                         value={formik.values.scheduledDate}
@@ -181,7 +189,7 @@ const ShipmentForm = () => {
                                             : "Expected Arrival"}
                                     </label>
                                     <input 
-                                        disabled={shipment?.state === 2 ? true : false}
+                                        disabled={shipment?.state >= 2 ? true : false}
                                         type="date"
                                         name='expectedArrival'
                                         value={formik.values.expectedArrival}
