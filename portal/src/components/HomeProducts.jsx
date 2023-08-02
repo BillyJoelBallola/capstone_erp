@@ -13,7 +13,7 @@ const HomeProducts = ({ query }) => {
 
     useEffect(() => {
         axios.get("/erp/products").then(({ data }) => {
-            setProducts(data);
+            setProducts(data.filter(item => item.status === true));
             setLoading(false);
         })
     }, [])

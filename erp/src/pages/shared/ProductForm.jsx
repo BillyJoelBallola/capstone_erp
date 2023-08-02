@@ -54,7 +54,7 @@ const ProductForm = () => {
                 axios.get("/erp/shipments").then(({ data }) => {
                     let outGoing = [];
                     data.map(shipment => {
-                        if(shipment.state >= 2 && shipment.order.state === 2){
+                        if(shipment.state >= 2 && (shipment.order.state === 2 || shipment.order.state === 3)){
                             shipment?.order?.orders?.filter(prod => {
                                 if(prod.productId === id){
                                     return outGoing.push(shipment)

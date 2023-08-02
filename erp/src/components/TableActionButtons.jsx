@@ -33,9 +33,8 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
 
     const setToActive = (e) => {
         const userData = { name: selectedRows[0]?.name, email: selectedRows[0]?.email, password:selectedRows[0]?.password, status: true, role: selectedRows[0]?.role === "Administrator" ? true : false, userAccess: selectedRows[0]?.userAccess, userImage:selectedRows[0]?.userImage, _id: selectedRows[0]?._id }
-        const productValue = { _id: selectedRows[0]?._id, name: selectedRows[0]?.name, description: selectedRows[0]?.description, measurement: selectedRows[0]?.measurement, quantity: selectedRows[0]?.quantity, price: selectedRows[0]?.price, status: true, storage: selectedRows[0]?.storage, productImg: selectedRows[0]?.productImg }
-        const productData = { values: productValue, rawMaterials: selectedRows[0]?.rawMaterials };
-    
+        const productData = { _id: selectedRows[0]?._id, name: selectedRows[0]?.name, category: selectedRows[0]?.category, description: selectedRows[0]?.description, measurement: selectedRows[0]?.measurement, quantity: selectedRows[0]?.quantity, price: selectedRows[0]?.price, status: true, storage: selectedRows[0]?.storage, productImg: selectedRows[0]?.productImg, rawMaterials: selectedRows[0]?.rawMaterials };
+
         confirmPopup({
             target: e.currentTarget,
             message: `Do you want to set to active this ${formatName === "user" ? "account" : "product"}?`,
@@ -43,13 +42,13 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             acceptClassName: 'p-button-success',
             accept: async () => {
                 try {
-                    if(selectedRows?.length > 1){
-                        const api = formatName === "user" ? "users" : "products";
-                        axios.put(`/erp/update_many_${api}`, { selectedRows: selectedRows, status: true });
-                    }
-                    if(selectedRows?.length === 1){
+                    if(selectedRows.length > 1){
                         const api = formatName === "user" ? "user" : "product";
-                        const data = formatName === "user" ? userData : productData;  
+                        axios.put(`/erp/update_many_${api}s`, { selectedRows: selectedRows, status: true });
+                    }
+                    if(selectedRows.length === 1){
+                        const api = formatName === "user" ? "user" : "product";
+                        const data = formatName === "user" ? userData : productData; 
                         axios.put(`/erp/update_${api}`, data);
                     }
                     setAction("active");
@@ -64,8 +63,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
 
     const setToInactive = (e) => {
         const userData = {  name: selectedRows[0]?.name, email: selectedRows[0]?.email, password:selectedRows[0]?.password, status: false, role: selectedRows[0]?.role === "Administrator" ? true : false, userAccess: selectedRows[0]?.userAccess, userImage:selectedRows[0]?.userImage, _id: selectedRows[0]?._id };
-        const productValue = { _id: selectedRows[0]?._id, name: selectedRows[0]?.name, description: selectedRows[0]?.description, measurement: selectedRows[0]?.measurement, quantity: selectedRows[0]?.quantity, price: selectedRows[0]?.price, status: false, storage: selectedRows[0]?.storage, productImg: selectedRows[0]?.productImg }
-        const productData = { values: productValue, rawMaterials: selectedRows[0]?.rawMaterials };
+        const productData = { _id: selectedRows[0]?._id, name: selectedRows[0]?.name, category: selectedRows[0]?.category, description: selectedRows[0]?.description, measurement: selectedRows[0]?.measurement, quantity: selectedRows[0]?.quantity, price: selectedRows[0]?.price, status: false, storage: selectedRows[0]?.storage, productImg: selectedRows[0]?.productImg, rawMaterials: selectedRows[0]?.rawMaterials }
 
         confirmPopup({
             target: e.currentTarget,
@@ -75,12 +73,12 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             accept: async () => {
                 try {
                     if(selectedRows?.length > 1){
-                        const api = formatName === "user" ? "users" : "products";
-                        axios.put(`/erp/update_many_${api}`, { selectedRows: selectedRows, status: false });
+                        const api = formatName === "user" ? "user" : "product";
+                        axios.put(`/erp/update_many_${api}s`, { selectedRows: selectedRows, status: false });
                     }
                     if(selectedRows?.length === 1){
                         const api = formatName === "user" ? "user" : "product";
-                        const data = formatName === "user" ? userData : productData;  
+                        const data = formatName === "user" ? userData : productData;
                         axios.put(`/erp/update_${api}`, data);
                     }
                     setAction("inactive");

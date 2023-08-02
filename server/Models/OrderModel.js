@@ -14,6 +14,9 @@ const OrderSchema = new Schema({
         type: Date,
         required: true
     },
+    receiveDate: {
+        type: Date
+    },
     orders: [Object],
     state: {
         type: Number

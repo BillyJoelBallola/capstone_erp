@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { FilterMatchMode } from 'primereact/api';
-import TableActionsButtons from "./TableActionButtons";
 import { NavLink, useLocation, useParams } from "react-router-dom";
-import AdjustmentDialog from "./AdjustmentDialog";
+import TableActionsButtons from "./TableActionButtons";
 import placeHolder from "../assets/placeholder.png";
+import AdjustmentDialog from "./AdjustmentDialog";
+import { DataTable } from 'primereact/datatable';
+import { FilterMatchMode } from 'primereact/api';
+import { Column } from 'primereact/column';
+import { toast } from "react-toastify";
 import moment from "moment";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const CustomTable = ({ name, dataValue, columns, setAction}) => {
     const op = useParams().op;
@@ -59,10 +59,9 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
 
     const imageTemplate = (rowData) => {
         const { productImg } = rowData;
-
         return (
-            <div className="w-14 aspect-square grid place-items-center rounded-md">
-                <img className="object-contain" src={productImg === "" ? placeHolder : `http://localhost:4000/uploads${productImg}`} alt="product-image" />
+            <div className="w-14 aspect-square grid place-items-center">
+                <img className="object-contain rounded-md drop-shadow-lg" src={productImg === "" ? placeHolder : `http://localhost:4000/uploads${productImg}`} alt="product-image" />
             </div>
         )
     }
@@ -203,7 +202,12 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                 colorStyle = "bg-green-100";
                 textColorStyle = "text-green-700";
                 indicator = "Done";
-            }
+            }    
+            if(state === 5){
+                colorStyle = "bg-red-100";
+                textColorStyle = "text-red-700";
+                indicator = "Cancelled";
+            }    
         }
 
         if(formattedName === "shipment"){
@@ -217,29 +221,18 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                 textColorStyle = "text-blue-700";
                 indicator = "Ready";
             }
-            if(state === 3){
-                colorStyle = "bg-green-100";
-                textColorStyle = "text-green-700";
+            if(state === 3 && order?.state !== 4){
+                colorStyle = "bg-amber-100";
+                textColorStyle = "text-amber-700";
                 indicator = "Ship";
             }
-            if(state === 4){
+            if(state === 3 && order?.state === 4){
                 colorStyle = "bg-green-100";
                 textColorStyle = "text-green-700";
                 indicator = "Done";
             }
-            if(order?.state === 5){
-                colorStyle = "bg-red-100";
-                textColorStyle = "text-red-700";
-                indicator = "Cancelled";
-            }
         }
-        
-        if(state === 5){
-            colorStyle = "bg-red-100";
-            textColorStyle = "text-red-700";
-            indicator = "Cancelled";
-        }
-
+    
         return <span className={`${colorStyle} ${textColorStyle} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
     }
 
@@ -335,6 +328,13 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
         return <NavLink to={`${currentLocation}/${formattedName}-form`} className="btn-dark px-4">New</NavLink>;
     }
 
+    const [sizeOptions] = useState([
+        { label: 'Small', value: 'small' },
+        { label: 'Normal', value: 'normal' },
+        { label: 'Large', value: 'large' }
+    ]);
+    const [size, setSize] = useState(sizeOptions[1].value);
+
     return (
         <>
             <AdjustmentDialog 
@@ -381,7 +381,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                     />
                 }   
                 {
-                    selectedRows.length === 0 ?
+                    selectedRows?.length === 0 ?
                     <div className="w-1/4">
                         <div className="flex items-center bg-gray-100 pl-2 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#6B7280" className="w-6 h-6">
@@ -401,7 +401,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
             </div>
             <DataTable
                 paginator
-                rows={10}
+                rows={10} 
                 paginatorTemplate={"PrevPageLink CurrentPageReport NextPageLink"}
                 currentPageReportTemplate="{first} to {last} of {totalRecords}"
                 filters={filters}

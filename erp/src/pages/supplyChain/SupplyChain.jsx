@@ -52,7 +52,7 @@ const SupplyChain = () => {
             <div className="z-10 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                 <span className="text-lg font-semibold">Supply Chain Overview</span>
             </div>
-            <div className='grid grid-cols-[200px_1fr] gap-5 pt-28 px-4'>    
+            {/* <div className='grid grid-cols-[200px_1fr] gap-5 pt-28 px-4'>    
                 <div className='grid gap-5'>
                     <div className='flex flex-col gap-2 bg-white drop-shadow-md p-4 rounded-md'>
                         <span className='text-sm font-semibold'>Total of Products</span>
@@ -111,7 +111,7 @@ const SupplyChain = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

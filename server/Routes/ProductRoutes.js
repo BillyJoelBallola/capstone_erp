@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addProduct, adjustProduct, deleteProduct, getAllProducts, getProduct, updateManyProducts, updateProductImage, updateProduct } from "../Controllers/ProductController.js";
+import { addProduct, adjustProduct, deleteProduct, getAllProducts, getProduct, updateManyProducts, updateProductImage, updateProduct, decreaseQuantity } from "../Controllers/ProductController.js";
 
 const route = Router();
 
@@ -8,6 +8,7 @@ route.put("/erp/update_product", updateProduct);
 route.put("/erp/update_many_products", updateManyProducts);
 route.put("/erp/adjust_product", adjustProduct);
 route.put("/erp/update_img_product", updateProductImage);
+route.put("/erp/quantity", decreaseQuantity);
 route.get("/erp/products", getAllProducts);
 route.get("/erp/product/:id", getProduct);
 route.delete("/erp/delete_product/:id", deleteProduct);

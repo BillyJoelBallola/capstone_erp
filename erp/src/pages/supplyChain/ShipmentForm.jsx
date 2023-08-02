@@ -80,10 +80,10 @@ const ShipmentForm = () => {
                     <div className="w-4/5 h-[2px] bg-gray-300 absolute"/>
                     <div className={`${shipment.state === 1 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10`}>Pending</div>
                     <div className={`${shipment.state === 2 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10 whitespace-nowrap`}>Ready</div>
-                    <div className={`${shipment.state === 3 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10`}>Ship</div>
+                    <div className={`${shipment.state === 3 && shipment?.order?.state !== 4 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10`}>Ship</div>
                     {
-                        shipment?.order?.state === 4 &&
-                        <div className={`${shipment.state === 4 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10`}>Done</div>
+                        shipment?.order?.state === 4 && shipment.state === 3 &&
+                        <div className={`text-blue-400 border-blue-400 bg-gray-200 border px-2 rounded-full z-10`}>Done</div>
                     } 
                 </div>
             </div>

@@ -87,6 +87,18 @@ const Account = () => {
         }
     }
 
+    const handleReceiveAll = async (orderId) => {
+        const invoiceCurrentStatus = receives.find(order => order._id === orderId);
+        const response = await axios.put("/erp/quantity", { orderId: orderId });
+        if(response.statusText === "OK"){
+            await axios.put("/erp/change_order_state", { id: orderId, invoice: invoiceCurrentStatus?.invoice ,state: 4 });
+            setOrderAction("receive");
+            return toast.success("Order receive successfully.", { position: toast.POSITION.TOP_RIGHT });
+        }else{
+            return toast.error("Failed to receive order.", { position: toast.POSITION.TOP_RIGHT });
+        }
+    }
+
     const formik = useFormik({
         initialValues: {
             name: "",
@@ -344,7 +356,7 @@ const Account = () => {
                                     {       
                                         pendings?.length > 0 ? 
                                         pendings?.map((order, idx) => (
-                                            <div key={order._id}>
+                                            <div key={order._id}>   
                                                 { idx !== 0 && <Divider />}
                                                 <div  className='grid gap-5'>
                                                     <div className='flex items-center justify-between'>
@@ -434,7 +446,7 @@ const Account = () => {
                                                                 ))
                                                             }
                                                         </div>
-                                                        <button className='btn-gray'>Receive All</button>
+                                                        <button className='btn-gray' onClick={() => handleReceiveAll(order._id)}>Receive All</button>
                                                     </div>
                                                     <div className='grid gap-3 pl-10'>
                                                         {
@@ -468,12 +480,18 @@ const Account = () => {
                                                 { idx !== 0 && <Divider />}
                                                 <div  className='grid gap-5'>
                                                     <div className='flex items-center justify-between'>
-                                                        <div className='grid'>
-                                                            <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
+                                                        <div className='grid w-full'>
+                                                            <div className='flex items-center justify-between'>
+                                                                <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
+                                                                <span className='text-sm whitespace-nowrap text-green-500'>Completed</span>
+                                                            </div>
                                                             {
                                                                 shipments?.map(item => (
                                                                     item.order._id === order._id &&
-                                                                    <span className='text-sm' key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                                    <div className='grid' key={item._id}>
+                                                                        <span className='text-sm'>Expected Arrival: {moment(item.expectedArrival).format("LL")}</span>
+                                                                        <span className='text-sm'>Receive Date: {moment(item?.receiveDate).format("LL")}</span>
+                                                                    </div>
                                                                 ))
                                                             }
                                                         </div>
