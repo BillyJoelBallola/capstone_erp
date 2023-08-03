@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import moment from "moment";
 
@@ -9,9 +9,11 @@ import moment from "moment";
 const OrderForm = () => {
     const id = useParams().id;
     const op = useParams().op;
+    const navigate = useNavigate();
     const [action, setAction] = useState("");
     const [shipment, setShipment] = useState({});
     const [order, setOrder] = useState({});
+    const [invoice, setInvoice] = useState({});
 
     const referenceGenerator = (func) => {
         const [m, d, y] = moment(Date.now()).format("L").split("/");
@@ -32,7 +34,11 @@ const OrderForm = () => {
             const shipmentData = data.find(item => item.order._id === id);
             setShipment(shipmentData);  
         })
-    }, [shipment])
+        axios.get("/erp/invoices").then(({ data }) => {
+            const invoiceData = data.find(item => item.order._id === id);
+            setInvoice(invoiceData);  
+        })
+    }, [shipment, invoice])
     
     const confirmOrder = async () => {
         const response = await axios.put("/erp/change_order_state", { id: id, invoice: 2, state: 2 , shipment: order.shipment });
@@ -76,6 +82,7 @@ const OrderForm = () => {
                                 <span className="">
                                     {order.reference}
                                 </span>
+                               { order.invoice === 3 && <NavLink className="text-green-500 italic" to={`/sales/invoices/invoice-form/${id}/${invoice._id}`}>View Invoice</NavLink> }
                             </div>
                         </div>
                     </div>
@@ -106,7 +113,7 @@ const OrderForm = () => {
                             }
                             {
                                 (order.invoice === 2 && op === "sales") &&
-                                <button className='btn-primary p-2'>Create Invoice</button>
+                                <button className='btn-primary p-2' onClick={() => navigate(`/sales/invoices/invoice-form/${id}`)}>Create Invoice</button>
                             }
                         </div>
                         { id && <StateStyle /> }

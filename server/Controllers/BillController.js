@@ -17,14 +17,14 @@ export const addBill = async (req, res) => {
         });
         res.status(200).json(newBill);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
 export const updateBill = async (req, res) => {
     const { id, date, dueDate, journal } = await req.body;
-    const billData = await Bill.findById(id);
     try {
+        const billData = await Bill.findById(id);
         billData.set({
             date,
             dueDate,
@@ -33,7 +33,7 @@ export const updateBill = async (req, res) => {
         billData.save();
         res.status(200).json(billData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -45,7 +45,7 @@ export const changeState = async (req, res) => {
         billData.save();
         res.status(200).json(billData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -57,7 +57,7 @@ export const changePayment = async (req, res) => {
         billData.save();
         res.status(200).json(billData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -66,7 +66,7 @@ export const getAllBill = async (req, res) => {
         const response = await Bill.find({}).populate("supplier").populate("purchase");
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -77,7 +77,7 @@ export const getPurchasedBill = async (req, res) => {
         const response = allBill.filter(bill => bill.purchase.toString() === id);
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -87,6 +87,6 @@ export const getBillById = async (req, res) => {
         const response = await Bill.findById(id).populate("purchase");
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }

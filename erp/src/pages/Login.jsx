@@ -87,7 +87,7 @@ const Login = () => {
                             onBlur={formik.handleBlur}
                         />
                     </div>
-                    <a href="" className="text-right text-sm underline">Forget password?</a>
+                    <a href="" className="text-right text-xs underline">Forget password?</a>
                     <button type="submit" className="btn-dark py-3">Sign in</button>
                 </form>
             </div>

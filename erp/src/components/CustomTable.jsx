@@ -142,7 +142,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
             textColorStyle = "text-yellow-700";
             indicator = "Pending";
         }
-        if(formattedName === "bill" && state === 1){
+        if((formattedName === "bill" || formattedName === "invoice") && state === 1){
             colorStyle = "bg-green-100";
             textColorStyle = "text-green-700";
             indicator = "Posted";
@@ -152,7 +152,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
             textColorStyle = "text-blue-700";
             indicator = "In Progress";
         }
-        if(formattedName === "bill" && state === 2){
+        if((formattedName === "bill" || formattedName === "invoice") && state === 2){
             colorStyle = "bg-red-100";
             textColorStyle = "text-red-700";
             indicator = "Cancelled";
@@ -201,7 +201,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
             if(invoice === 3){
                 colorStyle = "bg-green-100";
                 textColorStyle = "text-green-700";
-                indicator = "Done";
+                indicator = "Invoiced";
             }    
             if(state === 5){
                 colorStyle = "bg-red-100";
@@ -328,13 +328,6 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
         return <NavLink to={`${currentLocation}/${formattedName}-form`} className="btn-dark px-4">New</NavLink>;
     }
 
-    const [sizeOptions] = useState([
-        { label: 'Small', value: 'small' },
-        { label: 'Normal', value: 'normal' },
-        { label: 'Large', value: 'large' }
-    ]);
-    const [size, setSize] = useState(sizeOptions[1].value);
-
     return (
         <>
             <AdjustmentDialog 
@@ -361,7 +354,8 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                     { 
                         formattedName === "user" ||
                         formattedName === "payment" ||
-                        formattedName === "bill" ?
+                        formattedName === "bill" ||
+                        formattedName === "invoice" ?
                         <NewLink /> : <></>
                     }
                     { 

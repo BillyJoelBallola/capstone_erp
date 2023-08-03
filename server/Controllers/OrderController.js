@@ -54,8 +54,8 @@ export const getOrderById = async (req, res) => {
 
 export const changeState = async (req, res) => {
     const { id, state, invoice } = await req.body;
-    const orderData = await Order.findById(id);
     try {
+        const orderData = await Order.findById(id);
         orderData.set({ 
             state,
             invoice

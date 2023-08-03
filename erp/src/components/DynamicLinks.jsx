@@ -30,6 +30,7 @@ const DynamicLinks = () => {
     const financialCustomersMenu = [
         {
             label: "Invoices",
+            command: () => navigate("/financial/invoices")
         },
         {
             label: "Payments",

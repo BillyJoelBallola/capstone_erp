@@ -21,6 +21,7 @@ import CustomerRoutes from "./Routes/CustomerRoutes.js";
 import OrderRoutes from "./Routes/OrderRoutes.js";
 import CategoryRoutes from "./Routes/CategoryRoutes.js";
 import ShipmentRoutes from "./Routes/ShipmentRoutes.js";
+import InvoiceRoutes from "./Routes/InvoiceRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -48,6 +49,7 @@ app.use(CustomerRoutes);
 app.use(OrderRoutes);
 app.use(CategoryRoutes);
 app.use(ShipmentRoutes);
+app.use(InvoiceRoutes);
 
 const PORT = process.env.SERVER_PORT || 4000;
 

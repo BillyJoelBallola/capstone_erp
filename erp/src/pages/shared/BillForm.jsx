@@ -397,7 +397,7 @@ const BillForm = () => {
                         <div className={`${status === 1 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10`}>Posted</div>
                         {
                             status === 2 &&
-                            <div className={`${status === 2 ? "text-blue-400 border-blue-400" : "text-gray-400"} bg-gray-200 border px-2 rounded-full z-10`}>Cancelled</div>
+                            <div className={`text-blue-400 border-blue-400 bg-gray-200 border px-2 rounded-full z-10`}>Cancelled</div>
                         }
                     </div>
                 </div>
@@ -427,12 +427,12 @@ const BillForm = () => {
                 setVisible={setVisible}
                 header={"Payment"}
             >
-            <PaymentForm 
-                visible={visible}
-                setVisible={setVisible}
-                setAction={setAction}
-                billData={{...formik.values, reference: reference, total: total, id: id, payment: payment, balance: amountDue}}
-            />
+                <PaymentForm 
+                    visible={visible}
+                    setVisible={setVisible}
+                    setAction={setAction}
+                    billData={{...formik.values, reference: reference, total: total, id: id, payment: payment, balance: amountDue}}
+                />
             </DialogBox>
             <div>
                 <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
@@ -471,7 +471,7 @@ const BillForm = () => {
                                 status === 1 &&
                                 <>
                                     {
-                                        op !== "supply-chain" && payment !== 3 &&
+                                        op === "financial" && payment !== 3 &&
                                         <button className='btn-primary p-2' onClick={() => setVisible(true)}>Payment</button>
                                     }
                                     {
@@ -546,7 +546,7 @@ const BillForm = () => {
                                     />
                                 </div>
                                 {
-                                    op === "accounting" &&
+                                    op === "financial" && id == undefined &&
                                     <div className="form-group">
                                         <label
                                             htmlFor=""

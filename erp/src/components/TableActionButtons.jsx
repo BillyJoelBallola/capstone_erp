@@ -442,6 +442,15 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         )
     }
 
+    //financial -> invoices
+    if(formatName === "invoice" && selectedRows?.length === 1){
+        return (
+            <div className="flex gap-1">
+                <NavLink to={`/financial/invoices/invoice-form/${selectedRows[0]?.order?._id}/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+            </div>
+        )
+    }
+
     //sales -> orders 
     if(formatName === "order" && selectedRows?.length === 1){
         return (
@@ -451,7 +460,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         )
     }
 
-     //supply-chain -> orders
+    //supply-chain -> orders
     if(formatName === "shipment" && selectedRows?.length === 1){
         return (
             <div className="flex gap-1">
@@ -459,6 +468,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             </div>
         )
     }
+
 }
 
 export default TableActionsButtons;

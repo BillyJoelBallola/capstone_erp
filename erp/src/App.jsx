@@ -28,6 +28,7 @@ import BillForm from './pages/shared/BillForm';
 import Payments from './pages/financial/Payments';
 import PaymentForm from './pages/financial/PaymentForm';
 import JournalEntries from './pages/financial/JournalEntries';
+import Invoices from './pages/financial/Invoices';
 
 import Products from './pages/shared/Products';
 import ProductForm from './pages/shared/ProductForm';
@@ -40,6 +41,7 @@ import PurchaseForm from './pages/shared/PurchaseForm';
 import Replenishment from './pages/shared/Replenishment';
 import ProductForecast from './pages/shared/ProductForecast';
 import MaterialForecast from './pages/shared/MaterialForecast';
+import InvoiceForm from './pages/shared/InvoiceForm';
 
 import HumanResource from './pages/humanResource/HumanResource';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -74,6 +76,8 @@ const App = () => {
                 <Route path='/financial/payments' element={<Payments />} />
                 <Route path='/financial/payments/payment-form/:id?' element={<PaymentForm />} />
                 <Route path='/financial/journal_entries' element={<JournalEntries />} />
+                <Route path='/financial/invoices' element={<Invoices />} />
+                <Route path='/:op/invoices/invoice-form/:orderId?/:id?' element={<InvoiceForm />} />
                 <Route path='/:op/bills/bill-form/:purchase?/:id?' element={<BillForm />} />
                 <Route path='/:op/productions' element={<Productions />} />
                 <Route path='/:op/productions/production-form/:id?' element={<ProductionForm />} />

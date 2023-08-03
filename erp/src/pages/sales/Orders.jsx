@@ -17,6 +17,7 @@ const Orders = () => {
         { selectionMode: true, }, 
         { field: "reference", filter: "reference", header: "Code" }, 
         { field: "customer.name", filter: "customer.name", header: "Customer" }, 
+        { field: "customer.business", filter: "customer.business", header: "Business" }, 
         { field: "total", filter: "total", header: "₱Total" }, 
         { body: "orderState", header: "" }, 
     ]
