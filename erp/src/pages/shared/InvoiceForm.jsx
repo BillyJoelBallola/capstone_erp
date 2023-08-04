@@ -5,12 +5,235 @@ import { toast, ToastContainer } from "react-toastify";
 import moment from "moment";
 import * as Yup from "yup";
 import axios from "axios";
+import DialogBox from '../../components/DialogBox';
 
-// TODO: Customer invoice payment function
+// TODO: Submit in Invoice Form
 
 const referenceGenerator = (func) => {
     const [m, d, y] = moment(Date.now()).format("L").split("/");
     return  `${func}-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}-${y}`;
+}
+
+const PaymentForm = ({ invoiceData, setVisible, setAction }) => {
+    const [isBankMethod, setIsBankMethod] = useState(true);
+    const [amountDue, setAmountDue] = useState(0);
+    const [difference, setDifference] = useState(0);
+
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const formik = useFormik({
+        initialValues: {
+            journal: "",
+            method: "",
+            type: {
+                send: false,
+                receive: true
+            },
+            bank: "",
+            date: "",
+            memo: "",
+            customer: "",
+            amount: 0
+        },
+        validationSchema: Yup.object({
+            journal: Yup.string()
+                .required("Journal is required."),
+            method: Yup.string()
+                .required("Payment Method is required."),
+            date: Yup.date()
+                .min(moment(yesterday).format(), "Payment Date must be either today or a future date.")
+                .required("Payment Date is required."),
+            amount: Yup.number()
+                .required("₱ Amount is required."),
+        }),
+        onSubmit: async (values, helper) => {
+            const response = await axios.post("/erp/add_payment", {...values, reference: referenceGenerator("CPAY"), invoice: invoiceData.id});
+            if(response.statusText === "OK"){
+                if(values.amount < amountDue){
+                    await axios.put("/erp/change_invoice_payment", { payment: 2, id: invoiceData.id });
+                }else{
+                    await axios.put("/erp/change_invoice_payment", { payment: 3, id: invoiceData.id });
+                }
+                setAction("payment");
+                helper.resetForm();
+                setVisible(false);
+            }else{
+                return toast.error("Failed to add payment.", { position: toast.POSITION.TOP_RIGHT });
+            }
+        }
+    })
+
+    useEffect(() => {
+        if(formik.values.amount < amountDue) {
+            setDifference(() => amountDue - formik.values.amount);
+        }
+    }, [formik.values.amount])
+
+    useEffect(() => {
+        formik.values.journal === "Bank" ? setIsBankMethod(true) : setIsBankMethod(false);
+    }, [formik.values.journal])
+
+    useEffect(() => {   
+        let finalVal = 0;
+        if(invoiceData){
+            if(invoiceData.payment === 2 && invoiceData.balance){
+                finalVal = invoiceData.total - invoiceData.balance;
+            }else{
+                finalVal = invoiceData.total;
+            }
+            formik.values.customer = invoiceData.customer;
+            formik.values.amount = finalVal;
+            formik.values.date = moment(Date.now()).format().toString().slice(0, 10);
+            formik.values.memo = invoiceData.reference;
+            setAmountDue(finalVal);
+        }
+    }, [invoiceData])
+
+    return (
+        <form onSubmit={formik.handleSubmit}>
+            <div className='grid grid-cols-2 gap-10'>
+                <div className='flex flex-col gap-5 w-full'>
+                    <div className="form-group">
+                        <label
+                            htmlFor=""
+                            className={`${
+                                formik.touched.journal &&
+                                formik.errors.journal
+                                    ? "text-red-400"
+                                    : ""
+                            }`}
+                        >
+                            {formik.touched.journal &&
+                            formik.errors.journal
+                                ? formik.errors.journal
+                                : "Journal"}
+                        </label>
+                        <select
+                            name='journal'
+                            value={formik.values.journal}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        >
+                            <option value="">-- select journal --</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Bank">Bank</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label
+                            htmlFor=""
+                            className={`${
+                                formik.touched.method &&
+                                formik.errors.method
+                                    ? "text-red-400"
+                                    : ""
+                            }`}
+                        >
+                            {formik.touched.method &&
+                            formik.errors.method
+                                ? formik.errors.method
+                                : "Payment Method"}
+                        </label>
+                        <select
+                            name='method'
+                            value={formik.values.method}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        >
+                            <option value="">-- select method --</option>
+                            <option value="Manual">Manual</option>
+                            {
+                                isBankMethod &&
+                                <option value="Cheque">Cheque</option>
+                            }
+                        </select>
+                    </div>
+                    {
+                        isBankMethod &&
+                        <div className="form-group">
+                            <label htmlFor="">Recipient Bank Account</label>
+                            <select
+                                name='bank'
+                                value={formik.values.bank}
+                                onChange={formik.handleChange}
+                            >
+                                <option value="">-- bank account --</option>
+                            </select>
+                        </div>
+                    }
+                </div>
+                <div className='flex flex-col gap-5 w-full'>
+                    <div className="form-group">
+                        <label
+                            htmlFor=""
+                            className={`${
+                                formik.touched.amount &&
+                                formik.errors.amount
+                                    ? "text-red-400"
+                                    : ""
+                            }`}
+                        >
+                            {formik.touched.amount &&
+                            formik.errors.amount
+                                ? formik.errors.amount
+                                : "₱ Amount"}
+                        </label>
+                        <input 
+                            type="number" 
+                            name='amount'
+                            value={formik.values.amount}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label
+                            htmlFor=""
+                            className={`${
+                                formik.touched.date &&
+                                formik.errors.date
+                                    ? "text-red-400"
+                                    : ""
+                            }`}
+                        >
+                            {formik.touched.date &&
+                            formik.errors.date
+                                ? formik.errors.date
+                                : "Payment Date"}
+                        </label>
+                        <input 
+                            type="date" 
+                            name='date'
+                            value={formik.values.date}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="">Memo</label>
+                        <input 
+                            type="text" 
+                            name='memo'
+                            value={formik.values.memo}
+                            onChange={formik.handleChange}
+                        />
+                    </div>
+                </div>
+                {
+                    formik.values.amount < amountDue &&
+                    <div className='flex gap-5'>
+                        <span>Payment Difference:</span>
+                        <span className='font-semibold'>{difference} ₱</span>
+                    </div>
+                }
+            </div>
+            <div className='mt-6 flex justify-end'>
+                <button type='submit' className='btn-primary p-2'>Payment</button>
+            </div>
+        </form>
+    )
 }
 
 const InvoiceForm = () => {
@@ -23,10 +246,32 @@ const InvoiceForm = () => {
     const [action, setAction] = useState("");
     const [state, setState] = useState(0);
     const [payment, setPayment] = useState("");
+    const [visible, setVisible] = useState("");
     const [customers, setCustomers] = useState([]);
     const [customerOrders, setCustomerOrders] = useState([]);
     const [orders, setOrders] = useState([]);
     const [total, setTotal] = useState(0);
+    const [payments, setPayments] = useState([]);
+    const [amountDue, setAmountDue] = useState(0);
+
+    useEffect(() => {
+        if(!!payments){
+            axios.get("/erp/payments").then(({ data }) => {
+                const partial = data.filter(item => item?.invoice?._id === id && item?.invoice?.reference === reference && item?.invoice?.payment === 2);
+                setPayments(partial);
+                partial?.map(pay => {
+                    setAmountDue(prev => prev + pay.amount);
+                })
+            })
+        }
+
+        if(payments){
+            payments?.map(pay => {
+                setAmountDue(prev => prev + pay.amount);
+            })
+            setAction("");
+        }
+    }, [payment, action])
 
     const formik = useFormik({
         initialValues: {
@@ -175,6 +420,17 @@ const InvoiceForm = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
+            <DialogBox
+                visible={visible}
+                setVisible={setVisible}
+                header={"Payment"}
+            >
+                <PaymentForm 
+                    setVisible={setVisible}
+                    setAction={setAction}
+                    invoiceData={{...formik.values, reference: reference, total: total, id: id, payment: payment, balance: amountDue}}
+                />
+            </DialogBox>
             <div>
                 <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                     <div className="flex items-center gap-3">
@@ -193,7 +449,7 @@ const InvoiceForm = () => {
                                 <span>
                                     {id ? reference : "New"}
                                 </span>
-                                { id && <NavLink>({formik.values.order.reference})</NavLink> }
+                                { id && <span>({formik.values.order.reference})</span> }
                             </div>
                         </div>
                     </div>
@@ -206,7 +462,7 @@ const InvoiceForm = () => {
                                 <>
                                     {
                                         op === "financial" && payment !== 3 &&
-                                        <button className='btn-primary p-2'>Payment</button>
+                                        <button className='btn-primary p-2' onClick={() => setVisible(true)}>Payment</button>
                                     }
                                     {
                                         payment === 1 &&
@@ -392,7 +648,7 @@ const InvoiceForm = () => {
                                         <span>Total:</span>
                                         <span className='text-xl'>{total} ₱</span>
                                     </div>
-                                    {/* {
+                                    {
                                         payment === 2 &&
                                         <>
                                             <div className='py-4 self-end'>  
@@ -410,7 +666,7 @@ const InvoiceForm = () => {
                                                 <span className='text-xl'>{total - amountDue} ₱</span>
                                             </div>
                                         </>
-                                    } */}
+                                    }
                                 </div>
                             </div>
                         </div>

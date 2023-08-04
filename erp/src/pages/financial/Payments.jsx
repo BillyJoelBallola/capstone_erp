@@ -1,30 +1,43 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import CustomTable from '../../components/CustomTable';
+import { useParams } from 'react-router-dom';
+
+// TODO: fix payments table for invoices and bills
 
 const Payments = () => {
-    const [payments, setPayments] = useState([]);
+    const entity = useParams().entity;
+    const [customerPayments, setCustomerPayments] = useState([]);
+    const [supplierPayments, setSupplierPayments] = useState([]);
     const [action, setAction] = useState([]);
 
     useEffect(() => {
         axios.get("/erp/payments").then(({ data }) => {
-            setPayments(data.reverse());
+            setCustomerPayments(data.filter(item => { if(item.customer) return item }));
+            setSupplierPayments(data.filter(item => { if(item.supplier) return item }));
             setAction("");
         })
-    }, [action])
+    }, [action, entity])
 
     const columns = [
         { selectionMode: true, }, 
         { field: "reference", filter: "reference", header: "Code" }, 
         { field: "journal", filter: "journal", header: "Journal" }, 
         { field: "method", filter: "method", header: "Payment Method" }, 
-        { field: "supplier.business", filter: "supplier.business", header: "Supplier" }, 
+        { 
+            field: `${entity === "suppliers" ? 
+                "supplier.business" : "customer.business"}`, 
+            filter: `${entity === "suppliers" ? 
+                "supplier.business" : "customer.business"}`, 
+            header: `${entity === "suppliers" ? 
+                "Supplier" : "Customer"}` 
+        }, 
         { body: "dateFormat", header: "Payment Date"},
         { field: "amount", filter: "amount", header: "₱Amount" },
     ]
 
     return (
-        <CustomTable name={"Payment"} dataValue={payments} setAction={setAction} columns={columns} />
+        <CustomTable name={"Payment"} dataValue={entity === "customers" ? customerPayments : supplierPayments} setAction={setAction} columns={columns} />
     )
 }
 

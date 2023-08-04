@@ -6,14 +6,18 @@ const JournalEntries = () => {
     const [journalEntries, setJournalEntries] = useState([]);
     const [action, setAction] = useState([]);
 
+    const fetchJournalEntries = async () => {
+        const [payments, invoices, bills] = await Promise.all([
+            axios.get("/erp/payments"),
+            axios.get("/erp/invoices"),
+            axios.get("/erp/bills"),
+        ]);
+
+        setJournalEntries([...payments.data.reverse(), ...invoices.data.reverse(), ...bills.data.reverse()]);
+    }
+
     useEffect(() => {
-        axios.get("/erp/payments").then(({ data }) => {
-            const combinedData = data.reverse();
-            axios.get("/erp/bills").then(({ data }) => {
-                combinedData.push(...data.reverse());
-                setJournalEntries(combinedData);
-            })
-        })
+        fetchJournalEntries();
     }, [action])
 
     const columns = [
@@ -21,6 +25,7 @@ const JournalEntries = () => {
         { field: "reference", filter: "reference", header: "Code" }, 
         { field: "journal", filter: "journal", header: "Journal" }, 
         { field: "supplier.business", filter: "supplier.business", header: "Supplier" }, 
+        { field: "customer.business", filter: "customer.business", header: "Customer" }, 
         { body: "dateFormat", header: "Date"},
         { body: "amountAndTotal", filter: "amount", header: "₱Amount" },
     ]

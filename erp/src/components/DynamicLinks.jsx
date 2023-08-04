@@ -34,9 +34,11 @@ const DynamicLinks = () => {
         },
         {
             label: "Payments",
+            command: () => navigate("/financial/payments/customers")
         },
         {
             label: "Customers",
+            command: () => navigate("/financial/customers")
         }
     ];
 
@@ -47,7 +49,7 @@ const DynamicLinks = () => {
         },
         {
             label: "Payments",
-            command: () => navigate("/financial/payments")
+            command: () => navigate("/financial/payments/suppliers")
         },
         {
             label: "Suppliers",
@@ -494,7 +496,8 @@ const DynamicLinks = () => {
                         </span>
                     </NavLink>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
-                        <NavLink to="/sales">Customers</NavLink>
+                        <NavLink to="/sales">Overview</NavLink>
+                        <NavLink to="/sales/customers">Customers</NavLink>
                         <NavLink to="/sales/orders">Orders</NavLink>
                         <NavLink to="/sales">Reporting</NavLink> 
                         <NavLink to="/sales">Configuration</NavLink> 

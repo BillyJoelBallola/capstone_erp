@@ -9,6 +9,7 @@ const HomeProducts = ({ query }) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState([]);
+    const [addToCartButton, setAddToCartButton] = useState(false);
     const { setCartAction, cart, currentCustomer } = useContext(CustomerContext);
 
     useEffect(() => {
@@ -26,6 +27,7 @@ const HomeProducts = ({ query }) => {
 
     const addToCart = async (id) => {
         if(currentCustomer){
+            setAddToCartButton(true);
             const productInfo = products.find(item => item._id === id);
             const data = {
                 select: false,
@@ -40,6 +42,7 @@ const HomeProducts = ({ query }) => {
             const response = await axios.put("/erp/add_cart_item", { data: data, id: cart._id });
             if(response.statusText === "OK"){
                 setCartAction("addToCart");
+                setAddToCartButton(false);
                 return toast.success("Item add to cart successfully.", { position: toast.POSITION.TOP_RIGHT });
             }else{
                 return toast.error("Failed to add item.", { position: toast.POSITION.TOP_RIGHT });
@@ -80,7 +83,7 @@ const HomeProducts = ({ query }) => {
                                             </span>
                                         </div>
                                         <p className='text-sm text-gray-500 truncate'>{product.description}</p>
-                                        <button className='btn-dark-outlined max-w-min whitespace-nowrap mt-3' onClick={() => addToCart(product._id)}>Add to Cart</button>
+                                        <button className='btn-dark-outlined max-w-min whitespace-nowrap mt-3' onClick={() => addToCart(product._id)} disabled={addToCartButton}>Add to Cart</button>
                                     </div>
                                 </div>  
                             ))

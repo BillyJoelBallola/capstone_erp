@@ -47,6 +47,7 @@ import HumanResource from './pages/humanResource/HumanResource';
 import Dashboard from './pages/dashboard/Dashboard';
 
 import Customers from './pages/sales/Customers';
+import Sales from './pages/sales/Sales';
 import Orders from './pages/sales/Orders';
 import OrderForm from './pages/sales/OrderForm';
 
@@ -73,8 +74,8 @@ const App = () => {
                 <Route path='/:op/suppliers/supplier-form/:id?' element={<SupplierForm />} />
                 <Route path='/financial' element={<Financial />} />
                 <Route path='/financial/bills' element={<Bills />} />
-                <Route path='/financial/payments' element={<Payments />} />
-                <Route path='/financial/payments/payment-form/:id?' element={<PaymentForm />} />
+                <Route path='/financial/payments/:entity?' element={<Payments />} />
+                <Route path='/financial/payments/:entity?/payment-form/:id?' element={<PaymentForm />} />
                 <Route path='/financial/journal_entries' element={<JournalEntries />} />
                 <Route path='/financial/invoices' element={<Invoices />} />
                 <Route path='/:op/invoices/invoice-form/:orderId?/:id?' element={<InvoiceForm />} />
@@ -90,8 +91,9 @@ const App = () => {
                 <Route path='/:op/product_forecast/:id?' element={<ProductForecast />} />
                 <Route path='/:op/material_forecast/:id?' element={<MaterialForecast />} />
                 <Route path='/human-resource' element={<HumanResource />} />
-                <Route path='/sales' element={<Customers />} />
+                <Route path='/sales' element={<Sales />} />
                 <Route path='/sales/orders' element={<Orders />} />
+                <Route path='/:op/customers' element={<Customers />} />
                 <Route path='/:op/orders/order-form/:id?' element={<OrderForm />} />
             </Route>
         </Routes>

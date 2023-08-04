@@ -12,10 +12,11 @@ const referenceGenerator = (func) => {
     return  `${func}-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}-${y}`;
 }
 
-const PaymentForm = ({ billData, visible, setVisible, setAction }) => {
+const PaymentForm = ({ billData, setVisible, setAction }) => {
     const [isBankMethod, setIsBankMethod] = useState(true);
     const [amountDue, setAmountDue] = useState(0);
     const [difference, setDifference] = useState(0);
+    
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
@@ -428,7 +429,6 @@ const BillForm = () => {
                 header={"Payment"}
             >
                 <PaymentForm 
-                    visible={visible}
                     setVisible={setVisible}
                     setAction={setAction}
                     billData={{...formik.values, reference: reference, total: total, id: id, payment: payment, balance: amountDue}}

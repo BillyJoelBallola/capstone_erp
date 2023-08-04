@@ -10,6 +10,10 @@ const SideCart = ({ visible, setVisible }) => {
     const { cart, setCart, setCartAction } = useContext(CustomerContext);
     const [products, setProducts] = useState([]);
     const [readyForCheckOut, setReadyForCheckOut] = useState([]);
+    const [disableButton, setDisableButton] = useState({
+        save: false,
+        remove: false,
+    });
 
     useEffect(() => {
         const selected = cart?.cart?.filter(item => (item.select === true));
@@ -23,9 +27,11 @@ const SideCart = ({ visible, setVisible }) => {
     }, [])
 
     const removeCartItem = async (idx) => {
+        setDisableButton(prev => ({...prev, remove: true}));
         const response = await axios.put("/erp/remove_cart_item", { id: cart._id, index: idx });
         if(response.statusText === "OK"){
             setCartAction("removeItem");
+            setDisableButton(prev => ({...prev, remove: false}));
             return toast.success("Item remove successfully.", { position: toast.POSITION.TOP_RIGHT });
         }else{
             return toast.error("Failed to remove item.", { position: toast.POSITION.TOP_RIGHT });
@@ -33,6 +39,7 @@ const SideCart = ({ visible, setVisible }) => {
     }
 
     const saveChanges = async (idx) => {
+        setDisableButton(prev => ({...prev, save: true}));
         const newCart = [...cart.cart];
         const productData = products.find(item => item._id === newCart[idx].productId);
         cancelCheckOut();
@@ -47,6 +54,7 @@ const SideCart = ({ visible, setVisible }) => {
         
         const response = await axios.put("/erp/change_cart_item", { id: cart._id, cart: newCart });
         if(response.statusText === "OK"){
+            setDisableButton(prev => ({...prev, save: false}));
             return toast.success("Save changes successfully", {  position: toast.POSITION.TOP_RIGHT });
         }else{
             return toast.error("Failed to save changes", {  position: toast.POSITION.TOP_RIGHT });
@@ -61,6 +69,7 @@ const SideCart = ({ visible, setVisible }) => {
                 newCart[idx].quantity += 1;
                 break;
             case "minus":
+                if(newCart[idx].quantity === 1) return;
                 newCart[idx].quantity -= 1;
                 break;
         }
@@ -181,12 +190,12 @@ const SideCart = ({ visible, setVisible }) => {
                                     </div>
                                 </div>
                                 <div className='flex h-full items-baseline'>
-                                    <button className='hover:text-blue-500 divide-purple-150' onClick={() => saveChanges(idx)}>
+                                    <button className='hover:text-blue-500 divide-purple-150' onClick={() => saveChanges(idx)} disabled={disableButton.save}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </button>
-                                    <button className='hover:text-red-500 divide-purple-150' onClick={() => removeCartItem(idx)}>
+                                    <button className='hover:text-red-500 divide-purple-150' onClick={() => removeCartItem(idx)} disabled={disableButton.remove}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>

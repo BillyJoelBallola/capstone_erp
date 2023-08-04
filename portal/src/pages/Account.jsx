@@ -36,6 +36,7 @@ const Account = () => {
     const [cancelled, setCancelled] = useState(null);
     const [cancel, setCancel] = useState(null);
     const [shipments, setShipments] = useState(null);
+    const [disableButton, setDisableButton] = useState(false);
 
     useEffect(() => {
         if(orders || orderAction){
@@ -88,11 +89,13 @@ const Account = () => {
     }
 
     const handleReceiveAll = async (orderId) => {
+        setDisableButton(true);
         const invoiceCurrentStatus = receives.find(order => order._id === orderId);
         const response = await axios.put("/erp/quantity", { orderId: orderId });
         if(response.statusText === "OK"){
             await axios.put("/erp/change_order_state", { id: orderId, invoice: invoiceCurrentStatus?.invoice ,state: 4 });
             setOrderAction("receive");
+            setDisableButton(false);
             return toast.success("Order receive successfully.", { position: toast.POSITION.TOP_RIGHT });
         }else{
             return toast.error("Failed to receive order.", { position: toast.POSITION.TOP_RIGHT });
@@ -446,7 +449,7 @@ const Account = () => {
                                                                 ))
                                                             }
                                                         </div>
-                                                        <button className='btn-gray' onClick={() => handleReceiveAll(order._id)}>Receive All</button>
+                                                        <button className='btn-gray' onClick={() => handleReceiveAll(order._id)} disabled={disableButton}>Receive All</button>
                                                     </div>
                                                     <div className='grid gap-3 pl-10'>
                                                         {

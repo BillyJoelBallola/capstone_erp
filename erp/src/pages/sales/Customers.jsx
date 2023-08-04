@@ -14,7 +14,7 @@ const Customers = () => {
     }, [action])
 
     const columns = [
-        { selectionMode: true, }, 
+        // { selectionMode: true, }, 
         { field: "name", filter: "name", header: "Name" }, 
         { field: "business", filter: "business", header: "Business" }, 
         { body: "addressFormat", header: "Address" }, 

@@ -419,9 +419,16 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
 
     // financial -> payment
     if(formatName === "payment" && selectedRows?.length === 1){
+        let link = "";
+        if(selectedRows[0].reference.includes("SPAY")){
+            link = `/financial/payments/suppliers/payment-form/${selectedRows[0]?._id}`;
+        }
+        if(selectedRows[0].reference.includes("CPAY")){
+            link = `/financial/payments/customers/payment-form/${selectedRows[0]?._id}`;
+        }
         return (
             <div className="flex gap-1">
-                <NavLink to={`/financial/payments/payment-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+                <NavLink to={link} className="btn-gray">View</NavLink>
             </div>
         )
     }
@@ -434,6 +441,9 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         }
         if(selectedRows[0].reference.includes("BILL")){
             link = `/financial/bills/bill-form/${selectedRows[0]?.purchase._id}/${selectedRows[0]?._id}`;
+        }
+        if(selectedRows[0].reference.includes("INV")){
+            link = `/financial/invoices/invoice-form/${selectedRows[0]?.order._id}/${selectedRows[0]?._id}`;
         }
         return (
             <div className="flex gap-1">

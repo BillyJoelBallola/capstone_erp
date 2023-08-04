@@ -254,7 +254,7 @@ const UserForm = () => {
                                     <div className="grid gap-2">
                                         <div className="flex items-center justify-between py-2">
                                             <span className="font-semibold">
-                                                Administrator
+                                                Sytem Administrator
                                             </span>
                                             <InputSwitch
                                                 name="role"

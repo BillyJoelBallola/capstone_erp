@@ -8,10 +8,12 @@ import axios from 'axios';
 
 const PaymentForm = () => {
     const id = useParams().id;
+    const entity = useParams().entity;
     const navigate = useNavigate();
     const [isBankMethod, setIsBankMethod] = useState(true);
     const [reference, setReference] = useState("");
     const [suppliers, setSuppliers] = useState([]);  
+    const [customers, setCustomers] = useState([]);  
     const [billData, setBillData] = useState({
         reference: "",
         id: "",
@@ -30,6 +32,15 @@ const PaymentForm = () => {
         return  `${func}-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}-${y}`;
     }
 
+    useEffect(() => {
+        if(entity === "customers"){
+            setType({
+                send: false,
+                receive: true
+            })
+        }
+    }, [entity])
+
     const formik = useFormik({
         initialValues: {
             journal: "",
@@ -38,6 +49,7 @@ const PaymentForm = () => {
             date: "",
             memo: "",
             supplier: "",
+            customer: "",
             amount: 0
         },
         validationSchema: Yup.object({
@@ -47,6 +59,8 @@ const PaymentForm = () => {
                 .required("Payment Method is required."),
             supplier: Yup.string()
                 .required("Supplier is required."),
+            customer: Yup.string()
+                .required("Customer is required."),
             date: Yup.date()
                 .min(moment(yesterday).format(), "Payment Date must be either today or a future date.")
                 .required("Payment Date is required."),
@@ -81,7 +95,8 @@ const PaymentForm = () => {
                 formik.values.date = moment(data.date).format().toString().slice(0, 10);
                 formik.values.memo = data.memo;
                 formik.values.amount = data.amount;
-                formik.values.supplier = data.supplier._id;
+                formik.values.supplier = data?.supplier?._id;
+                formik.values.customer = data?.customer?._id;
                 setReference(data.reference);
                 setType(data.type);
                 if(data.bill){
@@ -98,6 +113,9 @@ const PaymentForm = () => {
     useEffect(() => {   
         axios.get("/erp/suppliers").then(({ data }) => {
             setSuppliers(data)
+        })
+        axios.get("/erp/customers").then(({ data }) => {
+            setCustomers(data)
         })
     }, [])
 
@@ -161,35 +179,72 @@ const PaymentForm = () => {
                         <div className='grid gap-10 grid-cols-2'>
                             <div className='flex flex-col gap-5'>
                                 <div className="form-group">
-                                    <label
-                                        htmlFor=""
-                                        className={`${
-                                            formik.touched.supplier &&
-                                            formik.errors.supplier
-                                                ? "text-red-400"
-                                                : ""
-                                        }`}
-                                    >
-                                        {formik.touched.supplier &&
-                                        formik.errors.supplier
-                                            ? formik.errors.supplier
-                                            : "Supplier"}
-                                    </label>
-                                    <select
-                                        disabled={id ? true : false} 
-                                        name='supplier'
-                                        value={formik.values.supplier}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    >
-                                        <option value="">-- select supplier --</option>
-                                        {
-                                            suppliers &&
-                                            suppliers.map(supplier => (
-                                                <option value={supplier._id} key={supplier._id}>{supplier.business}</option>
-                                            ))
-                                        }
-                                    </select>
+                                    {
+                                        entity === "suppliers" &&
+                                        <>
+                                            <label
+                                                htmlFor=""
+                                                className={`${
+                                                    formik.touched.supplier &&
+                                                    formik.errors.supplier
+                                                        ? "text-red-400"
+                                                        : ""
+                                                }`}
+                                            >
+                                                {formik.touched.supplier &&
+                                                formik.errors.supplier
+                                                    ? formik.errors.supplier
+                                                    : "Supplier"}
+                                            </label>
+                                            <select
+                                                disabled={id ? true : false} 
+                                                name="supplier"
+                                                value={formik.values.supplier}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                            >
+                                                <option value="">-- select supplier --</option> 
+                                                {
+                                                    suppliers?.map(supplier => (
+                                                        <option value={supplier._id} key={supplier._id}>{supplier.business}</option> 
+                                                    ))
+                                                }
+                                            </select>
+                                        </>
+                                    }
+                                    {
+                                        entity === "customers" &&
+                                        <>
+                                            <label
+                                                htmlFor=""
+                                                className={`${
+                                                    formik.touched.customer &&
+                                                    formik.errors.customer
+                                                        ? "text-red-400"
+                                                        : ""
+                                                }`}
+                                            >
+                                                {formik.touched.customer &&
+                                                formik.errors.customer
+                                                    ? formik.errors.customer
+                                                    : "Customer"}
+                                            </label>
+                                            <select
+                                                disabled={id ? true : false} 
+                                                name="customer"
+                                                value={formik.values.customer}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                            >
+                                                <option value="">-- select customer --</option> 
+                                                {
+                                                    customers?.map(customer => (
+                                                        <option value={customer._id} key={customer._id}>{customer.business}</option> 
+                                                    ))
+                                                }
+                                            </select>
+                                        </>
+                                    }
                                 </div>
                                 <div className="form-group">
                                     <label

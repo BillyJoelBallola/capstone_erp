@@ -21,6 +21,10 @@ const PaymentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Bill",
     },
+    invoice: {
+        type: Schema.Types.ObjectId,
+        ref: "Invoice",
+    },
     supplier: {
         type: Schema.Types.ObjectId,
         ref: "Supplier",

@@ -67,3 +67,15 @@ export const changeState = async (req, res) => {
         res.status(500).json(error.message);
     }
 }
+
+export const changePayment = async (req, res) => {
+    const { id, payment } = await req.body;
+    try {
+        const invoiceData = await Invoice.findById(id);
+        invoiceData.set({ payment: payment });
+        invoiceData.save();
+        res.status(200).json(invoiceData);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }
+}

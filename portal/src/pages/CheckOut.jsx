@@ -30,6 +30,7 @@ const PurchaseMessage = ({ purchase }) => {
 
 const CheckOut = () => {
     const navigate = useNavigate();
+    const [disableButton, setDisableButton] = useState(false);
     const { cart, setCart, buyNowData, currentCustomer, setBuyNowData, setCartAction } = useContext(CustomerContext);
     const [checkOutItems, setCheckOutItems] = useState([]);
     const [overAllTotal, setOverAllTotal] = useState(0);
@@ -112,10 +113,12 @@ const CheckOut = () => {
     }, [purchase])
 
     const handlePurchase = async () => {
+        setDisableButton(true);
         const orders = Object.keys(buyNowData).length !== 0 ? buyNowData : checkOutItems;
         const data = { customer: currentCustomer?._id, orders: orders, reference: referenceGenerator("ORD"), total: overAllTotal, date: Date.now() };
         const response = await axios.post("/erp/add_order", data);
         if(response.statusText === "OK"){
+            setDisableButton(false);
             setPurchase(true);
         }else{
             return toast.error("Failed to purchase.", { position: toast.POSITION.TOP_RIGHT });
@@ -198,7 +201,7 @@ const CheckOut = () => {
                                 </div>
                             </div>
                             <div className='grid gap-2'>
-                                <button className='btn-primary py-2' onClick={handlePurchase}>Purchase</button>
+                                <button className='btn-primary py-2' onClick={handlePurchase} disabled={disableButton}>Purchase</button>
                                 <button className='btn-gray' onClick={() => setDialogVisble(true)}>Cancel</button>
                             </div>
                         </div>
