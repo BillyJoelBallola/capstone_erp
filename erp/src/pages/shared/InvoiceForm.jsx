@@ -1,13 +1,12 @@
 import React, { useState, useEffect} from 'react';
 import { NavLink, useParams, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
+import DialogBox from '../../components/DialogBox';
+import emailjs from "@emailjs/browser";
+import { useFormik } from "formik";
 import moment from "moment";
 import * as Yup from "yup";
 import axios from "axios";
-import DialogBox from '../../components/DialogBox';
-
-// TODO: Submit in Invoice Form
 
 const referenceGenerator = (func) => {
     const [m, d, y] = moment(Date.now()).format("L").split("/");
@@ -414,6 +413,32 @@ const InvoiceForm = () => {
         }
     }
 
+    const sendEmail = () => {
+        let orders = "";
+
+        formik.values.productOrder.map(item => {
+            orders += `${item.quantity} ${item.productName} ₱${item.productPrice}\n`;
+        })
+
+        emailjs.send(
+            "service_i70az2c",
+            "template_ycuxrfd",
+            { 
+                reference: reference,
+                name: formik.values.customer.name,
+                to_email: formik.values.customer.email,
+                due_date: formik.values.dueDate,
+                orders: orders, 
+                total: total - amountDue
+            },
+            "Ms1LVJ5aom_Nyf7ct"
+        ).then(res => {
+            return toast.success("Customer invoice sent.", { position: toast.POSITION.TOP_RIGHT });
+        }).catch((err) => {
+            return toast.error("Failed to send.", { position: toast.POSITION.TOP_RIGHT });
+        })
+    }
+
     return (
         <>
             <ToastContainer 
@@ -457,12 +482,15 @@ const InvoiceForm = () => {
                 <div className="px-6 py-8 pt-32 bg-gray-100">
                     <div className='flex items-center justify-between mb-3'>
                         <div className='flex gap-2'>
-                        {
+                            {
                                 state === 1 &&
                                 <>
                                     {
                                         op === "financial" && payment !== 3 &&
-                                        <button className='btn-primary p-2' onClick={() => setVisible(true)}>Payment</button>
+                                        <>
+                                            <button className='btn-primary p-2' onClick={() => setVisible(true)}>Payment</button>
+                                            <button className='btn-dark-gray' onClick={sendEmail}>Send email</button>
+                                        </>
                                     }
                                     {
                                         payment === 1 &&
@@ -498,7 +526,7 @@ const InvoiceForm = () => {
                                     <select 
                                         disabled={id ? true : false}
                                         name="customer"
-                                        value={formik.values.customer}
+                                        value={id ? formik.values.customer._id : formik.values.customer}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     >

@@ -40,7 +40,7 @@ const Login = () => {
             draggable={false}
             hideProgressBar={true}
         />
-        <div className="w-screen h-screen grid place-content-center font-roboto">
+        <div className="w-screen h-screen grid place-content-center font-roboto bg-white">
             <div className="flex flex-col items-center gap-8">
                 <div className="flex items-center gap-4">
                     <div>
@@ -56,7 +56,7 @@ const Login = () => {
                     <span className="text-md tracking-[.5rem]">SYSTEM</span>
                     </div>
                 </div>
-                <form className="flex flex-col gap-4 w-[300px] bg-white p-5 rounded-lg drop-shadow-lg" onSubmit={formik.handleSubmit}>
+                <form className="flex flex-col gap-4 w-[300px] border p-5 rounded-lg" onSubmit={formik.handleSubmit}>
                     <div className="form-group">
                         <label 
                             className={`${formik.touched.email && formik.errors.email ? "text-red-400" : ""}`}
@@ -90,6 +90,40 @@ const Login = () => {
                     <a href="" className="text-right text-xs underline">Forget password?</a>
                     <button type="submit" className="btn-dark py-3">Sign in</button>
                 </form>
+                {/* <form className="flex flex-col gap-4 w-[300px] bg-white p-5 rounded-lg drop-shadow-lg" onSubmit={formik.handleSubmit}>
+                    <div className="form-group">
+                        <label 
+                            className={`${formik.touched.email && formik.errors.email ? "text-red-400" : ""}`}
+                            htmlFor="Email">
+                            {formik.touched.email && formik.errors.email ? formik.errors.email : "Email"}
+                        </label>
+                        <input 
+                            type="text" 
+                            placeholder="Email Address"
+                            name='email'
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label 
+                            className={`${formik.touched.password && formik.errors.password ? "text-red-400" : ""}`}
+                            htmlFor="Username">
+                            {formik.touched.password && formik.errors.password ? formik.errors.password : "Password"}
+                        </label>
+                        <input 
+                            type="password"
+                            placeholder="Password"
+                            name='password'
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                    </div>
+                    <a href="" className="text-right text-xs underline">Forget password?</a>
+                    <button type="submit" className="btn-dark py-3">Sign in</button>
+                </form> */}
             </div>
         </div>
     </>

@@ -4,8 +4,6 @@ import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import moment from "moment";
 
-// TODO: Invoice
-
 const OrderForm = () => {
     const id = useParams().id;
     const op = useParams().op;
@@ -43,6 +41,7 @@ const OrderForm = () => {
     const confirmOrder = async () => {
         const response = await axios.put("/erp/change_order_state", { id: id, invoice: 2, state: 2 , shipment: order.shipment });
         if(response.statusText === "OK"){
+            // Undecided Function: after order confirmation the sales person will added.
             axios.post("/erp/add_shipment", { orderId: id, reference: referenceGenerator("SHP") });
             setAction("confirm");
             return toast.success( "Sales order has been confirm and ready for invoicing", { position: toast.POSITION.TOP_RIGHT });

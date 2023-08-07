@@ -49,7 +49,7 @@ export const getAllInvoice = async (req, res) => {
 export const getInvoiceById = async (req, res) => {
     const { id } = await req.params;
     try {
-        const response = await Invoice.findById(id).populate("order");
+        const response = await Invoice.findById(id).populate("order").populate("customer");
         res.status(200).json(response);
     } catch (error) {   
         res.status(500).json(error.message);

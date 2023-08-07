@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CustomTable from '../../components/CustomTable';
+import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
 const Shipments = () => {
     const [shipments, setShipments] = useState([]);
     const [action, setAction] = useState([]);
+    const { setLoading } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true);
         axios.get("/erp/shipments").then(({ data }) => {
             setShipments(data.reverse());
             setAction("");
+            setLoading(false);
         })
     }, [action]);
 

@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CustomTable from '../../components/CustomTable';
+import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
 const Bills = () => {   
     const [bills, setBills] = useState([]);
     const [action, setAction] = useState("");
+    const { setLoading } = useContext(UserContext);
 
     useEffect(() => {   
+        setLoading(true);
         axios.get("/erp/bills").then(({ data }) => {
             setBills(data.reverse());
+            setLoading(false);
             setAction("");
         })
     }, [action])

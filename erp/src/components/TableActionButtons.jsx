@@ -400,10 +400,19 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     }
 
     // supply-chain -> suppliers
-    if(formatName === "supplier" && selectedRows?.length === 1){
+    if(formatName === "supplier" && Object.keys(selectedRows).length === 1){
         return (
             <div className="flex gap-1">
                 <NavLink to={`/${op}/suppliers/supplier-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+            </div>
+        )
+    }
+
+    //supply-chain -> orders
+    if(formatName === "shipment" && selectedRows?.length === 1){
+        return (
+            <div className="flex gap-1">
+                <NavLink to={`/supply-chain/shipments/shipment-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
     }
@@ -470,15 +479,14 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         )
     }
 
-    //supply-chain -> orders
-    if(formatName === "shipment" && selectedRows?.length === 1){
+    //sales -> customers 
+    if(formatName === "customer" && selectedRows?.length === 1){
         return (
             <div className="flex gap-1">
-                <NavLink to={`/supply-chain/shipments/shipment-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+                <NavLink to={`/sales/customers/customer-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
     }
-
 }
 
 export default TableActionsButtons;

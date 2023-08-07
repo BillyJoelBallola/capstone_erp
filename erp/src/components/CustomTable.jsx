@@ -355,6 +355,8 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                         formattedName === "user" ||
                         formattedName === "payment" ||
                         formattedName === "bill" ||
+                        formattedName === "order" ||
+                        // formattedName === "customer" ||
                         formattedName === "invoice" ?
                         <NewLink /> : <></>
                     }
@@ -402,6 +404,8 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                 value={dataValue}
                 globalFilterFields={columns.map((item) => (item.filter))}
                 selection={selectedRows}
+                metaKeySelection={true}
+                dragSelection
                 onSelectionChange={(e) => setSelectedRows(e.value)}
                 dataKey="_id"
                 tableStyle={{ minWidth: "40rem" }}
@@ -409,6 +413,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                 {columns.map((item, idx) => (
                     <Column
                         selectionMode={item.selectionMode ? "multiple" : ""}
+                        className={`${item.selectionMode && "w-1"}`}
                         body={
                             item.body === "isActive" ?
                             isActive : 

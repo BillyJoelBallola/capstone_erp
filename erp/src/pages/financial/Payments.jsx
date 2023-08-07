@@ -1,21 +1,23 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CustomTable from '../../components/CustomTable';
 import { useParams } from 'react-router-dom';
-
-// TODO: fix payments table for invoices and bills
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
 
 const Payments = () => {
     const entity = useParams().entity;
     const [customerPayments, setCustomerPayments] = useState([]);
     const [supplierPayments, setSupplierPayments] = useState([]);
     const [action, setAction] = useState([]);
+    const { setLoading } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true);
         axios.get("/erp/payments").then(({ data }) => {
-            setCustomerPayments(data.filter(item => { if(item.customer) return item }));
-            setSupplierPayments(data.filter(item => { if(item.supplier) return item }));
+            setCustomerPayments(data.filter(item => { if(item.customer) return item }).reverse());
+            setSupplierPayments(data.filter(item => { if(item.supplier) return item }).reverse());
             setAction("");
+            setLoading(false);
         })
     }, [action, entity])
 

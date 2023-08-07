@@ -42,6 +42,7 @@ import Replenishment from './pages/shared/Replenishment';
 import ProductForecast from './pages/shared/ProductForecast';
 import MaterialForecast from './pages/shared/MaterialForecast';
 import InvoiceForm from './pages/shared/InvoiceForm';
+import CustomerForm from './pages/shared/CustomerForm';
 
 import HumanResource from './pages/humanResource/HumanResource';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -94,6 +95,7 @@ const App = () => {
                 <Route path='/sales' element={<Sales />} />
                 <Route path='/sales/orders' element={<Orders />} />
                 <Route path='/:op/customers' element={<Customers />} />
+                <Route path='/:op/customers/customer-form/:id?' element={<CustomerForm />} />
                 <Route path='/:op/orders/order-form/:id?' element={<OrderForm />} />
             </Route>
         </Routes>

@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import CustomTable from '../../components/CustomTable';
 import { ToastContainer } from 'react-toastify';
+import { UserContext } from '../../context/UserContext';
 
 const RawMaterials = () => {
     const [rawMaterials, setRawMaterials] = useState([]);
     const [action, setAction] = useState("");
+    const { setLoading } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true);
         axios.get("/erp/raw-materials").then(({ data }) => {
             setRawMaterials(data.reverse());
             setAction("");
+            setLoading(false);
         })
     }, [action])
 

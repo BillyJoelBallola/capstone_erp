@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomTable from '../../components/CustomTable';
-import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
 
 const Purchase = () => {
     const [purchases, setPurchases] = useState([]);
     const [action, setAction] = useState("");
+    const { setLoading } = useContext(UserContext);
    
     useEffect(() => {
+        setLoading(true);
         axios.get("/erp/purchases").then(({ data }) => {
             setPurchases(data.reverse());
-            setAction("")
+            setAction("");
+            setLoading(false);
         })
     }, [action])
 

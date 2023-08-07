@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from "../../context/UserContext";
 import CustomTable from '../../components/CustomTable';
-import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
+import axios from 'axios';
 
 const ManageUsers = () => {
     const [users, setUsers] = useState([]);
     const [action, setAction] = useState("");
-    const { currentUser } = useContext(UserContext);;
+    const { currentUser, setLoading } = useContext(UserContext);;
 
     useEffect(() => {
+        setLoading(true);
         axios.get("/erp/users").then(({data}) => {
-        const users = data.filter(user => ( user._id !== currentUser?._id ))
+            const users = data.filter(user => ( user._id !== currentUser?._id ))
             setUsers(users.reverse());
             setAction("");
+            setLoading(false);
         })
     }, [action, currentUser])
 

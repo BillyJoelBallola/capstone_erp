@@ -1,10 +1,12 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CustomTable from "../../components/CustomTable";
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
 
 const JournalEntries = () => {
     const [journalEntries, setJournalEntries] = useState([]);
     const [action, setAction] = useState([]);
+    const { setLoading } = useContext(UserContext);
 
     const fetchJournalEntries = async () => {
         const [payments, invoices, bills] = await Promise.all([
@@ -14,9 +16,11 @@ const JournalEntries = () => {
         ]);
 
         setJournalEntries([...payments.data.reverse(), ...invoices.data.reverse(), ...bills.data.reverse()]);
+        setLoading(false);
     }
 
     useEffect(() => {
+        setLoading(true);
         fetchJournalEntries();
     }, [action])
 

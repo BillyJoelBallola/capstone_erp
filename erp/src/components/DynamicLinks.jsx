@@ -24,7 +24,18 @@ const DynamicLinks = () => {
     const menuSalesOperations = useRef(null);   
     const menuSupplyChainProducts = useRef(null);
     const menuSupplyChainOperations = useRef(null);
+    const menuHumanResourceOperations = useRef(null);
     const menuSupplyChainReports = useRef(null);   
+
+    // Human Resource
+    const humanResouceOperationMenu = [
+        {
+            label: "Attendance",
+        },
+        {
+            label: "Payrolls",
+        }
+    ];
 
     // financial
     const financialCustomersMenu = [
@@ -311,6 +322,28 @@ const DynamicLinks = () => {
                             Human Resource
                         </span>
                     </NavLink>
+                    <ul className="flex gap-3 header-link text-sm font-semibold">
+                        <NavLink to="/human-resource">Overview</NavLink>
+                        <NavLink to="/human-resource">Employees</NavLink>
+                        <div>
+                            <TieredMenu
+                                model={humanResouceOperationMenu}
+                                popup
+                                ref={menuHumanResourceOperations}
+                                breakpoint="767px"
+                                className="text-sm"
+                            />
+                            <button
+                                onClick={(e) =>
+                                    menuHumanResourceOperations.current.toggle(e)
+                                }
+                            >
+                                Operations
+                            </button>
+                        </div>
+                        <NavLink to="/human-resource">Reporting</NavLink> 
+                        <NavLink to="/human-resource">Configuration</NavLink> 
+                    </ul>
                 </div>
             );
         case "financial":

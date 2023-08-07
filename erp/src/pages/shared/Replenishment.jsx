@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomTable from '../../components/CustomTable'
-import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
+import { UserContext } from '../../context/UserContext';
+import axios from 'axios';
 
 const Replenishment = () => {
     const [automateProcess, setAutomateProcess] = useState([]);
-    const [production, setProduction] = useState([]);
-    const [purchase, setPurchase] = useState([]);
     const [action, setAction] = useState("");
+    const { setLoading } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true);
         axios.get("/erp/productions").then(({ data }) => {
-            const productionData = data.filter(item => ( item.automate === true  ));
-            setProduction(productionData.reverse());
-            setAction("");
+            const productionData = data.filter(item => item.automate === true);
+            return productionData;
+        }).then((productionData) => {
+            axios.get("/erp/purchases").then(({ data }) => {
+                const purchasesData = data.filter(item => item.automate === true);
+                setAutomateProcess([...productionData, ...purchasesData]);
+                setAction("");
+                setLoading(false);
+            })
         })
-        axios.get("/erp/purchases").then(({ data }) => {
-            const purchasesData = data.filter(item => ( item.automate === true ));
-            setPurchase(purchasesData.reverse());
-            setAction("");
-        })
-        
     }, [action])
-
-    useEffect(() => {
-        setAutomateProcess([...production, ...purchase]);
-    }, [production, purchase])
 
     const columns = [
         { body: "source", filter: "reference", header: "Source" }, 

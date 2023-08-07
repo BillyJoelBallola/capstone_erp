@@ -16,7 +16,19 @@ export const addOrder = async (req, res) => {
         })
         res.status(200).json(newOrder);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
+export const updateOrder = async (req, res) => {
+    const { salesPerson, orderId } = await req.body;
+    try {
+        const orderData = await Order.findById(orderId); 
+        orderData.set({ salesPerson });
+        orderData.save();
+        res.status(200).json(orderData);
+    } catch (error) {
+        res.status(500).json(error.message);
     }
 }
 
@@ -38,7 +50,7 @@ export const getAllOrders = async (req, res) => {
         const response = await Order.find({}).populate("customer");
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -48,7 +60,7 @@ export const getOrderById = async (req, res) => {
         const orderData = await Order.findById(id).populate("customer");
         res.status(200).json(orderData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -63,6 +75,6 @@ export const changeState = async (req, res) => {
         orderData.save();
         res.status(200).json(orderData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     } 
 } 

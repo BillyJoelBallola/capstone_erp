@@ -13,7 +13,7 @@ export const addCustomer = async (req, res) => {
         const newCustomer = await Customer.create({
             name,
             business,
-            email,
+            email, 
             address,
             contact,
             account: {
@@ -152,6 +152,16 @@ export const addCustomerCart = async (req, res) => {
 export const getAllCustomers = async (req, res) => {
     try {
         const response = await Customer.find({});
+        res.status(200).json(response);
+    } catch (error) {
+        res.json(error.message);
+    }
+}
+
+export const getCustomerById = async (req, res) => {
+    const { id } = await req.params;
+    try {
+        const response = await Customer.findById(id);
         res.status(200).json(response);
     } catch (error) {
         res.json(error.message);
