@@ -31,6 +31,7 @@ const DynamicLinks = () => {
     const humanResouceOperationMenu = [
         {
             label: "Attendance",
+            command: () => navigate("/human-resource/attendance")
         },
         {
             label: "Payrolls",

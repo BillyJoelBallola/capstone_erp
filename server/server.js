@@ -25,6 +25,7 @@ import InvoiceRoutes from "./Routes/InvoiceRoutes.js";
 import PositionRoutes from "./Routes/PositionRoutes.js";
 import EmployeeRoutes from "./Routes/EmployeeRoutes.js";
 import DeductionRoutes from "./Routes/DeductionRoutes.js";
+import AttendanceRoutes from "./Routes/AttendanceRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -56,6 +57,7 @@ app.use(InvoiceRoutes);
 app.use(PositionRoutes);
 app.use(EmployeeRoutes);
 app.use(DeductionRoutes);
+app.use(AttendanceRoutes);
 
 const PORT = process.env.SERVER_PORT || 4000;
 
