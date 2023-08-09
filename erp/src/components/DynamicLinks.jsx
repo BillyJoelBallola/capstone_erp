@@ -324,7 +324,7 @@ const DynamicLinks = () => {
                     </NavLink>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/human-resource">Overview</NavLink>
-                        <NavLink to="/human-resource">Employees</NavLink>
+                        <NavLink to="/human-resource/employees">Employees</NavLink>
                         <div>
                             <TieredMenu
                                 model={humanResouceOperationMenu}

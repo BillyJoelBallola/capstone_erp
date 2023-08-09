@@ -45,7 +45,9 @@ import InvoiceForm from './pages/shared/InvoiceForm';
 import CustomerForm from './pages/shared/CustomerForm';
 
 import HumanResource from './pages/humanResource/HumanResource';
+import Employees from './pages/humanResource/Employees';
 import Dashboard from './pages/dashboard/Dashboard';
+import EmployeeForm from './pages/humanResource/EmployeeForm';
 
 import Customers from './pages/sales/Customers';
 import Sales from './pages/sales/Sales';
@@ -91,12 +93,14 @@ const App = () => {
                 <Route path='/:op/replenishment' element={<Replenishment />} />
                 <Route path='/:op/product_forecast/:id?' element={<ProductForecast />} />
                 <Route path='/:op/material_forecast/:id?' element={<MaterialForecast />} />
-                <Route path='/human-resource' element={<HumanResource />} />
                 <Route path='/sales' element={<Sales />} />
                 <Route path='/sales/orders' element={<Orders />} />
                 <Route path='/:op/customers' element={<Customers />} />
                 <Route path='/:op/customers/customer-form/:id?' element={<CustomerForm />} />
                 <Route path='/:op/orders/order-form/:id?' element={<OrderForm />} />
+                <Route path='/human-resource' element={<HumanResource />} />
+                <Route path='/human-resource/employees' element={<Employees />} />
+                <Route path='/human-resource/employees/employee-form/:id?' element={<EmployeeForm />} />
             </Route>
         </Routes>
     )

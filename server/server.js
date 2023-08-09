@@ -22,6 +22,9 @@ import OrderRoutes from "./Routes/OrderRoutes.js";
 import CategoryRoutes from "./Routes/CategoryRoutes.js";
 import ShipmentRoutes from "./Routes/ShipmentRoutes.js";
 import InvoiceRoutes from "./Routes/InvoiceRoutes.js";
+import PositionRoutes from "./Routes/PositionRoutes.js";
+import EmployeeRoutes from "./Routes/EmployeeRoutes.js";
+import DeductionRoutes from "./Routes/DeductionRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -50,6 +53,9 @@ app.use(OrderRoutes);
 app.use(CategoryRoutes);
 app.use(ShipmentRoutes);
 app.use(InvoiceRoutes);
+app.use(PositionRoutes);
+app.use(EmployeeRoutes);
+app.use(DeductionRoutes);
 
 const PORT = process.env.SERVER_PORT || 4000;
 

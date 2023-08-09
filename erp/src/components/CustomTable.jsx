@@ -67,7 +67,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
     }
 
     const isActive = (rowData) => {
-        const { status } = rowData;
+        const { status, active } = rowData;
         let colorStyle = "";
         let textColorStyle = "";
         let indicator = "";
@@ -355,7 +355,8 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                         formattedName === "user" ||
                         formattedName === "payment" ||
                         formattedName === "bill" ||
-                        formattedName === "order" ||
+                        formattedName === "employee" ||
+                        // formattedName === "order" ||
                         // formattedName === "customer" ||
                         formattedName === "invoice" ?
                         <NewLink /> : <></>

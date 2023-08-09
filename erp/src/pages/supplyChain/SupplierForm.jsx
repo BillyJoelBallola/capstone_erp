@@ -37,8 +37,8 @@ const SupplierForm = () => {
         },
         validationSchema: Yup.object({
             name: Yup.string()
-            .min(5, "Name must be 5 characters or more.")
-            .required("Name is required."),
+                .min(5, "Name must be 5 characters or more.")
+                .required("Name is required."),
             business: Yup.string()
                 .required("Business is required."),
             barangay: Yup.string()

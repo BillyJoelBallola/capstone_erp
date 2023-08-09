@@ -56,7 +56,7 @@ const UserForm = () => {
         },
         validationSchema: Yup.object({
             name: Yup.string()
-                .min(3, "Name must be more than 5 characters.")
+                .min(5, "Name must be more than 5 characters.")
                 .max(30, "Name must be 30 characters or less.")
                 .required("Name is required."),
             email: Yup.string()

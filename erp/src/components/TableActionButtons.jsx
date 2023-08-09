@@ -31,61 +31,61 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         })
     }, [])
 
+
+
     const setToActive = (e) => {
-        const userData = { name: selectedRows[0]?.name, email: selectedRows[0]?.email, password:selectedRows[0]?.password, status: true, role: selectedRows[0]?.role === "Administrator" ? true : false, userAccess: selectedRows[0]?.userAccess, userImage:selectedRows[0]?.userImage, _id: selectedRows[0]?._id }
-        const productData = { _id: selectedRows[0]?._id, name: selectedRows[0]?.name, category: selectedRows[0]?.category, description: selectedRows[0]?.description, measurement: selectedRows[0]?.measurement, quantity: selectedRows[0]?.quantity, price: selectedRows[0]?.price, status: true, storage: selectedRows[0]?.storage, productImg: selectedRows[0]?.productImg, rawMaterials: selectedRows[0]?.rawMaterials };
+        const userData = { ...selectedRows[0], status: true, role: selectedRows[0]?.role === "Administrator" ? true : false };
+        const productData = { ...selectedRows[0], status: true };
+        const employeeData = { ...selectedRows[0], status: true };
 
         confirmPopup({
             target: e.currentTarget,
-            message: `Do you want to set to active this ${formatName === "user" ? "account" : "product"}?`,
+            message: `Do you want to set to active this ${formatName === "user" ? "account" : formatName === "employee" ? "employee" : "product"}?`,
             icon: 'pi pi-info-circle',
             acceptClassName: 'p-button-success',
             accept: async () => {
                 try {
                     if(selectedRows.length > 1){
-                        const api = formatName === "user" ? "user" : "product";
-                        axios.put(`/erp/update_many_${api}s`, { selectedRows: selectedRows, status: true });
+                        axios.put(`/erp/update_many_${formatName}s`, { selectedRows: selectedRows, status: true });
                     }
                     if(selectedRows.length === 1){
-                        const api = formatName === "user" ? "user" : "product";
-                        const data = formatName === "user" ? userData : productData; 
-                        axios.put(`/erp/update_${api}`, data);
+                        const data = formatName === "user" ? userData : formatName === "employee" ? employeeData :productData; 
+                        await axios.put(`/erp/update_${formatName}`, data);
                     }
                     setAction("active");
                     setSelectedRows(null);
-                    toast.success(`${formatName === "user" ? "User" : "Product"} set to active.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.success(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} set to active.`, { position: toast.POSITION.TOP_RIGHT }); 
                 } catch (error) {
-                    toast.error(`${formatName === "user" ? "User" : "Product"} failed set to active.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.error(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} failed set to active.`, { position: toast.POSITION.TOP_RIGHT }); 
                 } 
             },
         });
     }
 
     const setToInactive = (e) => {
-        const userData = {  name: selectedRows[0]?.name, email: selectedRows[0]?.email, password:selectedRows[0]?.password, status: false, role: selectedRows[0]?.role === "Administrator" ? true : false, userAccess: selectedRows[0]?.userAccess, userImage:selectedRows[0]?.userImage, _id: selectedRows[0]?._id };
-        const productData = { _id: selectedRows[0]?._id, name: selectedRows[0]?.name, category: selectedRows[0]?.category, description: selectedRows[0]?.description, measurement: selectedRows[0]?.measurement, quantity: selectedRows[0]?.quantity, price: selectedRows[0]?.price, status: false, storage: selectedRows[0]?.storage, productImg: selectedRows[0]?.productImg, rawMaterials: selectedRows[0]?.rawMaterials }
+        const userData = {  ...selectedRows[0], status: false, role: selectedRows[0]?.role === "Administrator" ? true : false };
+        const productData = { ...selectedRows[0], status: false };
+        const employeeData = {...selectedRows[0], status: false };
 
         confirmPopup({
             target: e.currentTarget,
-            message: `Do you want to set to inactive this ${formatName === "user" ? "account" : "product"}?`,
+            message: `Do you want to set to inactive this ${formatName === "user" ? "account" : formatName === "employee" ? "employee" : "product"}?`,
             icon: 'pi pi-info-circle',
             acceptClassName: 'p-button-danger',
             accept: async () => {
                 try {
                     if(selectedRows?.length > 1){
-                        const api = formatName === "user" ? "user" : "product";
-                        axios.put(`/erp/update_many_${api}s`, { selectedRows: selectedRows, status: false });
+                        axios.put(`/erp/update_many_${formatName}s`, { selectedRows: selectedRows, status: false });
                     }
                     if(selectedRows?.length === 1){
-                        const api = formatName === "user" ? "user" : "product";
-                        const data = formatName === "user" ? userData : productData;
-                        axios.put(`/erp/update_${api}`, data);
+                        const data = formatName === "user" ? userData : formatName === "employee" ? employeeData :productData; 
+                        await axios.put(`/erp/update_${formatName}`, data);
                     }
                     setAction("inactive");
                     setSelectedRows(null);
-                    toast.success(`${formatName === "user" ? "User" : "Product"} set to inactive.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.success(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} set to inactive.`, { position: toast.POSITION.TOP_RIGHT }); 
                 } catch (error) {
-                    toast.error(`${formatName === "user" ? "User" : "Product"} failed set to inactive.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.error(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} failed set to inactive.`, { position: toast.POSITION.TOP_RIGHT }); 
                 } 
             },
         });
@@ -486,6 +486,31 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 <NavLink to={`/sales/customers/customer-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
+    }
+
+    //human-resource -> employees 
+    if(formatName === "employee" && selectedRows?.length === 1){
+        return (
+            <>
+                <ConfirmPopup />
+                <div className="flex gap-1">
+                    <NavLink to={`/human-resource/employees/employee-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+                    <button className="btn-gray" onClick={setToActive}>Active</button>
+                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                </div>
+            </>
+        )
+    }
+    if(formatName === "employee" && selectedRows?.length > 1){
+        return (
+            <>
+                <ConfirmPopup />
+                <div className="flex gap-1">
+                    <button className="btn-gray" onClick={setToActive}>Active</button>
+                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                </div>
+            </>
+        )   
     }
 }
 
