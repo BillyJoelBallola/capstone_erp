@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AttendanceForm from "../pages/humanResource/AttendanceForm";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import TableActionsButtons from "./TableActionButtons";
 import placeHolder from "../assets/placeholder.png";
@@ -10,7 +11,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import axios from "axios";
 
-const CustomTable = ({ name, dataValue, columns, setAction}) => {
+const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
     const op = useParams().op;
     const formattedName = name.toLowerCase().split(" ").join("-");
     const currentLocation = useLocation().pathname;
@@ -19,6 +20,7 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
     const [components, setComponents] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
     const [visible, setVisible] = useState(false);
+    const [visibleAttendance, setVisibleAttendance] = useState(false);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
@@ -314,6 +316,16 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
         )
     }
 
+    const timeInFormat = (rowData) => {
+        const { timeIn } = rowData;
+        return <span>{moment(timeIn).format("LT")}</span>
+    }
+
+    const timeOutFormat = (rowData) => {
+        const { timeOut } = rowData;
+        return <span>{timeOut ? moment(timeOut).format("LT") : "--"}</span>
+    }
+    
     const itemType = (rowData) => {
         const { product } = rowData;
         return <span>{product ? "Product" : "Materials"}</span>
@@ -335,6 +347,12 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                 setVisible={setVisible}
                 itemData={selectedRows}
                 setAction={setAction}
+            />
+            <AttendanceForm
+                visible={visibleAttendance}
+                setVisible={setVisibleAttendance}
+                setAction={setAction}
+                attendanceData={formattedName === "attendance" ? dataValue : null}
             />
             <div className="pt-14 px-4 flex gap-3 items-center justify-between py-3 border border-t-0 border-b-gray-200 bg-white">
                 <div className="flex gap-3 items-center">
@@ -360,6 +378,10 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                         // formattedName === "customer" ||
                         formattedName === "invoice" ?
                         <NewLink /> : <></>
+                    }
+                    {
+                        formattedName === "attendance" &&
+                        <button className="btn-dark px-4" onClick={() => setVisibleAttendance(true)}>Add</button>
                     }
                     { 
                         op === "financial" && formattedName === "supplier" &&
@@ -402,18 +424,18 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                 paginatorTemplate={"PrevPageLink CurrentPageReport NextPageLink"}
                 currentPageReportTemplate="{first} to {last} of {totalRecords}"
                 filters={filters}
-                value={dataValue}
                 globalFilterFields={columns.map((item) => (item.filter))}
-                selection={selectedRows}
-                metaKeySelection={true}
-                dragSelection
-                onSelectionChange={(e) => setSelectedRows(e.value)}
+                metaKeySelection={metaKey}
+                value={dataValue}
                 dataKey="_id"
+                dragSelection
+                selection={selectedRows}
+                selectionMode={columns[0].selectionMode ? "multiple" : ""}
+                onSelectionChange={(e) => setSelectedRows(e.value)}
                 tableStyle={{ minWidth: "40rem" }}
             >
                 {columns.map((item, idx) => (
                     <Column
-                        selectionMode={item.selectionMode ? "multiple" : ""}
                         className={`${item.selectionMode && "w-1"}`}
                         body={
                             item.body === "isActive" ?
@@ -442,6 +464,10 @@ const CustomTable = ({ name, dataValue, columns, setAction}) => {
                             orderState : 
                             item.body === "addressFormat" ?
                             addressFormat : 
+                            item.body === "timeInFormat" ?
+                            timeInFormat : 
+                            item.body === "timeOutFormat" ?
+                            timeOutFormat : 
                             item.body === "source" ?
                             source : null 
                         }

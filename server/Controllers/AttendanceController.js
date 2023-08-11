@@ -4,16 +4,17 @@ import { Employee } from "../Models/EmployeeModel.js";
 
 export const timeInAttendance = async (req, res) => {
     const { id } = await req.body; 
-    const employeeInfo = await Employee.findOne(id);
+    const currentDate = Date.now();
+    const employeeInfo = await Employee.findById(id);
     try {
         const response = await Attendance.create({
             employee: employeeInfo._id,
-            timeIn: Date.now(),
+            timeIn: currentDate,
             timeOut: "",
         })
-        res.json(response);
+        res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -28,7 +29,7 @@ export const timeOutAttendance = async (req, res) => {
         attendanceInfo.save();
         res.json(attendanceInfo);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 } 
 
@@ -36,9 +37,9 @@ export const getCurrentAttendance = async (req, res) => {
     const [date, time] = moment(Date.now()).format().split("T");
     try {
         const response = await Attendance.find({ timeIn: { $gte: date.toString() } }).populate("employee");
-        res.json(response);
+        res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -46,8 +47,8 @@ export const getAttendanceById = async (req, res) => {
     const { employeeId } = await req.params;
     try {
         const allAttendance = await Attendance.find({ employee: employeeId });
-        res.json(allAttendance);
+        res.status(200).json(allAttendance);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }

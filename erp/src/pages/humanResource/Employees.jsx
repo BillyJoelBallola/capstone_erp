@@ -27,7 +27,7 @@ const Employees = () => {
     ];
 
     return (
-        <CustomTable name={"Employee"} columns={columns} dataValue={employees} setAction={setAction} />
+        <CustomTable name={"Employee"} columns={columns} dataValue={employees} setAction={setAction} metaKey={false}/>
     )
 }
 

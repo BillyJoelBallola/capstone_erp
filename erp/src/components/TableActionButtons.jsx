@@ -31,7 +31,30 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         })
     }, [])
 
+    const timeOut = (e) => {
+        const [attendance] = selectedRows;
 
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Are you sure you want to time-out?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-success',
+            accept: async () => {
+
+                if(attendance.timeOut === null){
+                    const response = await axios.put("/erp/timeOut_attendance", { id: attendance._id });
+                    if(response.statusText === "OK"){
+                        setAction("timeOut");
+                        return toast.success("Time out.", { position: toast.POSITION.TOP_RIGHT });
+                    }else{
+                        return toast.error("Failed to time out.", { position: toast.POSITION.TOP_RIGHT });
+                    }
+                }else{
+                    return toast.warning("Employee already out.", { position: toast.POSITION.TOP_RIGHT });
+                }
+            },
+        });
+    }
 
     const setToActive = (e) => {
         const userData = { ...selectedRows[0], status: true, role: selectedRows[0]?.role === "Administrator" ? true : false };
@@ -511,6 +534,18 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 </div>
             </>
         )   
+    }
+
+     //human-resource -> attendance 
+     if(formatName === "attendance" && selectedRows?.length === 1){
+        return (
+            <>
+                <ConfirmPopup />
+                <div className="flex gap-1">
+                    <button className="btn-gray" onClick={timeOut}>Time-out</button>
+                </div>
+            </>
+        )
     }
 }
 

@@ -35,7 +35,7 @@ const JournalEntries = () => {
     ]
 
     return (
-        <CustomTable name={"Journal Entrie"} dataValue={journalEntries.sort((a, b) => new Date(b.date) - new Date(a.date))} setAction={setAction} columns={columns} />
+        <CustomTable name={"Journal Entrie"} dataValue={journalEntries.sort((a, b) => new Date(b.date) - new Date(a.date))} setAction={setAction} columns={columns} metaKey={true}/>
     )
 }
 

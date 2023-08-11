@@ -32,7 +32,7 @@ const Productions = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
-            <CustomTable name={"Production"} dataValue={production} columns={columns} setAction={setAction}/>
+            <CustomTable name={"Production"} dataValue={production} columns={columns} setAction={setAction} metaKey={true}/>
         </>
     )
 }

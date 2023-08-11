@@ -39,7 +39,7 @@ const Payments = () => {
     ]
 
     return (
-        <CustomTable name={"Payment"} dataValue={entity === "customers" ? customerPayments : supplierPayments} setAction={setAction} columns={columns} />
+        <CustomTable name={"Payment"} dataValue={entity === "customers" ? customerPayments : supplierPayments} setAction={setAction} columns={columns} metaKey={true}/>
     )
 }
 

@@ -26,7 +26,7 @@ const Customers = () => {
     ]
 
     return (
-        <CustomTable name={"Customer"} columns={columns} dataValue={customers} setAction={setAction} />
+        <CustomTable name={"Customer"} columns={columns} dataValue={customers} setAction={setAction} metaKey={true} />
     )
 }
 

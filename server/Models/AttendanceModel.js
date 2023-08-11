@@ -1,4 +1,4 @@
-import { Schema, model } from "express";
+import { Schema, model } from "mongoose";
 
 const AttendanceSchema = new Schema({
     employee: {

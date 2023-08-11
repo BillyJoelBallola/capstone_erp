@@ -29,7 +29,7 @@ const Invoices = () => {
     ]
 
     return (
-        <CustomTable name={"Invoice"} columns={columns} dataValue={invoices} setAction={setAction} />
+        <CustomTable name={"Invoice"} columns={columns} dataValue={invoices} setAction={setAction} metaKey={true}/>
     )
 }
 

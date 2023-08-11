@@ -32,7 +32,7 @@ const RawMaterials = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
-            <CustomTable name={"Raw Material"} dataValue={rawMaterials} columns={columns} setAction={setAction}/>
+            <CustomTable name={"Raw Material"} dataValue={rawMaterials} columns={columns} setAction={setAction} metaKey={true}/>
         </>
     )
 }

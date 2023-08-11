@@ -34,7 +34,7 @@ const Purchase = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
-            <CustomTable name={"Purchase"} dataValue={purchases} columns={columns} setAction={setAction}/>
+            <CustomTable name={"Purchase"} dataValue={purchases} columns={columns} setAction={setAction} metaKey={true}/>
         </>
     )
 }

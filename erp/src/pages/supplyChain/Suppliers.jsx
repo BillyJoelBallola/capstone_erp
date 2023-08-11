@@ -28,7 +28,7 @@ const Suppliers = () => {
     ]
 
     return (
-        <CustomTable name={"Supplier"} dataValue={suppliers} columns={columns} setAction={setAction}/>
+        <CustomTable name={"Supplier"} dataValue={suppliers} columns={columns} setAction={setAction} metaKey={true}/>
     )
 }
 

@@ -26,7 +26,7 @@ const Shipments = () => {
     ]
 
     return (
-        <CustomTable name={"Shipment"} dataValue={shipments} columns={columns} setAction={setAction}/>
+        <CustomTable name={"Shipment"} dataValue={shipments} columns={columns} setAction={setAction} metaKey={true}/>
     )
 }
 
