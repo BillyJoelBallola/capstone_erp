@@ -53,7 +53,7 @@ const Inventory = () => {
     return (
         <div>
             <div className="z-10 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
-                <span className="text-lg font-semibold">Iventory Overview</span>
+                <span className="text-lg font-semibold">Inventory Overview</span>
             </div>
             {/* <div className='grid grid-cols-[200px_1fr] gap-5 pt-28 px-4'>    
                 <div className='grid gap-5'>

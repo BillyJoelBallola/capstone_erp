@@ -98,7 +98,6 @@ const ProductForm = () => {
             ]);
 
             const productionsData = productionsResponse.data.filter(item => item.product._id === id && item.state === 2);
-            
             setProds(productionsResponse.data);
             setProductions(productionsData);
             setStorages(storagesResponse.data);

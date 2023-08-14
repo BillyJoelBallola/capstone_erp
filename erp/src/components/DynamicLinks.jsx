@@ -189,22 +189,17 @@ const DynamicLinks = () => {
         case "settings":
             return (
                 <div className="flex gap-5 items-center">
-                    <NavLink
-                        to="/"
-                        className="flex gap-3 items-center"
-                        onMouseEnter={() => setHoverLogo(true)}
-                        onMouseLeave={() => setHoverLogo(false)}
-                        onClick={() => setHoverLogo(false)}
-                    >
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
+                    </NavLink>
+                    <div className="flex gap-2 items-center">
                         <div className="w-5 aspect-square grid place-items-center">
-                            <img
-                                src={hoverLogo ? arrowBack : settingsIcon}
-                                alt="icon"
-                                className="object-contain"
-                            />
+                            <img src={settingsIcon} alt="icon" className="object-contain" />
                         </div>
                         <span className="font-semibold text-lg">Settings</span>
-                    </NavLink>
+                    </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/settings">General Settings</NavLink>
                         <NavLink to="/settings/manage-users">
@@ -216,43 +211,33 @@ const DynamicLinks = () => {
         case "dashboard":
             return (
                 <div className="flex gap-5 items-center">
-                    <NavLink
-                        to="/"
-                        className="flex gap-3 items-center"
-                        onMouseEnter={() => setHoverLogo(true)}
-                        onMouseLeave={() => setHoverLogo(false)}
-                        onClick={() => setHoverLogo(false)}
-                    >
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
+                    </NavLink>
+                    <div className="flex gap-2 items-center">
                         <div className="w-5 aspect-square grid place-items-center">
-                            <img
-                                src={hoverLogo ? arrowBack : dashboardIcon}
-                                alt="icon"
-                                className="object-contain"
-                            />
+                            <img src={dashboardIcon} alt="icon" className="object-contain" />
                         </div>
                         <span className="font-semibold text-lg">Dashboard</span>
-                    </NavLink>
+                    </div>
                 </div>
             );
         case "inventory":
             return (
                 <div className="flex gap-5 items-center">
-                    <NavLink
-                        to="/"
-                        className="flex gap-3 items-center"
-                        onMouseEnter={() => setHoverLogo(true)}
-                        onMouseLeave={() => setHoverLogo(false)}
-                        onClick={() => setHoverLogo(false)}
-                    >
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
+                    </NavLink>
+                    <div className="flex gap-2 items-center">
                         <div className="w-5 aspect-square grid place-items-center">
-                            <img
-                                src={hoverLogo ? arrowBack : inventoryIcon}
-                                alt="icon"
-                                className="object-contain"
-                            />
+                            <img src={inventoryIcon} alt="icon" className="object-contain" />
                         </div>
                         <span className="font-semibold text-lg">Inventory</span>
-                    </NavLink>
+                    </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/inventory">Overview</NavLink>
                         <div>
@@ -306,24 +291,17 @@ const DynamicLinks = () => {
         case "human-resource":
             return (
                 <div className="flex gap-5 items-center">
-                    <NavLink
-                        to="/"
-                        className="flex gap-3 items-center"
-                        onMouseEnter={() => setHoverLogo(true)}
-                        onMouseLeave={() => setHoverLogo(false)}
-                        onClick={() => setHoverLogo(false)}
-                    >
-                        <div className="w-5 aspect-square grid place-items-center">
-                            <img
-                                src={hoverLogo ? arrowBack : humanResouceIcon}
-                                alt="icon"
-                                className="object-contain"
-                            />
-                        </div>
-                        <span className="font-semibold text-lg">
-                            Human Resource
-                        </span>
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
                     </NavLink>
+                    <div className="flex gap-2 items-center">
+                        <div className="w-5 aspect-square grid place-items-center">
+                            <img src={humanResouceIcon} alt="icon" className="object-contain" />
+                        </div>
+                        <span className="font-semibold text-lg">Human Resource</span>
+                    </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/human-resource">Overview</NavLink>
                         <NavLink to="/human-resource/employees">Employees</NavLink>
@@ -351,22 +329,17 @@ const DynamicLinks = () => {
         case "financial":
             return (
                 <div className="flex gap-5 items-center">
-                    <NavLink
-                        to="/"
-                        className="flex gap-3 items-center"
-                        onMouseEnter={() => setHoverLogo(true)}
-                        onMouseLeave={() => setHoverLogo(false)}
-                        onClick={() => setHoverLogo(false)}
-                    >
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
+                    </NavLink>
+                    <div className="flex gap-2 items-center">
                         <div className="w-5 aspect-square grid place-items-center">
-                            <img
-                                src={hoverLogo ? arrowBack : financialIcon}
-                                alt="icon"
-                                className="object-contain"
-                            />
+                            <img src={financialIcon} alt="icon" className="object-contain" />
                         </div>
                         <span className="font-semibold text-lg">Financial</span>
-                    </NavLink>
+                    </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/financial">Overview</NavLink>
                         <div>
@@ -440,24 +413,17 @@ const DynamicLinks = () => {
         case "supply-chain":
             return (
                 <div className="flex gap-5 items-center">
-                    <NavLink
-                        to="/"
-                        className="flex gap-3 items-center"
-                        onMouseEnter={() => setHoverLogo(true)}
-                        onMouseLeave={() => setHoverLogo(false)}
-                        onClick={() => setHoverLogo(false)}
-                    >
-                        <div className="w-5 aspect-square grid place-items-center">
-                            <img
-                                src={hoverLogo ? arrowBack : supplyChainIcon}
-                                alt="icon"
-                                className="object-contain"
-                            />
-                        </div>
-                        <span className="font-semibold text-lg">
-                            Suppply Chain
-                        </span>
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
                     </NavLink>
+                    <div className="flex gap-2 items-center">
+                        <div className="w-5 aspect-square grid place-items-center">
+                            <img src={supplyChainIcon} alt="icon" className="object-contain" />
+                        </div>
+                        <span className="font-semibold text-lg">Supply Chain</span>
+                    </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/supply-chain">Overview</NavLink>
                         <NavLink to="/supply-chain/suppliers">Suppliers</NavLink>
@@ -512,24 +478,17 @@ const DynamicLinks = () => {
         case "sales":
             return (
                 <div className="flex gap-5 items-center">
-                    <NavLink
-                        to="/"
-                        className="flex gap-3 items-center"
-                        onMouseEnter={() => setHoverLogo(true)}
-                        onMouseLeave={() => setHoverLogo(false)}
-                        onClick={() => setHoverLogo(false)}
-                    >
-                        <div className="w-5 aspect-square grid place-items-center">
-                            <img
-                                src={hoverLogo ? arrowBack : portalIcon}
-                                alt="icon"
-                                className="object-contain"
-                            />
-                        </div>
-                        <span className="font-semibold text-lg">
-                            Sales
-                        </span>
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
                     </NavLink>
+                    <div className="flex gap-2 items-center">
+                        <div className="w-5 aspect-square grid place-items-center">
+                            <img src={portalIcon} alt="icon" className="object-contain" />
+                        </div>
+                        <span className="font-semibold text-lg">Sales</span>
+                    </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/sales">Overview</NavLink>
                         <NavLink to="/sales/customers">Customers</NavLink>
