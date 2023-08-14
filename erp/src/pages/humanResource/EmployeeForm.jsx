@@ -7,11 +7,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from 'axios';
 
-const deductions = [
-    {name: "SSS", amount: 100},
-    {name: "Pagibig", amount: 100},
-]
-
 const EmployeeForm = () => {
     const id = useParams().id;
     const navigate = useNavigate();
@@ -115,7 +110,7 @@ const EmployeeForm = () => {
             }else{
                 const response = await axios.post("/erp/add_employee", data);
                 if(response.statusText === "OK"){
-                    navigate(`/human-resouce/employees/`)
+                    navigate(`/human-resource/employees/employee-form/${response.data._id}`);
                     return toast.success("Employee added successfully.", { position: toast.POSITION.TOP_RIGHT }); 
                 }else{
                     return toast.error("Failed to add employee.", { position: toast.POSITION.TOP_RIGHT }); 
@@ -132,7 +127,7 @@ const EmployeeForm = () => {
                 formik.values.dob = data.dob.toString().slice(0, 10);
                 formik.values.gender = data.gender;
                 formik.values.age = data.age;
-                formik.values.salary = data.salary;
+                formik.values.salary = data.salary ? data.salary : "";
                 formik.values.type = data.type;
                 formik.values.street = data?.address?.street;
                 formik.values.barangay = data?.address?.barangay;
@@ -267,7 +262,7 @@ const EmployeeForm = () => {
                             </div>
                         </div>
                         <div className='mt-4 grid gap-8'>
-                            <div className='grid '>
+                            <div className='grid'>
                                 <span className='text-2xl font-semibold'>Personal Information</span>
                                 <div className='mt-4 flex gap-10'>
                                     <div className='flex flex-col gap-4 w-full'>
@@ -309,8 +304,8 @@ const EmployeeForm = () => {
                                                 onBlur={formik.handleBlur}
                                             >
                                                 <option value="">-- select gender --</option>
-                                                <option value="Female">Female</option>
                                                 <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
                                             </select>
                                         </div>
                                     </div> 

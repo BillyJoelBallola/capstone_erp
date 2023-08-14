@@ -25,6 +25,7 @@ const ProductForm = () => {
     const [rawMaterials, setRawMaterials] = useState([]);
     const [instructions, setInstructions] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [adjustments, setAdjustments] = useState([]);
     const [instruction, setInstruction] = useState({
         text: "",
         idx: ""
@@ -88,20 +89,24 @@ const ProductForm = () => {
     }, [forecasts]);
     
     useEffect(() => {
-        axios.get("/erp/productions").then(({ data }) => {
-            setProds(data);
-            const prodData = data?.filter(item => (item.product._id === id && item.state === 2));
-            setProductions(prodData);
-        })
-        axios.get("/erp/storages").then(({ data }) => {
-            setStorages(data);
-        })
-        axios.get("/erp/raw-materials").then(({ data }) => {
-            setRawMaterialData(data);
-        })
-        axios.get("/erp/categories").then(({ data }) => {
-            setCategories(data);
-        })
+        const fetchData = async () => {
+            const [productionsResponse, storagesResponse, rawMaterialsResponse, categoriesResponse] = await Promise.all([
+                axios.get("/erp/productions"),
+                axios.get("/erp/storages"),
+                axios.get("/erp/raw-materials"),
+                axios.get("/erp/categories")
+            ]);
+
+            const productionsData = productionsResponse.data.filter(item => item.product._id === id && item.state === 2);
+            
+            setProds(productionsResponse.data);
+            setProductions(productionsData);
+            setStorages(storagesResponse.data);
+            setRawMaterialData(rawMaterialsResponse.data);
+            setCategories(categoriesResponse.data);
+        };
+    
+        fetchData();
     }, [])
     
     useEffect(() => {
@@ -121,6 +126,9 @@ const ProductForm = () => {
                 setRawMaterials(data.rawMaterials);
                 setData(data);
                 setAction("");
+            })
+            axios.get(`/erp/adjustment/${id}`).then(({ data }) => {
+                setAdjustments(data);
             })
         }
     }, [action])
@@ -716,8 +724,30 @@ const ProductForm = () => {
                     </form>
                     {
                         id && 
-                        <div className='mt-4 text-sm'>
-                            {`${moment(formik.values.date).format("LL")} - Product Created.`}
+                        <div className='grid gap-3'>
+                            <div className='mt-4 text-sm'>
+                                {`${moment(formik.values.date).format("LL")} - Product Created.`}
+                            </div>
+                            {
+                                adjustments?.length !== 0 &&
+                                <>
+                                    <div className='flex items-center gap-5'>
+                                        <div className='h-[1px] w-full bg-gray-300'/>
+                                        <span className='font-semibold text-gray-400'>Adjustments</span>
+                                        <div className='h-[1px] w-full bg-gray-300'/>
+                                    </div>
+                                    <div className='grid gap-2'>
+                                        {
+                                            adjustments.map(adjustment => (
+                                                <div className='text-sm' key={adjustment._id}>
+                                                    <span className='font-semibold'>{adjustment.user}</span>
+                                                    <div>{moment(adjustment.date).format("LL")} - {adjustment.remarks}</div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </>
+                            }
                         </div>
                     }
                 </div>

@@ -35,6 +35,7 @@ const DynamicLinks = () => {
         },
         {
             label: "Payrolls",
+            command: () => navigate("/human-resource/payrolls")
         }
     ];
 

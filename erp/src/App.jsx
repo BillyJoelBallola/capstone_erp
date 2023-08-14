@@ -44,16 +44,18 @@ import MaterialForecast from './pages/shared/MaterialForecast';
 import InvoiceForm from './pages/shared/InvoiceForm';
 import CustomerForm from './pages/shared/CustomerForm';
 
+import Customers from './pages/sales/Customers';
+import Sales from './pages/sales/Sales';
+import Orders from './pages/sales/Orders';
+import OrderForm from './pages/sales/OrderForm';
+
 import HumanResource from './pages/humanResource/HumanResource';
 import Employees from './pages/humanResource/Employees';
 import Dashboard from './pages/dashboard/Dashboard';
 import EmployeeForm from './pages/humanResource/EmployeeForm';
 import Attendance from './pages/humanResource/Attendance';
-
-import Customers from './pages/sales/Customers';
-import Sales from './pages/sales/Sales';
-import Orders from './pages/sales/Orders';
-import OrderForm from './pages/sales/OrderForm';
+import Payrolls from './pages/humanResource/Payrolls';
+import PayrollForm from './pages/humanResource/PayrollForm';
 
 const App = () => {
     return (
@@ -101,6 +103,8 @@ const App = () => {
                 <Route path='/:op/orders/order-form/:id?' element={<OrderForm />} />
                 <Route path='/human-resource' element={<HumanResource />} />
                 <Route path='/human-resource/attendance' element={<Attendance />} />
+                <Route path='/human-resource/payrolls' element={<Payrolls />} />
+                <Route path='/human-resource/payrolls/payroll-form/:id?' element={<PayrollForm />} />
                 <Route path='/human-resource/employees' element={<Employees />} />
                 <Route path='/human-resource/employees/employee-form/:id?' element={<EmployeeForm />} />
             </Route>

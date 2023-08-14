@@ -13,7 +13,7 @@ const referenceGenerator = (func) => {
     return  `${func}-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}-${y}`;
 }
 
-const PaymentForm = ({ invoiceData, setVisible, setAction }) => {
+const PaymentForm = ({ invoiceData, setVisible, setAction, visible }) => {
     const [isBankMethod, setIsBankMethod] = useState(true);
     const [amountDue, setAmountDue] = useState(0);
     const [difference, setDifference] = useState(0);
@@ -91,147 +91,153 @@ const PaymentForm = ({ invoiceData, setVisible, setAction }) => {
     }, [invoiceData])
 
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <div className='grid grid-cols-2 gap-10'>
-                <div className='flex flex-col gap-5 w-full'>
-                    <div className="form-group">
-                        <label
-                            htmlFor=""
-                            className={`${
-                                formik.touched.journal &&
+         <DialogBox
+            visible={visible}
+            setVisible={setVisible}
+            header={"Payment"}
+        >
+            <form onSubmit={formik.handleSubmit}>
+                <div className='grid grid-cols-2 gap-10'>
+                    <div className='flex flex-col gap-5 w-full'>
+                        <div className="form-group">
+                            <label
+                                htmlFor=""
+                                className={`${
+                                    formik.touched.journal &&
+                                    formik.errors.journal
+                                        ? "text-red-400"
+                                        : ""
+                                }`}
+                            >
+                                {formik.touched.journal &&
                                 formik.errors.journal
-                                    ? "text-red-400"
-                                    : ""
-                            }`}
-                        >
-                            {formik.touched.journal &&
-                            formik.errors.journal
-                                ? formik.errors.journal
-                                : "Journal"}
-                        </label>
-                        <select
-                            name='journal'
-                            value={formik.values.journal}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                        >
-                            <option value="">-- select journal --</option>
-                            <option value="Cash">Cash</option>
-                            <option value="Bank">Bank</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label
-                            htmlFor=""
-                            className={`${
-                                formik.touched.method &&
+                                    ? formik.errors.journal
+                                    : "Journal"}
+                            </label>
+                            <select
+                                name='journal'
+                                value={formik.values.journal}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                            >
+                                <option value="">-- select journal --</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Bank">Bank</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor=""
+                                className={`${
+                                    formik.touched.method &&
+                                    formik.errors.method
+                                        ? "text-red-400"
+                                        : ""
+                                }`}
+                            >
+                                {formik.touched.method &&
                                 formik.errors.method
-                                    ? "text-red-400"
-                                    : ""
-                            }`}
-                        >
-                            {formik.touched.method &&
-                            formik.errors.method
-                                ? formik.errors.method
-                                : "Payment Method"}
-                        </label>
-                        <select
-                            name='method'
-                            value={formik.values.method}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                        >
-                            <option value="">-- select method --</option>
-                            <option value="Manual">Manual</option>
-                            {
-                                isBankMethod &&
-                                <option value="Cheque">Cheque</option>
-                            }
-                        </select>
+                                    ? formik.errors.method
+                                    : "Payment Method"}
+                            </label>
+                            <select
+                                name='method'
+                                value={formik.values.method}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                            >
+                                <option value="">-- select method --</option>
+                                <option value="Manual">Manual</option>
+                                {
+                                    isBankMethod &&
+                                    <option value="Cheque">Cheque</option>
+                                }
+                            </select>
+                        </div>
+                        {
+                            isBankMethod &&
+                            <div className="form-group">
+                                <label htmlFor="">Recipient Bank Account</label>
+                                <select
+                                    name='bank'
+                                    value={formik.values.bank}
+                                    onChange={formik.handleChange}
+                                >
+                                    <option value="">-- bank account --</option>
+                                </select>
+                            </div>
+                        }
+                    </div>
+                    <div className='flex flex-col gap-5 w-full'>
+                        <div className="form-group">
+                            <label
+                                htmlFor=""
+                                className={`${
+                                    formik.touched.amount &&
+                                    formik.errors.amount
+                                        ? "text-red-400"
+                                        : ""
+                                }`}
+                            >
+                                {formik.touched.amount &&
+                                formik.errors.amount
+                                    ? formik.errors.amount
+                                    : "₱ Amount"}
+                            </label>
+                            <input 
+                                type="number" 
+                                name='amount'
+                                value={formik.values.amount}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label
+                                htmlFor=""
+                                className={`${
+                                    formik.touched.date &&
+                                    formik.errors.date
+                                        ? "text-red-400"
+                                        : ""
+                                }`}
+                            >
+                                {formik.touched.date &&
+                                formik.errors.date
+                                    ? formik.errors.date
+                                    : "Payment Date"}
+                            </label>
+                            <input 
+                                type="date" 
+                                name='date'
+                                value={formik.values.date}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="">Memo</label>
+                            <input 
+                                type="text" 
+                                name='memo'
+                                value={formik.values.memo}
+                                onChange={formik.handleChange}
+                            />
+                        </div>
                     </div>
                     {
-                        isBankMethod &&
-                        <div className="form-group">
-                            <label htmlFor="">Recipient Bank Account</label>
-                            <select
-                                name='bank'
-                                value={formik.values.bank}
-                                onChange={formik.handleChange}
-                            >
-                                <option value="">-- bank account --</option>
-                            </select>
+                        formik.values.amount < amountDue &&
+                        <div className='flex gap-5'>
+                            <span>Payment Difference:</span>
+                            <span className='font-semibold'>{difference} ₱</span>
                         </div>
                     }
                 </div>
-                <div className='flex flex-col gap-5 w-full'>
-                    <div className="form-group">
-                        <label
-                            htmlFor=""
-                            className={`${
-                                formik.touched.amount &&
-                                formik.errors.amount
-                                    ? "text-red-400"
-                                    : ""
-                            }`}
-                        >
-                            {formik.touched.amount &&
-                            formik.errors.amount
-                                ? formik.errors.amount
-                                : "₱ Amount"}
-                        </label>
-                        <input 
-                            type="number" 
-                            name='amount'
-                            value={formik.values.amount}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label
-                            htmlFor=""
-                            className={`${
-                                formik.touched.date &&
-                                formik.errors.date
-                                    ? "text-red-400"
-                                    : ""
-                            }`}
-                        >
-                            {formik.touched.date &&
-                            formik.errors.date
-                                ? formik.errors.date
-                                : "Payment Date"}
-                        </label>
-                        <input 
-                            type="date" 
-                            name='date'
-                            value={formik.values.date}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="">Memo</label>
-                        <input 
-                            type="text" 
-                            name='memo'
-                            value={formik.values.memo}
-                            onChange={formik.handleChange}
-                        />
-                    </div>
+                <div className='mt-6 flex justify-end'>
+                    <button type='submit' className='btn-primary p-2'>Payment</button>
                 </div>
-                {
-                    formik.values.amount < amountDue &&
-                    <div className='flex gap-5'>
-                        <span>Payment Difference:</span>
-                        <span className='font-semibold'>{difference} ₱</span>
-                    </div>
-                }
-            </div>
-            <div className='mt-6 flex justify-end'>
-                <button type='submit' className='btn-primary p-2'>Payment</button>
-            </div>
-        </form>
+            </form>
+        </DialogBox>
     )
 }
 
@@ -445,17 +451,12 @@ const InvoiceForm = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
-            <DialogBox
+            <PaymentForm 
                 visible={visible}
                 setVisible={setVisible}
-                header={"Payment"}
-            >
-                <PaymentForm 
-                    setVisible={setVisible}
-                    setAction={setAction}
-                    invoiceData={{...formik.values, reference: reference, total: total, id: id, payment: payment, balance: amountDue}}
-                />
-            </DialogBox>
+                setAction={setAction}
+                invoiceData={{...formik.values, reference: reference, total: total, id: id, payment: payment, balance: amountDue}}
+            />
             <div>
                 <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                     <div className="flex items-center gap-3">
@@ -671,7 +672,7 @@ const InvoiceForm = () => {
                                         </div>
                                     }
                                 </div>
-                                <div className='mt-2 flex flex-col'>
+                                <div className='mt-8 flex flex-col'>
                                     <div className='flex gap-2 items-center self-end font-semibold'>
                                         <span>Total:</span>
                                         <span className='text-xl'>{total} ₱</span>

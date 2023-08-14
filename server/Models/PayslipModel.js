@@ -8,13 +8,17 @@ const PayslipSchema = new Schema({
         ref: "Employee",
         required: true
     },
+    reference: {
+        type: String,
+        required: true
+    },
     payment: {
         type: Number,
     },
     earning: {
         type: Number,
     },
-    monthYear: {    
+    date: {    
         type: Date,
         required: true
     },

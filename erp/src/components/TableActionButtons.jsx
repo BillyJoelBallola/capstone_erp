@@ -536,8 +536,8 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         )   
     }
 
-     //human-resource -> attendance 
-     if(formatName === "attendance" && selectedRows?.length === 1){
+    //human-resource -> attendance 
+    if(formatName === "attendance" && selectedRows?.length === 1){
         return (
             <>
                 <ConfirmPopup />
@@ -546,6 +546,11 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 </div>
             </>
         )
+    }
+
+    //human-resource -> payroll 
+    if(formatName === "payroll" && selectedRows?.length === 1){
+        return <NavLink to={`/human-resource/payrolls/payroll-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
     }
 }
 

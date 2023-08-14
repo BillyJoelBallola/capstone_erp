@@ -7,22 +7,22 @@ const EmployeeSchema = new Schema({
     gender: { type: String, required: true },
     type: { type: String, required: true },
     address: {
-        street: { type: String, required: true },
+        street: { type: String },
         barangay: { type: String, required: true },
         municipal: { type: String, required: true },
         province: { type: String, required: true },
         country: { type: String, required: true },
     },
     contact: {
-        email: { type: String, unique: true },
+        email: { type: String },
         phoneNumber: { type: String, required: true },
     },
     emergency: {
-        name: { type: String, unique: true },
+        name: { type: String },
         phoneNumber: { type: String, required: true },
     },
     position: { type: Schema.Types.ObjectId, ref: "Position", required: true },
-    salary: { type: String },
+    salary: { type: Number },
     deductions: [Object],
     status: {
         type: Boolean

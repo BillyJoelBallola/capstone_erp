@@ -374,6 +374,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                         formattedName === "payment" ||
                         formattedName === "bill" ||
                         formattedName === "employee" ||
+                        formattedName === "payroll" ||
                         // formattedName === "order" ||
                         // formattedName === "customer" ||
                         formattedName === "invoice" ?

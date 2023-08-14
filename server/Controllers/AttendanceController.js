@@ -52,3 +52,12 @@ export const getAttendanceById = async (req, res) => {
         res.status(500).json(error.message);
     }
 }
+
+export const getAllAttendance = async (req, res) => {
+    try {
+        const response = await Attendance.find({});
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }
+}

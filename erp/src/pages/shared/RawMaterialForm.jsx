@@ -20,6 +20,7 @@ const RawMaterialForm = () => {
     const [visible, setVisible] = useState(false);
     const [storages, setStorages] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
+    const [adjustments, setAdjustments] = useState([]);
     const random = `P-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}`;
 
     const formik = useFormik({
@@ -86,12 +87,15 @@ const RawMaterialForm = () => {
     }, [purchases])
 
     useEffect(() => {
-        axios.get("/erp/storages").then(({ data }) => {
-            setStorages(data);
-        })
-        axios.get("/erp/suppliers").then(({ data }) => {
-            setSuppliers(data);
-        })
+        const fetchData = async () => {
+            const [storagesResponse, suppliersResponse] = await Promise.all([
+                axios.get("/erp/storages"),
+                axios.get("/erp/suppliers")
+            ]);
+            setStorages(storagesResponse.data);
+            setSuppliers(suppliersResponse.data);
+        };
+        fetchData();
     }, [])
 
     useEffect(() => {   
@@ -106,6 +110,9 @@ const RawMaterialForm = () => {
                 formik.values.storage = data.storage;
                 setData(data);
                 setAction("");
+            })
+            axios.get(`/erp/adjustment/${id}`).then(({ data }) => {
+                setAdjustments(data);
             })
         }
     }, [action])
@@ -318,10 +325,32 @@ const RawMaterialForm = () => {
                         </div>
                     </form>
                     {
-                         id && 
-                         <div className='mt-4 text-sm'>
-                             {`${moment(formik.values.date).format("LL")} - Raw Material Created.`}
-                         </div>
+                        id && 
+                        <div className='grid gap-3'>
+                            <div className='mt-4 text-sm'>
+                                {`${moment(formik.values.date).format("LL")} - Raw Material Created.`}
+                            </div>
+                            {
+                                adjustments?.length !== 0 &&
+                                <>
+                                    <div className='flex items-center gap-5'>
+                                        <div className='h-[1px] w-full bg-gray-300'/>
+                                        <span className='font-semibold text-gray-400'>Adjustments</span>
+                                        <div className='h-[1px] w-full bg-gray-300'/>
+                                    </div>
+                                    <div className='grid gap-2'>
+                                        {
+                                            adjustments.map(adjustment => (
+                                                <div className='text-sm' key={adjustment._id}>
+                                                    <span className='font-semibold'>{adjustment.user}</span>
+                                                    <div>{moment(adjustment.date).format("LL")} - {adjustment.remarks}</div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </>
+                            }
+                        </div>
                     }
                 </div>
             </div>

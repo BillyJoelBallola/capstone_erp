@@ -12,7 +12,7 @@ export const addAdjustment = async (req, res) => {
         })
         res.status(200).json(newAdjustment)
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -21,6 +21,16 @@ export const getAllAdjustments = async (req, res) => {
         const response = await Adjustment.find({});
         res.status(200).json(response)
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
+export const getAdjustmentByItemId = async (req, res) => {
+    const { itemId } = await req.params;
+    try {
+        const response = await Adjustment.find({"item._id": itemId});
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(500).json(error.message);
     }
 }

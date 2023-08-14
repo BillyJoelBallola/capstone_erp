@@ -26,6 +26,7 @@ import PositionRoutes from "./Routes/PositionRoutes.js";
 import EmployeeRoutes from "./Routes/EmployeeRoutes.js";
 import DeductionRoutes from "./Routes/DeductionRoutes.js";
 import AttendanceRoutes from "./Routes/AttendanceRoutes.js";
+import PayslipRoutes from "./Routes/PayslipRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -58,6 +59,7 @@ app.use(PositionRoutes);
 app.use(EmployeeRoutes);
 app.use(DeductionRoutes);
 app.use(AttendanceRoutes);
+app.use(PayslipRoutes);
 
 const PORT = process.env.SERVER_PORT || 4000;
 

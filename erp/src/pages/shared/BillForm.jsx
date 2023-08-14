@@ -655,7 +655,7 @@ const BillForm = () => {
                                         </div>
                                     }
                                 </div>
-                                <div className='mt-2 flex flex-col'>
+                                <div className='mt-8 flex flex-col'>
                                     <div className='flex gap-2 items-center self-end font-semibold'>
                                         <span>Total:</span>
                                         <span className='text-xl'>{total} ₱</span>
