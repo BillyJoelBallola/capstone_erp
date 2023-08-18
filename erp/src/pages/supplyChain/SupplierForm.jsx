@@ -13,14 +13,36 @@ const SupplierForm = () => {
     const navigate = useNavigate();
     const [onTimeRate, setOnTimeRate] = useState(0);
     const [purchasesNumber, setPurchasesNumber] = useState(0);
-    const [purchases, setPurchases] = useState([]);
+    // const [purchases, setPurchases] = useState([]);
+
+    // useEffect(() => {
+    //     axios.get("/erp/purchases").then(({ data }) => {
+    //         const purchasesData = data.filter(item => item.supplier._id === id);
+    //         setPurchases(purchasesData);
+    //         setPurchasesNumber(purchasesData?.length);
+    //     })
+    // }, [])
+
+    // useEffect(() => {
+    //     if(purchases){
+    //         const onTimeOrders = purchases.filter(purchase => new Date(purchase.date) <= new Date(purchase.expectedArrival));
+    //         setOnTimeRate((onTimeOrders.length / purchasesNumber ) * 100);
+    //     }
+    // }, [id, purchases])
 
     useEffect(() => {
-        axios.get("/erp/purchases").then(({ data }) => {
-            const purchasesData = data.filter(item => item.supplier._id === id);
-            setPurchases(purchasesData);
-            setPurchasesNumber(purchasesData?.length);
-        })
+        const fetchPerformance = async () => {
+            const [rate, purchases] = await Promise.all([
+                axios.get("/erp/supplier_time-rate"),
+                axios.get("/erp/purchases")
+            ])
+
+            const rateData = rate.data.find(item => item.supplierId.toString() === id);
+            setOnTimeRate(rateData.rate);
+            setPurchasesNumber(purchases.data.length);
+        }
+
+        fetchPerformance();
     }, [])
 
     const formik = useFormik({
@@ -78,13 +100,6 @@ const SupplierForm = () => {
             }
         }
     })
-    
-    useEffect(() => {
-        if(purchases){
-            const onTimeOrders = purchases.filter(purchase => new Date(purchase.date) <= new Date(purchase.expectedArrival));
-            setOnTimeRate((onTimeOrders.length / purchasesNumber ) * 100);
-        }
-    }, [id, purchases])
 
     useEffect(() => {
         if(id){

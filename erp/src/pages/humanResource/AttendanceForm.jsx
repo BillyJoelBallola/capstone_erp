@@ -8,6 +8,7 @@ import axios from 'axios';
 
 const AttendanceForm = ({ visible, setVisible, setAction, attendanceData }) => {
     const [employees, setEmployees] = useState([]);
+    const [disabled, setDisabled] = useState(false);
     
     useEffect(() => {
         axios.get("/erp/employees").then(({ data }) => {
@@ -24,6 +25,7 @@ const AttendanceForm = ({ visible, setVisible, setAction, attendanceData }) => {
                 .required("Employee is required")
         }),
         onSubmit: async (values, helpers) => {
+            setDisabled(true);
             const [date, time] = moment(Date.now()).format().split("T");
             let outAlready = false;
             let present = false;
@@ -49,9 +51,11 @@ const AttendanceForm = ({ visible, setVisible, setAction, attendanceData }) => {
                     await axios.post("/erp/timeIn_attendance", { id: values.employee });
                     setAction("timeIn");
                     setVisible(false);
+                    setDisabled(false);
                     return toast.success("Time in.", { position: toast.POSITION.TOP_RIGHT });
                 } catch (error) {
                     setVisible(false);
+                    setDisabled(false);
                     return toast.error("Failed to add time-in.", { position: toast.POSITION.TOP_RIGHT });
                 }
             }
@@ -90,7 +94,7 @@ const AttendanceForm = ({ visible, setVisible, setAction, attendanceData }) => {
                         }
                     </select>
                 </div>
-                <button className="btn-dark" type="submit">Time-in</button>
+                <button className="btn-dark" type="submit" disabled={disabled}>Time-in</button>
             </form>
         </DialogBox>
     )

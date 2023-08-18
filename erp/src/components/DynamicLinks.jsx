@@ -242,20 +242,6 @@ const DynamicLinks = () => {
                         <NavLink to="/inventory">Overview</NavLink>
                         <div>
                             <TieredMenu
-                                model={inventoryProductsMenu}
-                                popup
-                                ref={menuInventoryProducts}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) => menuInventoryProducts.current.toggle(e)}
-                            >
-                                Products
-                            </button>
-                        </div>
-                        <div>
-                            <TieredMenu
                                 model={inventoryOperations}
                                 popup
                                 ref={menuInventoryOperations}
@@ -266,6 +252,20 @@ const DynamicLinks = () => {
                                 onClick={(e) => menuInventoryOperations.current.toggle(e)}
                             >
                                 Operations
+                            </button>
+                        </div>
+                        <div>
+                            <TieredMenu
+                                model={inventoryProductsMenu}
+                                popup
+                                ref={menuInventoryProducts}
+                                breakpoint="767px"
+                                className="text-sm"
+                            />
+                            <button
+                                onClick={(e) => menuInventoryProducts.current.toggle(e)}
+                            >
+                                Products
                             </button>
                         </div>
                         <div>
@@ -304,7 +304,6 @@ const DynamicLinks = () => {
                     </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/human-resource">Overview</NavLink>
-                        <NavLink to="/human-resource/employees">Employees</NavLink>
                         <div>
                             <TieredMenu
                                 model={humanResouceOperationMenu}
@@ -321,6 +320,7 @@ const DynamicLinks = () => {
                                 Operations
                             </button>
                         </div>
+                        <NavLink to="/human-resource/employees">Employees</NavLink>
                         <NavLink to="/human-resource">Reporting</NavLink> 
                         <NavLink to="/human-resource">Configuration</NavLink> 
                     </ul>
@@ -426,7 +426,6 @@ const DynamicLinks = () => {
                     </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
                         <NavLink to="/supply-chain">Overview</NavLink>
-                        <NavLink to="/supply-chain/suppliers">Suppliers</NavLink>
                         {/* <div>
                             <TieredMenu
                                 model={supplyChainProductsMenu}
@@ -455,6 +454,7 @@ const DynamicLinks = () => {
                                 Operations
                             </button>
                         </div>
+                        <NavLink to="/supply-chain/suppliers">Suppliers</NavLink>
                         <div>
                             <TieredMenu
                                 model={supplyChainReportMenu}

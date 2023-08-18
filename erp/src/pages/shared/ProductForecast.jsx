@@ -1,12 +1,12 @@
-import axios from 'axios';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import ForecastGraph from '../../components/ForecastGraph';
 import { NavLink, useParams } from 'react-router-dom';
+import moment from 'moment';
+import axios from 'axios';
 
 const ProductForecast = () => {
     const id = useParams().id;
     const op = useParams().op;
-    const item = useParams().item;
     const [product, setProduct] = useState({});
     const [forecasts, setForecasts] = useState([]);
     const [total, setTotal] = useState({
@@ -56,9 +56,9 @@ const ProductForecast = () => {
                     inComing = item.quantity;
                 }
                 if(item.reference.includes("SHP")){
-                    item.order.orders.map(prod => {
-                        if(prod.productId === id){
-                            return outGoing += prod.quantity;
+                    item.order.orders.map(order => {
+                        if(order.productId === id){
+                            return outGoing += order.quantity;
                         }
                     })
                 }
@@ -81,7 +81,7 @@ const ProductForecast = () => {
                 </div>
             </div>
             <div className="px-6 py-8 pt-28">
-                <div className='flex gap-4 pb-4'>
+                <div className='flex gap-4 py-2 px-4 border border-gray-300 mb-4 bg-white max-w-min whitespace-nowrap'>
                     <div className='grid gap-1 text-center'>
                         <span className='text-2xl font-semibold'>{product && product.quantity}</span>
                         <span>On Hand</span>
@@ -108,6 +108,7 @@ const ProductForecast = () => {
                         <span>Forecasted</span>
                     </div>
                 </div>
+                <ForecastGraph id={id} />
                 <div className='bg-white border border-gray-300'>
                     <div className='grid grid-cols-4 p-3 border-0 border-b border-gray-300 font-semibold'>
                         <span>Replenishment</span>

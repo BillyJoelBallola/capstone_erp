@@ -62,7 +62,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
     const imageTemplate = (rowData) => {
         const { productImg } = rowData;
         return (
-            <div className="w-14 aspect-square grid place-items-center">
+            <div className="w-16 aspect-square grid place-items-center">
                 <img className="object-contain rounded-md drop-shadow-lg" src={productImg === "" ? placeHolder : `http://localhost:4000/uploads${productImg}`} alt="product-image" />
             </div>
         )
@@ -420,6 +420,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                 }
             </div>
             <DataTable
+                stripedRows 
                 paginator
                 rows={10} 
                 paginatorTemplate={"PrevPageLink CurrentPageReport NextPageLink"}
@@ -437,7 +438,6 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
             >
                 {columns.map((item, idx) => (
                     <Column
-                        className={`${item.selectionMode && "w-1"}`}
                         body={
                             item.body === "isActive" ?
                             isActive : 

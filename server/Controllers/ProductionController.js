@@ -1,6 +1,8 @@
+import { Order } from "../Models/OrderModel.js";
 import { Product } from "../Models/ProductModel.js";
 import { Production } from "../Models/ProductionModel.js";
 import { RawMaterial } from "../Models/RawMaterialModel.js";
+import { Shipment } from "../Models/ShipmentModel.js";
 
 export const addProduction = async (req, res) => {
     const { product, quantity, date, automate, reference } = await req.body;
@@ -113,5 +115,64 @@ export const changeState = async (req, res) => {
         res.status(200).json(productionData);
     } catch (error) {
         res.json(error.message);
+    }
+}
+
+export const productionPlanning = async (req, res) => {
+    try {
+        const productsResponse = await Product.find({});
+        const productionResponse = await Production.find({});
+        const shipmentResponse = await Shipment.find({}).populate("order"); 
+        const ordersResponse = await Order.find({});
+
+        const pendingOrders = ordersResponse.filter(order => order.state <= 2);
+        const confirmProduction = productionResponse.filter(prod => prod.state === 2);
+        const shipping = shipmentResponse.filter(ship => ship.state >= 2 && (ship.order.state === 2 || ship.order.state === 3));
+
+        const planningProducts = productsResponse.map(product => {
+            let totalDemand = 0;
+            let inComing = 0;
+            let outGoing = 0;
+            let inComingArray = [];
+            let outGoingArray = [];
+
+            pendingOrders.map(pendings => {
+                pendings.orders.map(order => {
+                    if (product._id.toString() === order.productId) {
+                        totalDemand += order.quantity;
+                    }
+                });
+            });
+
+            confirmProduction.map(production => {
+                if (product._id.toString() === production.product.toString()) {
+                    inComing += production.quantity;
+                    inComingArray.push(production);
+                }
+            });
+
+            shipping.map(ship => {
+                ship.order.orders.map(order => {
+                    if(order.productId === product._id.toString()){
+                        outGoing += order.quantity;
+                        outGoingArray.push(ship);
+                    }
+                })
+            })
+
+            return {
+                ...product.toObject(),
+                totalDemand: totalDemand,
+                forecastInDepth: [...inComingArray, ...outGoingArray],
+                forecast: {
+                    inComing: inComing,
+                    outGoing: outGoing
+                }
+            };
+        });
+
+        res.status(200).json(planningProducts);
+    } catch (error) {
+        res.status(500).json(error.message);
     }
 }

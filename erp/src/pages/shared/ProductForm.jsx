@@ -702,10 +702,10 @@ const ProductForm = () => {
                                             {   
                                                 instructions.length > 0 ?
                                                 instructions?.map((instruct, idx) => (
-                                                    <div className={`grid grid-cols-[40px_1fr_80px] p-3 hover:bg-gray-300 ${instruction.idx === idx ? "bg-gray-300" : ""}`} key={idx} onClick={() => selectInstruction(idx)}>
+                                                    <div className={`grid grid-cols-[40px_1fr_50px] p-3 hover:bg-gray-300 ${instruction.idx === idx ? "bg-gray-300" : ""}`} key={idx} onClick={() => selectInstruction(idx)}>
                                                         <span>{idx + 1}.</span>
                                                         <span>{instruct}</span>
-                                                        <div className='cursor-pointer max-w-min z-20' onClick={() => removeInstruction(idx)}>
+                                                        <div className='cursor-pointer max-w-min z-20 grid place-items-center' onClick={() => removeInstruction(idx)}>
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                                             </svg>

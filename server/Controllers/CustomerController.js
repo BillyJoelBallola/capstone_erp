@@ -54,7 +54,7 @@ export const updateCustomerInformation = async (req, res) => {
         customerData.save();
         res.status(200).json(customerData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -64,7 +64,7 @@ export const getCustomerCart = async (req, res) => {
         const cartData = await Cart.findOne({ customer: customerId });
         res.status(200).json(cartData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 } 
 
@@ -107,7 +107,7 @@ export const addCartItem = async (req, res) => {
         cartData.save();
         res.status(200).json(cartData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -120,7 +120,7 @@ export const removeCartItem = async (req, res) => {
         cartData.save();
         res.status(200).json(cartData);
     } catch (error) {    
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -132,7 +132,7 @@ export const updateCartItem = async (req, res) => {
         cartData.save();
         res.status(200).json(cartData);
     } catch (error) {    
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -145,7 +145,7 @@ export const addCustomerCart = async (req, res) => {
         })
         res.status(200).json(newCart);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 } 
 
@@ -154,7 +154,7 @@ export const getAllCustomers = async (req, res) => {
         const response = await Customer.find({});
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -164,6 +164,7 @@ export const getCustomerById = async (req, res) => {
         const response = await Customer.findById(id);
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
+

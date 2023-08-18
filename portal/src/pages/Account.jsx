@@ -93,7 +93,7 @@ const Account = () => {
         const invoiceCurrentStatus = receives.find(order => order._id === orderId);
         const response = await axios.put("/erp/quantity", { orderId: orderId });
         if(response.statusText === "OK"){
-            await axios.put("/erp/change_order_state", { id: orderId, invoice: invoiceCurrentStatus?.invoice ,state: 4 });
+            await axios.put("/erp/change_order_state", { id: orderId, invoice: invoiceCurrentStatus?.invoice, state: 4 });
             setOrderAction("receive");
             setDisableButton(false);
             return toast.success("Order receive successfully.", { position: toast.POSITION.TOP_RIGHT });
@@ -403,7 +403,7 @@ const Account = () => {
                                                             {
                                                                 shipments?.map(item => (
                                                                     item.order._id === order._id &&
-                                                                    <span className='text-sm' key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "processing"}</span>
+                                                                    <span className='text-sm' key={item._id}>Expected Arrival: {item.expectedArrival ? moment(item.expectedArrival).format("LL") : "Processing"}</span>
                                                                 ))
                                                             }
                                                         </div>

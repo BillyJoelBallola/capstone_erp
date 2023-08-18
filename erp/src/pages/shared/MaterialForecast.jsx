@@ -54,7 +54,7 @@ const MaterialForecast = () => {
                 </div>
             </div>
             <div className="px-6 py-8 pt-28">
-                <div className='flex gap-4 pb-4'>
+                <div className='flex gap-4 max-w-min whitespace-nowrap py-2 px-4 border border-gray-300 mb-4 bg-white'>
                     <div className='grid gap-1 text-center'>
                         <span className='text-2xl font-semibold'>{material && material.quantity}</span>
                         <span>On Hand</span>
