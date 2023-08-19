@@ -16,7 +16,7 @@ const SupplyChain = () => {
                 axios.get("/erp/purchases")
             ]);
 
-            setShipment(shipmentResponse.data.filter(data => data.state === 1));
+            setShipment(shipmentResponse.data.filter(data => data.state <= 2));
             setProduction(productionResponse.data.filter(data => data.state <= 2));
             setPurchase(purchaseResponse.data.filter(data => data.state <= 2));
         }
