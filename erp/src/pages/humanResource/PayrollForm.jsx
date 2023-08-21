@@ -1,19 +1,131 @@
-import React, { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import { ToastContainer, toast } from 'react-toastify';
+import DialogBox from '../../components/DialogBox';
 import { useFormik } from 'formik';
 import moment from "moment";
 import * as Yup from "yup";
 import axios from 'axios';
 
+// TODO: Print slip
+
+const PaymentForm = ({ netPay, visible, setVisible, setAction }) => {
+    const id = useParams().id;
+    const { currentUser } = useContext(UserContext);
+
+    const formik = useFormik({
+        initialValues: {
+            amount: "",
+            date: ""
+        },
+        validationSchema: Yup.object({
+            amount: Yup.number()
+                .min(netPay, "Amount can't be less than to net pay")
+                .required("Amount is required"),
+            date: Yup.date()
+                .required("Payment Date is required")
+        }),
+        onSubmit: async (values, helpers) => {
+            const response = await axios.put("/erp/change_payslip_payment", {...values, user: currentUser.email, id: id, payment: 3});
+            if(response.statusText === "OK"){
+                setAction("pay"); 
+                setVisible(false);
+                helpers.resetForm();
+                return toast.success("Payment successfully.", { position: toast.POSITION.TOP_RIGHT });
+            }else{
+                setVisible(false);
+                helpers.resetForm();
+                return toast.error("Failed to cancel payslip.", { position: toast.POSITION.TOP_RIGHT });
+            }
+        }
+    })
+
+    useEffect(() => {
+        if(netPay){
+            formik.values.amount = netPay;
+            formik.values.date = moment(Date.now()).format().toString().slice(0, 10);
+        }
+    }, [netPay])
+
+    return (
+        <DialogBox
+            header={"Payment"}
+            visible={visible}
+            setVisible={setVisible}
+            w={"60vw"}
+        >
+            <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
+                <div className='grid grid-cols-2 gap-4'>
+                    <div className="form-group">
+                        <label
+                            htmlFor=""
+                            className={`${
+                                formik.touched.amount &&
+                                formik.errors.amount
+                                    ? "text-red-400"
+                                    : ""
+                            }`}
+                        >
+                            {formik.touched.amount &&
+                            formik.errors.amount
+                                ? formik.errors.amount
+                                : "₱Amount"}
+                        </label>
+                        <input 
+                            type="number"
+                            name='amount'
+                            value={formik.values.amount}
+                            onChange={formik.handleChange} 
+                            onBlur={formik.handleBlur}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label
+                            htmlFor=""
+                            className={`${
+                                formik.touched.date &&
+                                formik.errors.date
+                                    ? "text-red-400"
+                                    : ""
+                            }`}
+                        >
+                            {formik.touched.date &&
+                            formik.errors.date
+                                ? formik.errors.date
+                                : "Payment Date"}
+                        </label>
+                        <input  
+                            type="date"
+                            name='date'
+                            value={formik.values.date}
+                            onChange={formik.handleChange} 
+                            onBlur={formik.handleBlur}
+                        />
+                    </div>
+                </div>
+                {/* <span>{formik.values.amount < netPay && `Payment Difference: ${ netPay - formik.values.amount }`}</span> */}
+                <div className='self-end'>
+                    <button className='btn-primary px-4 py-2 max-w-min' type='submit'>Payment</button>
+                </div>
+            </form>
+        </DialogBox>
+    )
+}
+
 const PayrollForm = () => {
     const id = useParams().id;
     const navigate = useNavigate();
+    const [visible, setVisible] = useState(false);
     const [employees, setEmployees] = useState([]);
     const [reference, setReference] = useState("");
     const [payment, setPayment] = useState("");
+    const [state, setState] = useState("");
+    const [action, setAction] = useState("");
     const [attendance, setAttendance] = useState("");
     const [attendanceDay, setAttendanceDay] = useState(0);
+    const [paymentData, setPaymentData] = useState([]);
+    const [date, setData] = useState("");
     const [employeeData, setEmployeeData] = useState({
        position: "",
        deductions: [],
@@ -58,7 +170,7 @@ const PayrollForm = () => {
         },
         validationSchema: Yup.object(employeeData.salary ? attendanceValidation : earningValidation),
         onSubmit: async (values) => {
-            const data = { id: id, employee: values.employee, reference: referenceGenerator("SLIP"), earning: values.earning ? values.earning : 0, gross: totals.gross, deduction: totals.deduction, netPay: totals.gross - totals.deduction }
+            const data = { id: id, employee: values.employee, reference: referenceGenerator("SLIP"), toDate: values.to, fromDate: values.from, earning: values.earning ? values.earning : 0, gross: totals.gross, deduction: totals.deduction, netPay: totals.gross - totals.deduction }
             if(id){
                 const response = await axios.put("/erp/update_payslip", data);
                 if(response.statusText === "OK"){
@@ -82,12 +194,18 @@ const PayrollForm = () => {
         if(id){
             axios.get(`/erp/payslip/${id}`).then(({ data }) => {
                 formik.values.employee = data.employee;
+                formik.values.from = data.fromDate ? data.fromDate.toString().slice(0, 10) : "";
+                formik.values.to = data.toDate ? data.toDate.toString().slice(0, 10) : "";
                 formik.values.earning = data.earning ? data.earning : "";
+                setPaymentData(data.paymentData);
+                setData(data.date);
                 setPayment(data.payment);
                 setReference(data.reference);
+                setState(data.state);
+                setAction("");
             })
         }
-    }, [id])
+    }, [id, action]);
 
     useEffect(() => {   
         axios.get("/erp/employees").then(({ data }) => {
@@ -124,11 +242,11 @@ const PayrollForm = () => {
     }, [formik.values.employee, employees])
 
     useEffect(() => {
-        if (formik.values.from && formik.values.to) {
+        if (formik.values.from !== "" && formik.values.to !== "" && attendance) {
             const attendanceData = attendance.filter(attend => 
                 attend.employee.toString() === formik.values.employee &&
                 attend.timeOut >= formik.values.from && 
-                attend.timeOut <= formik.values.to
+                attend.timeOut <= formik.values.to 
             );
             setAttendanceDay(attendanceData.length);
         } else {
@@ -147,11 +265,18 @@ const PayrollForm = () => {
                 deduction: totalDeduction
             });
         }
-    }, [employeeData.deductions, attendanceDay])
 
+        if(attendanceDay === 0){
+            setTotals({
+                gross: 0,
+                deduction: 0
+            })
+        }
+    }, [employeeData.deductions, attendanceDay])
+    
     useEffect(() => { 
         let totalDeduction = 0;
-        if(formik.values.earning){
+        if(formik.values.earning !== ""){
             employeeData.deductions.map(deduct => {
                 totalDeduction += deduct.amount;
             })
@@ -159,13 +284,27 @@ const PayrollForm = () => {
                 gross: formik.values.earning,
                 deduction: totalDeduction
             });
-        }else{
+        }
+
+        if(formik.values.earning !== "" && id !== undefined){
             setTotals({
                 gross: 0,
                 deduction: 0
             })
         }
-    }, [employeeData.deductions, formik.values.earning])
+    }, [employeeData.deductions, formik.values.earning, id])
+
+    const cancelSlip = async () => {
+        const data = {id: id, state: 2};
+
+        const response = await axios.put("/erp/change_payslip_status", data)
+        if(response.statusText === "OK"){
+            setAction("cancelled"); 
+            return toast.success("Payslip has been cancelled.", { position: toast.POSITION.TOP_RIGHT });
+        }else{
+            return toast.error("Failed to cancel payslip.", { position: toast.POSITION.TOP_RIGHT });
+        }
+    }
 
     return (
         <>
@@ -173,8 +312,14 @@ const PayrollForm = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
+            <PaymentForm 
+                visible={visible}
+                setVisible={setVisible}
+                setAction={setAction}
+                netPay={totals.gross - totals.deduction}
+            />
             <div>
-                <div className="fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
+                <div className="fixed z-20 left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                     <div className='flex items-center gap-3'>       
                         <button type="submit" className="btn-outlined px-4" form="payslip-form">
                             {id ? "Edit" : "Save"}
@@ -191,14 +336,25 @@ const PayrollForm = () => {
                 </div>
                 <div className="px-6 py-8 pt-32">
                     <div className='flex items-center justify-between mb-3'>
+                        <div className='flex gap-2'>
+                            {
+                                id && state === 1 &&
+                                <>
+                                    { payment <= 2 && <button className='btn-primary p-2' onClick={() => setVisible(true)}>Payment</button>}
+                                    { payment === 1 && <button className='btn-dark-gray p-2' onClick={cancelSlip}>Cancel</button>}
+                                    { payment === 3 && <button className='btn-dark-gray px-4 py-2 whitespace-nowrap'>Print Slip</button>}
+                                </>
+                            }
+                        </div>
                         <div className='grid place-items-end font-semibold text-sm w-full'>
                             {
                                 id &&
-                                <>
+                                <div className='flex gap-2'>
                                     { payment === 1 && <div className="text-red-600 border-red-400 bg-gray-200 border px-2 rounded-full z-10">Not Paid</div>}
                                     { payment === 2 && <div className="text-yellow-600 border-yellow-600 bg-gray-200 border px-2 rounded-full z-10">Partially Paid</div>}
                                     { payment === 3 && <div className="text-green-600 border-green-400 bg-gray-200 border px-2 rounded-full z-10">Paid</div>}
-                                </>
+                                    { state === 2 && <div className="text-blue-400 border-blue-400 bg-gray-200 border px-2 rounded-full z-10">Cancelled</div>}
+                                </div>
                             }
                         </div>
                     </div>
@@ -242,7 +398,7 @@ const PayrollForm = () => {
                                                     <span className='text-xl font-semibold'>₱{employeeData?.salary}</span>
                                                 </div>
                                                 <div className='grid gap-2'>
-                                                    <span>Attendance (days): <b>{attendanceDay ? attendanceDay : "--"}</b></span>                                             <div className='grid grid-cols-2 gap-4'>   
+                                                    <span>Attendance (days): <b>{attendanceDay}</b></span>                                             <div className='grid grid-cols-2 gap-4'>   
                                                         <div className="form-group">
                                                             <label htmlFor="" className={`${formik.touched.from && formik.errors.from ? "text-red-400" : ""}`}>
                                                                 {formik.touched.from && formik.errors.from ? formik.errors.from : "From"}
@@ -313,6 +469,34 @@ const PayrollForm = () => {
                             </div>
                         </div>
                     </form>
+                    {
+                        id && 
+                        <div className='grid gap-3'>
+                            <div className='mt-4 text-sm'>
+                                {`${moment(date).format("LL")} - Payslip Created.`}
+                            </div>
+                            {
+                                paymentData?.length !== 0 && paymentData !== null &&
+                                <>
+                                    <div className='flex items-center gap-5'>
+                                        <div className='h-[1px] w-full bg-gray-300'/>
+                                        <span className='font-semibold text-gray-400'>Payments</span>
+                                        <div className='h-[1px] w-full bg-gray-300'/>
+                                    </div>
+                                    <div className='grid gap-2'>
+                                        {
+                                            paymentData.map((payment, idx) => (
+                                                <div className='text-sm' key={idx}>
+                                                    <span className='font-semibold'>{payment.user}</span>
+                                                    <div>{moment(payment.date).format("LL")} - Payment</div>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </>

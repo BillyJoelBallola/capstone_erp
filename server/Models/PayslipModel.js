@@ -1,7 +1,5 @@
 import { Schema, model } from "mongoose";
 
-// payment: 1 -> Not paid, 2 -> Partially Paid, 3 -> Paid
-
 const PayslipSchema = new Schema({
     employee: {
         type: Schema.Types.ObjectId,
@@ -15,12 +13,24 @@ const PayslipSchema = new Schema({
     payment: {
         type: Number,
     },
+    paymentData: {
+        type: Object,    
+    },
+    amountDue: {
+        type: Number,
+    },
     earning: {
         type: Number,
     },
     date: {    
         type: Date,
         required: true
+    },
+    toDate: {    
+        type: Date,
+    },
+    fromDate: {    
+        type: Date,
     },
     gross: {
         type: Number,
@@ -33,6 +43,9 @@ const PayslipSchema = new Schema({
     netPay: {
         type: Number,
         required: true
+    },
+    state: {
+        type: Number
     }
 });
 
