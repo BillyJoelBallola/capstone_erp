@@ -21,8 +21,8 @@ const DynamicLinks = () => {
     const menuInventoryProducts = useRef(null);
     const menuInventoryOperations = useRef(null);
     const menuInventoryReport = useRef(null);
-    const menuSalesOperations = useRef(null);   
-    const menuSupplyChainProducts = useRef(null);
+    // const menuSalesOperations = useRef(null);   
+    // const menuSupplyChainProducts = useRef(null);
     const menuSupplyChainOperations = useRef(null);
     const menuHumanResourceOperations = useRef(null);
     const menuSupplyChainReports = useRef(null);   
@@ -34,7 +34,7 @@ const DynamicLinks = () => {
             command: () => navigate("/human-resource/attendance")
         },
         {
-            label: "Payrolls",
+            label: "Salary Slips",
             command: () => navigate("/human-resource/payrolls")
         }
     ];

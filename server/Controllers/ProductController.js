@@ -1,5 +1,6 @@
 import { Order } from "../Models/OrderModel.js";
 import { Product } from "../Models/ProductModel.js";
+import fs from "fs";
 
 export const addProduct = async (req, res) => {
     const { name, description, category, measurement, quantity, price, status, storage, productImg, rawMaterials, instructions } = await req.body;

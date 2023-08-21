@@ -13,22 +13,13 @@ const SupplierForm = () => {
     const navigate = useNavigate();
     const [onTimeRate, setOnTimeRate] = useState(0);
     const [purchasesNumber, setPurchasesNumber] = useState(0);
-    // const [purchases, setPurchases] = useState([]);
 
-    // useEffect(() => {
-    //     axios.get("/erp/purchases").then(({ data }) => {
-    //         const purchasesData = data.filter(item => item.supplier._id === id);
-    //         setPurchases(purchasesData);
-    //         setPurchasesNumber(purchasesData?.length);
-    //     })
-    // }, [])
-
-    // useEffect(() => {
-    //     if(purchases){
-    //         const onTimeOrders = purchases.filter(purchase => new Date(purchase.date) <= new Date(purchase.expectedArrival));
-    //         setOnTimeRate((onTimeOrders.length / purchasesNumber ) * 100);
-    //     }
-    // }, [id, purchases])
+    useEffect(() => {
+        axios.get("/erp/purchases").then(({ data }) => {
+            const purchasesData = data.filter(item => item.supplier._id === id);
+            setPurchasesNumber(purchasesData?.length);
+        })
+    }, [])
 
     useEffect(() => {
         const fetchPerformance = async () => {

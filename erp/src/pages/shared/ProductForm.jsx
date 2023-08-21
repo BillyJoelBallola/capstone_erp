@@ -355,7 +355,7 @@ const ProductForm = () => {
     }
   
     useEffect(() => {
-      if(uploadedImage){
+      if(uploadedImage !== ""){
         axios.put("/erp/update_img_product", { uploadedImage: uploadedImage, id: id }).then(({ data }) => {
             formik.values.productImg = data.productImg;
             setAction("");

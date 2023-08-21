@@ -196,7 +196,7 @@ const PayrollForm = () => {
                 formik.values.employee = data.employee;
                 formik.values.from = data.fromDate ? data.fromDate.toString().slice(0, 10) : "";
                 formik.values.to = data.toDate ? data.toDate.toString().slice(0, 10) : "";
-                formik.values.earning = data.earning ? data.earning : "";
+                formik.values.earning = data.earning;
                 setPaymentData(data.paymentData);
                 setData(data.date);
                 setPayment(data.payment);
@@ -273,10 +273,10 @@ const PayrollForm = () => {
             })
         }
     }, [employeeData.deductions, attendanceDay])
-    
+
     useEffect(() => { 
         let totalDeduction = 0;
-        if(formik.values.earning !== ""){
+        if(formik.values.earning !== 0){
             employeeData.deductions.map(deduct => {
                 totalDeduction += deduct.amount;
             })
@@ -286,12 +286,13 @@ const PayrollForm = () => {
             });
         }
 
-        if(formik.values.earning !== "" && id !== undefined){
+        if(formik.values.earning === 0 && id !== undefined){
             setTotals({
                 gross: 0,
                 deduction: 0
-            })
+            }) 
         }
+        
     }, [employeeData.deductions, formik.values.earning, id])
 
     const cancelSlip = async () => {
