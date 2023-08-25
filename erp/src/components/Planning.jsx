@@ -4,7 +4,7 @@ import { UserContext } from '../context/UserContext';
 import placeHolder from "../assets/placeholder.png";
 import axios from "axios";
 
-// TODO: Production and Purchases
+// TODO: function fro production and purchase
 
 const Planning = () => {
     const path = useLocation().pathname;
@@ -113,7 +113,7 @@ const Planning = () => {
                                             <span className='text-gray-600'>Demand (Orders): {planning.totalDemand} Unit/s</span>
                                         </div>
                                     </div>
-                                    <button className='btn-dark px-3 self-baseline'>Produce {planning.totalDemand - (Number(planning.quantity) + Number(planning.forecast.inComing) - Number(planning.forecast.outGoing))} Unit/s</button>
+                                    <button className='btn-dark px-3 self-baseline'>Produce {(Number(planning.quantity) + Number(planning.forecast.inComing) - Number(planning.forecast.outGoing)).toString().split("-").join("")} Unit/s</button>
                                 </div>
                             </div>
                         ))

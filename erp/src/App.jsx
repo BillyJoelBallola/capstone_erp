@@ -71,7 +71,7 @@ const App = () => {
                 <Route path='/settings/manage-users/user-form/:id?' element={<UserForm />} />
                 <Route path='/inventory' element={<Inventory />} />
                 <Route path='/inventory/adjustments' element={<Adjustments />} />
-                <Route path='/inventory/inventory_report' element={<InventoryReport />} />
+                <Route path='/inventory/inventory_report/:op?' element={<InventoryReport />} />
                 <Route path='/:op/products' element={<Products />} />
                 <Route path='/supply-chain' element={<SupplyChain />} />
                 <Route path='/supply-chain/shipments' element={<Shipments />} />

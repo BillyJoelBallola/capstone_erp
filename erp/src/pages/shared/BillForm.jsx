@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { ToastContainer, toast } from 'react-toastify';
 import DialogBox from '../../components/DialogBox';
 import { useFormik } from "formik";
@@ -406,15 +407,23 @@ const BillForm = () => {
         )
     }    
 
-    const cancelBill = async () => {
-        const response = await axios.put("/erp/change_bill_state", { state: 2, id: id });
-        if(response.statusText === "OK"){
-            await axios.put("/erp/change_purchase_state", { state: 3, id: formik.values.purchase._id });
-            toast.success("Bill cancelled successfully.", { position: toast.POSITION.TOP_RIGHT });
-            setAction("cancel");
-        }else{
-            return toast.error("Faield to cancel bill.", { position: toast.POSITION.TOP_RIGHT });
-        }
+    const cancelBill = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to cancel this bill?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-danger',
+            accept: async () => {
+                const response = await axios.put("/erp/change_bill_state", { state: 2, id: id });
+                if(response.statusText === "OK"){
+                    await axios.put("/erp/change_purchase_state", { state: 3, id: formik.values.purchase._id });
+                    toast.success("Bill cancelled successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    setAction("cancel");
+                }else{
+                    return toast.error("Faield to cancel bill.", { position: toast.POSITION.TOP_RIGHT });
+                }
+            },
+        });
     }
 
     return (
@@ -434,6 +443,7 @@ const BillForm = () => {
                     billData={{...formik.values, reference: reference, total: total, id: id, payment: payment, balance: amountDue}}
                 />
             </DialogBox>
+            <ConfirmPopup />
             <div>
                 <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                     <div className="flex items-center gap-3">

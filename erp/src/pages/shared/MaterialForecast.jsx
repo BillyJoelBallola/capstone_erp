@@ -3,6 +3,8 @@ import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
+// TODO: graph
+
 const MaterialForecast = () => {
     const id = useParams().id;
     const op = useParams().op;
@@ -37,7 +39,9 @@ const MaterialForecast = () => {
     }, [purchasesMats, purchaseOrder])
 
     useEffect(() => {
-        setUnitTotal(purchasesMats && purchasesMats.length > 0 ? purchasesMats[0].qty : 0);
+        if(purchasesMats){
+            setUnitTotal(purchasesMats && purchasesMats.length > 0 ? purchasesMats[0].qty : 0);
+        }
     }, [purchasesMats])
 
     return (
@@ -66,43 +70,41 @@ const MaterialForecast = () => {
                         <span className='text-2xl font-semibold'>{unitTotal}</span>
                         <span>Incoming</span>
                     </div>
-                    <div className='grid gap-1 text-center'>
+                    {/* <div className='grid gap-1 text-center'>
                         <span className='text-2xl font-semibold'>-</span>
                     </div>
                     <div className='grid gap-1 text-center'>
                         <span className='text-2xl font-semibold'>{0}</span>
                         <span>Outgoing</span>
-                    </div>
+                    </div> */}
                     <div className='grid gap-1 text-center'>
                         <span className='text-2xl font-semibold'>=</span>
                     </div>
                     <div className='grid gap-1 text-center'>
-                        <span className='text-2xl font-semibold'>{material && material.quantity + unitTotal} Units</span>
+                        <span className='text-2xl font-semibold'>{material && material.quantity + Number(unitTotal)} Units</span>
                         <span>Forecasted</span>
                     </div>
                 </div>
                 <div className='bg-white border border-gray-300'>
-                    <div className='grid grid-cols-4 p-3 border-0 border-b border-gray-300 font-semibold'>
+                    <div className='grid grid-cols-3 p-3 border-0 border-b border-gray-300 font-semibold'>
                         <span>Replenishment</span>
                         <span>Date</span>
                         <span>Units</span>
-                        <span>Delivery</span>
                     </div>
                     {
                         purchasesMats?.length > 0 &&
                         purchaseOrder?.length > 0 ?
-                        <div className='grid grid-cols-4 p-3 border-0 border-b border-gray-300' key={purchasesMats[0]?.id}>
+                        <div className='grid grid-cols-3 p-3 border-0 border-b border-gray-300' key={purchasesMats[0]?.id}>
                             <NavLink to={`/${location}/purchases/purchase-form/${purchaseOrder[0]?._id}`} className="text-blue-400">{purchaseOrder[0]?.reference}</NavLink>
                             <span>{moment(purchaseOrder[0]?.date).format("LL")}</span>
                             <span>{purchasesMats[0]?.qty}</span>
-                            <span></span>
                         </div>
                         :
                         <div className='grid p-3 border-0 border-b border-gray-300'>
                             <span>No purchase order for this product.</span>
                         </div>
                     }
-                     <div className='grid grid-cols-4 p-3 border-0 border-b border-gray-30 font-semibold'>
+                     <div className='grid grid-cols-3 p-3 border-0 border-b border-gray-30 font-semibold'>
                         <div className='col-start-1 col-span-2'>Forecasted</div>
                         <span>{unitTotal}</span>
                     </div>

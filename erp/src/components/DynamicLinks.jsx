@@ -8,12 +8,10 @@ import humanResouceIcon from "../assets/human_resource.svg";
 import supplyChainIcon from "../assets/supply_chain.svg";
 import portalIcon from "../assets/portal.svg";
 import financialIcon from "../assets/finance.svg";
-import arrowBack from "../assets/arrow.svg";
 
 const DynamicLinks = () => {
     const navigate = useNavigate();
     const path = useLocation().pathname.split("/");
-    const [hoverLogo, setHoverLogo] = useState(false);
     const menuFinancialCustomers = useRef(null);
     const menuFinancialSuppliers = useRef(null);
     const menuFinancial = useRef(null);
@@ -26,6 +24,7 @@ const DynamicLinks = () => {
     const menuSupplyChainOperations = useRef(null);
     const menuHumanResourceOperations = useRef(null);
     const menuSupplyChainReports = useRef(null);   
+    const menuHumanResourceReports = useRef(null);
 
     // Human Resource
     const humanResouceOperationMenu = [
@@ -34,7 +33,7 @@ const DynamicLinks = () => {
             command: () => navigate("/human-resource/attendance")
         },
         {
-            label: "Salary Slips",
+            label: "Payrolls",
             command: () => navigate("/human-resource/payrolls")
         }
     ];
@@ -170,7 +169,7 @@ const DynamicLinks = () => {
     const inventoryReportMenu = [
         {
             label: "Inventory Report",
-            command: () => navigate("/inventory/inventory_report")
+            command: () => navigate("/inventory/inventory_report/products")
         },
     ];
 

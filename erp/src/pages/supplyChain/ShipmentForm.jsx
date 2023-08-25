@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import { useParams, NavLink } from "react-router-dom";
+import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -90,20 +91,29 @@ const ShipmentForm = () => {
         )
     }
 
-    const handleShip = async () => {
-        const response = await axios.put("/erp/change_shipment_state", { id: id, state: 3 });
-        if(response.statusText === "OK"){
-            await axios.put("/erp/change_order_state", { id: shipment.order._id, invoice: shipment.order.invoice, state: 3 });
-            setAction("ship");
-            return toast.success("Order has been set to ship.", { position: toast.POSITION.TOP_RIGHT });
-        }else{
-            return toast.error("Failed to ship the orders.", { position: toast.POSITION.TOP_RIGHT });
-        }
+    const handleShip = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to set to ship this shipment order?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-info',
+            accept: async () => {
+                const response = await axios.put("/erp/change_shipment_state", { id: id, state: 3 });
+                if(response.statusText === "OK"){
+                    await axios.put("/erp/change_order_state", { id: shipment.order._id, invoice: shipment.order.invoice, state: 3 });
+                    setAction("ship");
+                    return toast.success("Order has been set to ship.", { position: toast.POSITION.TOP_RIGHT });
+                }else{
+                    return toast.error("Failed to ship the orders.", { position: toast.POSITION.TOP_RIGHT });
+                }
+            }
+        });
     }
 
     return (
         <>  
             <ToastContainer draggable={false} hideProgressBar={true} />
+            <ConfirmPopup />
             <div>
                 <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                     <div className="flex items-center gap-3">
@@ -127,7 +137,7 @@ const ShipmentForm = () => {
                         <div className="flex items-center gap-2">
                             {
                                 (shipment.state === 1 && op === "supply-chain") &&
-                                <button form='shipment-form' className='btn-dark-gray' type='submit' >Confirm</button>
+                                <button form='shipment-form' className='btn-dark-gray' type='submit'>Confirm</button>
                             }
                             {
                                 (shipment.state === 2 && op === "supply-chain") &&

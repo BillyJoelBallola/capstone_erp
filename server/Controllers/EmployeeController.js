@@ -1,7 +1,7 @@
 import { Employee } from "../Models/EmployeeModel.js";
 
 export const addEmployee = async (req, res) => {
-    const { name, dob, age, gender, address, contact, position, salary, deductions, emergency, type } = await req.body;
+    const { name, dob, age, gender, address, contact, department, salary, deductions, emergency, type } = await req.body;
     try {
         const newEmployee = await Employee.create({
             name,
@@ -10,7 +10,7 @@ export const addEmployee = async (req, res) => {
             gender,
             address,
             contact,
-            position,
+            department,
             salary,
             deductions,
             emergency,
@@ -24,7 +24,7 @@ export const addEmployee = async (req, res) => {
 }
 
 export const updateEmployee = async (req, res) => {
-    const { _id, name, dob, age, gender, address, contact, position, salary, deductions, emergency, status, type } = await req.body;
+    const { _id, name, dob, age, gender, address, contact, department, salary, deductions, emergency, status, type } = await req.body;
     try {
         const employeeData = await Employee.findById(_id);
         employeeData.set({
@@ -34,7 +34,7 @@ export const updateEmployee = async (req, res) => {
             gender,
             address,
             contact,
-            position,
+            department,
             salary,
             deductions,
             emergency,
@@ -66,7 +66,7 @@ export const updateManyEmployee = async (req, res) => {
 
 export const getAllEmployees = async (req, res) => {
     try {
-        const response = await Employee.find({}).populate("position");
+        const response = await Employee.find({}).populate("department");
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json(error.message);
@@ -76,7 +76,7 @@ export const getAllEmployees = async (req, res) => {
 export const getEmployeeById = async (req, res) => {
     const { id } = await req.params;
     try {
-        const response = await Employee.findById(id).populate("position");
+        const response = await Employee.findById(id).populate("department");
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json(error.message);

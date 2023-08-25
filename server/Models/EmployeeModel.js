@@ -21,7 +21,7 @@ const EmployeeSchema = new Schema({
         name: { type: String },
         phoneNumber: { type: String, required: true },
     },
-    position: { type: Schema.Types.ObjectId, ref: "Position", required: true },
+    department: { type: Schema.Types.ObjectId, ref: "Department", required: true },
     salary: { type: Number },
     deductions: [Object],
     status: {

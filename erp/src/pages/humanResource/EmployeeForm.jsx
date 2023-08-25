@@ -10,7 +10,7 @@ import axios from 'axios';
 const EmployeeForm = () => {
     const id = useParams().id;
     const navigate = useNavigate();
-    const [positions, setPositions] = useState([]);
+    const [departments, setDepartment] = useState([]);
     const [deductions, setDeductions] = useState([]);
     const [selectedDeductions, setSelectedDeductions] = useState([]);
     const [isActive, setIsActive] = useState(true);
@@ -21,8 +21,8 @@ const EmployeeForm = () => {
     })
 
     useEffect(() => {
-        axios.get("/erp/positions").then(({ data }) => {
-            setPositions(data);
+        axios.get("/erp/departments").then(({ data }) => {
+            setDepartment(data);
         })
         axios.get("/erp/deductions").then(({ data }) => {
             setDeductions(data);
@@ -44,7 +44,7 @@ const EmployeeForm = () => {
             phoneNumber: "",
             contactName: "",
             contactPhoneNumber: "",
-            position: "",
+            department: "",
             salary: "",
             type: "",
         },
@@ -77,8 +77,8 @@ const EmployeeForm = () => {
             contactPhoneNumber: Yup.number()
                 .min(11, "Phone Number must be 11 characters")
                 .required("Phone Number is required."),
-            position: Yup.string()
-                .required("Job Position is required."),
+            department: Yup.string()
+                .required("Department is required."),
             salary: Yup.number()
                 .min(1, "Basic Salary must be 1 or more."),
             type: Yup.string()
@@ -90,7 +90,7 @@ const EmployeeForm = () => {
                 dob: values.dob,
                 age: values.age,
                 gender: values.gender,
-                position: values.position,
+                department: values.department,
                 salary: values.salary,
                 deductions: selectedDeductions,
                 address: { street: values.street, barangay: values.barangay, municipal: values.municipal, province: values.province, country: values.country },
@@ -123,7 +123,7 @@ const EmployeeForm = () => {
         if(id){
             axios.get(`/erp/employee/${id}`).then(({ data }) => {
                 formik.values.name = data.name;
-                formik.values.position = data.position._id;
+                formik.values.department = data.department._id;
                 formik.values.dob = data.dob.toString().slice(0, 10);
                 formik.values.gender = data.gender;
                 formik.values.age = data.age;
@@ -226,18 +226,18 @@ const EmployeeForm = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="" className={`${formik.touched.position && formik.errors.position ? "text-red-400" : ""}`}>
-                                        {formik.touched.position && formik.errors.position ? formik.errors.position : "Job Position"}
+                                    <label htmlFor="" className={`${formik.touched.department && formik.errors.department ? "text-red-400" : ""}`}>
+                                        {formik.touched.department && formik.errors.department ? formik.errors.department : "Department"}
                                     </label>  
                                     <select
-                                        name='position'
-                                        value={formik.values.position}
+                                        name='department'
+                                        value={formik.values.department}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     >
-                                        <option value="">-- select position --</option>
+                                        <option value="">-- select department --</option>
                                         {
-                                            positions?.map(pos => (
+                                            departments?.map(pos => (
                                                 <option value={pos._id} key={pos._id}>{pos.name}</option>
                                             ))
                                         }

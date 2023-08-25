@@ -114,111 +114,135 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         });
     }
 
-    const replenishProduct = async () => {
-        let duplicate = false;
-        let good = false;
-        let rawMats = [];
-        let prodData = selectedRows.length === 1 && selectedRows[0];
-       
-        rawMaterials?.map(raw => { 
-            prodData.rawMaterials.map(com => {
-                if(raw._id === com.rawId) rawMats = [...rawMats, raw];            
-            })
+    const replenishProduct = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to create production order for this product?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-success',
+            accept: async () => {
+                let duplicate = false;
+                let good = false;
+                let rawMats = [];
+                let prodData = selectedRows.length === 1 && selectedRows[0];
+               
+                rawMaterials?.map(raw => { 
+                    prodData.rawMaterials.map(com => {
+                        if(raw._id === com.rawId) rawMats = [...rawMats, raw];            
+                    })
+                });
+        
+                const computedQty =  prodData.rawMaterials.map(com => ({...com, qty: com.qty * 10}));
+                    
+                computedQty.map(comQty => {
+                    rawMats.map(raw => {
+                        if(raw.quantity < comQty.qty){
+                            good = true;
+                        }
+                    })
+                })
+        
+                // productions?.map(prod => {
+                //     if(prod.product._id === selectedRows[0]?._id && (prod.state === 1 || prod.state === 2)){
+                //         duplicate = true
+                //     }
+                // })
+        
+                if(good){
+                    return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
+                }
+        
+                if(duplicate){
+                    return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
+                }
+        
+                const response = await axios.post("/erp/production_replenish", { productId: selectedRows[0]?._id, reference: referenceGenerator("PRD") });
+                if(response.statusText === "OK"){
+                    const data = response.data;
+                    navigate(`/${location}/productions/production-form/${data._id}`);
+                }else{
+                    return toast.error("Failed to add production order.", { position: toast.POSITION.TOP_RIGHT });
+                }
+            },
         });
-
-        const computedQty =  prodData.rawMaterials.map(com => ({...com, qty: com.qty * 10}));
-            
-        computedQty.map(comQty => {
-            rawMats.map(raw => {
-                if(raw.quantity < comQty.qty){
-                    good = true;
-                }
-            })
-        })
-
-        productions?.map(prod => {
-            if(prod.product._id === selectedRows[0]?._id && (prod.state === 1 || prod.state === 2)){
-                duplicate = true
-            }
-        })
-
-        if(good){
-            return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
-        }
-
-        if(duplicate){
-            return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
-        }
-
-        const response = await axios.post("/erp/production_replenish", { productId: selectedRows[0]?._id, reference: referenceGenerator("PRD") });
-        if(response.statusText === "OK"){
-            const data = response.data;
-            navigate(`/${location}/productions/production-form/${data._id}`);
-        }else{
-            return toast.error("Failed to add production order.", { position: toast.POSITION.TOP_RIGHT });
-        }
     }
 
-    const replenishMaterial = async () => {
-        let duplicate = false;
+    const replenishMaterial = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to create purchase order for this material?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-success',
+            accept: async () => {
+                let duplicate = false;
 
-        purchases?.map(item => {
-            if(item.supplier._id === selectedRows[0]?.supplier._id && (item.state === 1 || item.state === 2)){
-                duplicate = true;
-            }
-        })
-        
-        if(duplicate){
-            return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
-        }
-        
-        const response = await axios.post("/erp/replenish_purchase", { material: selectedRows[0], reference: referenceGenerator("PRS") });
-        if(response.statusText === "OK"){
-            const data = response.data;
-            navigate(`/${location}/purchases/purchase-form/${data._id}`);
-        }else{
-            toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
-        }
+                purchases?.map(item => {
+                    if(item.supplier._id === selectedRows[0]?.supplier._id && (item.state === 1 || item.state === 2)){
+                        duplicate = true;
+                    }
+                })
+                
+                // if(duplicate){
+                //     return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
+                // }
+                
+                const response = await axios.post("/erp/replenish_purchase", { material: selectedRows[0], reference: referenceGenerator("PRS") });
+                if(response.statusText === "OK"){
+                    const data = response.data;
+                    navigate(`/${location}/purchases/purchase-form/${data._id}`);
+                }else{
+                    toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
+                }
+            },
+        });
     }
 
-    const replenishMaterials = async () => {
-        let mats = [];
-        let total = 0;
-        let duplicate = false;
-       
-
-        purchases?.map(item => {
-            if(item.supplier._id === selectedRows[0]?.supplier._id && (item.state === 1 || item.state === 2)){
-                duplicate = true;
-            }
-        })
-
-        if(duplicate){
-            return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
-        }
-
-        selectedRows.map(item => {
-            const subTotal = item.price * 10;
-            total += subTotal;
-            mats = [
-                ...mats, 
-                {
-                    id: item._id,
-                    name: item.name,
-                    qty: 10,
-                    uom: item.measurement,
-                    price: item.price
-                }
-            ]
-        })
+    const replenishMaterials = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to create purchase orders for this materials?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-success',
+            accept: async () => {
+                let mats = [];
+                let total = 0;
+                let duplicate = false;
+               
         
-        const response = await axios.post("/erp/add_purchase", { supplier: selectedRows[0]?.supplier?._id, date: Date.now(), expectedArrival: Date.now(), materials: mats, total: total, reference: referenceGenerator("PRS") });
-        if(response.statusText === "OK"){
-            const data = response.data;
-            navigate(`/${location}/purchases/purchase-form/${data._id}`);
-        }else{
-            toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
-        }
+                // purchases?.map(item => {
+                //     if(item.supplier._id === selectedRows[0]?.supplier._id && (item.state === 1 || item.state === 2)){
+                //         duplicate = true;
+                //     }
+                // })
+        
+                if(duplicate){
+                    return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
+                }
+        
+                selectedRows.map(item => {
+                    const subTotal = item.price * 10;
+                    total += subTotal;
+                    mats = [
+                        ...mats, 
+                        {
+                            id: item._id,
+                            name: item.name,
+                            qty: 10,
+                            uom: item.measurement,
+                            price: item.price
+                        }
+                    ]
+                })
+                
+                const response = await axios.post("/erp/add_purchase", { supplier: selectedRows[0]?.supplier?._id, date: Date.now(), expectedArrival: Date.now(), materials: mats, total: total, reference: referenceGenerator("PRS") });
+                if(response.statusText === "OK"){
+                    const data = response.data;
+                    navigate(`/${location}/purchases/purchase-form/${data._id}`);
+                }else{
+                    toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
+                }
+            },
+        });
     }
 
     const cancelProcess = async (process) => {

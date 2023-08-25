@@ -117,26 +117,34 @@ const RawMaterialForm = () => {
         }
     }, [action])
 
-    const replenish = async () => {
-        let duplicate = false;
-
-        purchases?.map(item => {
-            if(item.supplier._id === formik.values.supplier && (item.state === 1 || item.state === 2)){
-                duplicate = true;
-            }
-        })
-
-        if(duplicate){
-            return toast.error("Can't have a multiple purchase order for a supplier.", { position: toast.POSITION.TOP_RIGHT });
-        }
-
-        const response = await axios.post("/erp/replenish_purchase", { material: formik.values });
-        if(response.statusText === "OK"){
-            setAction("replenish");
-            return toast.success("Purchase order successfully added.", { position: toast.POSITION.TOP_RIGHT });
-        }else{
-            return toast.error("Failed to add purchase order for this item.", { position: toast.POSITION.TOP_RIGHT });
-        }
+    const replenish = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to create purchase order for this material?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-success',
+            accept: async () => {
+                let duplicate = false;
+        
+                // purchases?.map(item => {
+                //     if(item.supplier._id === formik.values.supplier && (item.state === 1 || item.state === 2)){
+                //         duplicate = true;
+                //     }
+                // })
+        
+                if(duplicate){
+                    return toast.error("Can't have a multiple purchase order for a supplier.", { position: toast.POSITION.TOP_RIGHT });
+                }
+        
+                const response = await axios.post("/erp/replenish_purchase", { material: formik.values });
+                if(response.statusText === "OK"){
+                    setAction("replenish");
+                    return toast.success("Purchase order successfully added.", { position: toast.POSITION.TOP_RIGHT });
+                }else{
+                    return toast.error("Failed to add purchase order for this item.", { position: toast.POSITION.TOP_RIGHT });
+                }           
+            },
+        });
     }
 
     return (
@@ -187,7 +195,7 @@ const RawMaterialForm = () => {
                                 </div>
                                 <div className='grid text-left'>
                                     <span>Forecasted</span>
-                                    <span className='-mt-1 font-semibold'>{formik.values.quantity + forecasted} Units</span>
+                                    <span className='-mt-1 font-semibold'>{formik.values.quantity + Number(forecasted)} Units</span>
                                 </div>
                             </NavLink>
                             <div className='h-7 bg-gray-400 w-[1px]'/>

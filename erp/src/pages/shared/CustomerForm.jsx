@@ -46,7 +46,7 @@ const CustomerForm = () => {
                             </div>
                             <div className='grid text-left'>
                                 <span>Sales</span>
-                                <span className='-mt-1 font-bold'>{salesNumber} Orders</span>
+                                <span className='-mt-1'>{salesNumber} Orders</span>
                             </div>
                         </button>
                     </div>

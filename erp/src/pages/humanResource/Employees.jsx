@@ -20,7 +20,7 @@ const Employees = () => {
     const columns = [
         { selectionMode: true, }, 
         { field: "name", filter: "name", header: "Name" },
-        { field: "position.name", filter: "position.name", header: "Position" },
+        { field: "position.name", filter: "position.name", header: "Department" },
         { field: "contact.phoneNumber", filter: "contact.phoneNumber", header: "Contact" },
         { body: "addressFormat", header: "Address" },
         { body: "isActive", header: "Status" },

@@ -16,7 +16,7 @@ export const addPurchase = async (req, res) => {
         });
         res.status(200).json(newPurchase);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -36,7 +36,7 @@ export const updatePurchase = async (req, res) => {
         purchaseData.save();
         res.status(200).json(purchaseData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -45,7 +45,7 @@ export const getAllPurchase = async (req, res) => {
         const response = await Purchase.find({}).populate("supplier");
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -55,7 +55,7 @@ export const getPurchase = async (req, res) => {
         const response = await Purchase.findById(id);
         res.status(200).json(response);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     }
 }
 
@@ -81,7 +81,7 @@ export const replenishMaterial = async (req, res) => {
         });
         res.status(200).json(newPurchase);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
     } 
 }
 
@@ -105,6 +105,38 @@ export const changeState = async (req, res) => {
         purchaseData.save();
         res.status(200).json(purchaseData);
     } catch (error) {
-        res.json(error.message);
+        res.status(500).json(error.message);
+    }
+}
+
+export const purchasePlanning = async (req, res) => {
+    try {
+        const purchasesResponse = await Purchase.find({}); 
+        const materialsResponse = await RawMaterial.find({});
+
+        const confirmPurchase = purchasesResponse.filter(pur => pur.state === 2);
+
+        const planningPurchases = materialsResponse.map(material => {
+            let inComing = 0;
+
+            confirmPurchase.map(pur => {
+                pur.materials.map(mats => {
+                    if(mats.id.toString() === material._id.toString()){
+                        inComing += Number(mats.qty);
+                    }
+                })
+            })
+
+            return {
+                ...material.toObject(),
+                forecast: {
+                    inComing: inComing
+                }
+            }
+        })
+
+        res.status(200).json(planningPurchases);
+    } catch (error) {
+        res.status(500).json(error.message);
     }
 }

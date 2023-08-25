@@ -6,7 +6,7 @@ import { country } from "../static/country";
 import * as Yup from "yup";
 import axios from 'axios';
 
-// PLAN TODO: Wait for accepting registered accoint by admins;
+// PLAN TODO: Wait for accepting registered accounts by admins;
 
 const Register = () => {
     const navigate = useNavigate();

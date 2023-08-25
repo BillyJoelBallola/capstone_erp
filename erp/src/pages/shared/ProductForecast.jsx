@@ -4,8 +4,6 @@ import { NavLink, useParams } from 'react-router-dom';
 import moment from 'moment';
 import axios from 'axios';
 
-// TODO: Sold feature, raw mats -> purchased, graph
-
 const ProductForecast = () => {
     const id = useParams().id;
     const op = useParams().op;

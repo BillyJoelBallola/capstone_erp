@@ -15,10 +15,10 @@ const ProductForm = () => {
     const op = useParams().op;
     const navigate = useNavigate();
     const location = op === "inventory" ? "inventory" : "supply-chain";  
+    const [uploadedImage, setUploadedImage] = useState("");
     const [data, setData] = useState({});
     const [action, setAction] = useState("");
     const [visible, setVisible] = useState(false);
-    const [productions, setProductions] = useState([]);
     const [prods, setProds] = useState([]);
     const [storages, setStorages] = useState([]);
     const [rawMaterialsData, setRawMaterialData] = useState([]);
@@ -26,6 +26,7 @@ const ProductForm = () => {
     const [instructions, setInstructions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [adjustments, setAdjustments] = useState([]);
+    const [solds, setSolds] = useState(0);
     const [instruction, setInstruction] = useState({
         text: "",
         idx: ""
@@ -66,6 +67,22 @@ const ProductForm = () => {
                     setForecasts([...incomingProduct, ...outGoing]);    
                 })
             })
+
+        axios.get("/erp/orders").then(({ data }) => {
+            const completedOrders = data.filter(item => item.state === 4);
+            const ordersData = completedOrders.map(ord => ord.orders.filter(order => order.productId === id));
+            let numberOfSolds = 0;
+
+            ordersData.filter(sold => {
+                if(sold.length !== 0){
+                    sold.map(s => {
+                        return numberOfSolds += s.quantity;
+                    })
+                }
+            })
+
+            setSolds(numberOfSolds);
+        })
     }, [])
 
     useEffect(() => {
@@ -97,9 +114,7 @@ const ProductForm = () => {
                 axios.get("/erp/categories")
             ]);
 
-            const productionsData = productionsResponse.data.filter(item => item.product._id === id && item.state === 2);
             setProds(productionsResponse.data);
-            setProductions(productionsData);
             setStorages(storagesResponse.data);
             setRawMaterialData(rawMaterialsResponse.data);
             setCategories(categoriesResponse.data);
@@ -274,48 +289,56 @@ const ProductForm = () => {
         resetComponent();
     }
 
-    const replenish = async () => {
-        let duplicate = false;
-        let good = false;
-        let rawMats = [];
-
-        rawMaterialsData?.map(raw => { 
-            rawMaterials.map(com => {
-                if(raw._id === com.rawId) rawMats = [...rawMats, raw];            
-            })
-        });
+    const replenish = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to create purchase orders for this materials?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-success',
+            accept: async () => {
+                let duplicate = false;
+                let good = false;
+                let rawMats = [];
         
-        const computedQty =  rawMaterials.map(com => ({...com, qty: com.qty * 10}));
-            
-        computedQty.map(comQty => {
-            rawMats.map(raw => {
-                if(raw.quantity < comQty.qty){
-                    good = true;
+                rawMaterialsData?.map(raw => { 
+                    rawMaterials.map(com => {
+                        if(raw._id === com.rawId) rawMats = [...rawMats, raw];            
+                    })
+                });
+                
+                const computedQty =  rawMaterials.map(com => ({...com, qty: com.qty * 10}));
+                    
+                computedQty.map(comQty => {
+                    rawMats.map(raw => {
+                        if(raw.quantity < comQty.qty){
+                            good = true;
+                        }
+                    })
+                })
+        
+                // prods?.map(prod => {
+                //     if(prod.product._id === id && (prod.state === 1 || prod.state === 2)){
+                //         duplicate = true;
+                //     }
+                // })
+        
+                if(good){
+                    return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
                 }
-            })
-        })
-
-        prods?.map(prod => {
-            if(prod.product._id === id && (prod.state === 1 || prod.state === 2)){
-                duplicate = true;
-            }
-        })
-
-        if(good){
-            return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
-        }
-
-        if(duplicate){
-            return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
-        }
-
-        const response = await axios.post(`/erp/production_replenish/${id}`);
-        if(response.statusText === "OK"){
-            setAction("replenish")
-            return toast.success("Production order successfully added.", { position: toast.POSITION.TOP_RIGHT });
-        }else{
-            return toast.error("Failed to add production order for this product.", { position: toast.POSITION.TOP_RIGHT });
-        }
+        
+                if(duplicate){
+                    return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
+                }
+        
+                const response = await axios.post(`/erp/production_replenish/${id}`);
+                if(response.statusText === "OK"){
+                    setAction("replenish")
+                    return toast.success("Production order successfully added.", { position: toast.POSITION.TOP_RIGHT });
+                }else{
+                    return toast.error("Failed to add production order for this product.", { position: toast.POSITION.TOP_RIGHT });
+                }
+            },
+        });
     }
 
     const selectInstruction = (idx) => {
@@ -339,8 +362,6 @@ const ProductForm = () => {
         })
     }
 
-    const [uploadedImage, setUploadedImage] = useState("");
-  
     const uploadImage = async (e) => {
       const file = e.target.files[0];
       const formData = new FormData();
@@ -422,7 +443,7 @@ const ProductForm = () => {
                                 </div>
                                 <div className='grid text-left'>
                                     <span>Sold</span>
-                                    <span className='-mt-1 font-semibold'>0 Units</span>
+                                    <span className='-mt-1 font-semibold'>{solds} Units</span>
                                 </div>
                             </button>
                         </div>

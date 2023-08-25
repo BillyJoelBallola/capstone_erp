@@ -337,7 +337,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
     }
 
     const NewLink = () => {
-        return <NavLink to={`${currentLocation}/${formattedName}-form`} className="btn-dark px-4">New</NavLink>;
+        return <NavLink to={`${currentLocation}/${formattedName}-form`} className="btn-dark px-4">{`${formattedName === "payroll" ? "Generate Payslip" : "New"}`}</NavLink>;
     }
 
     return (
@@ -388,8 +388,9 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                         op === "financial" && formattedName === "supplier" &&
                         <NewLink />
                     }
-                    <span className="text-lg font-semibold">{`${formattedName === "payroll" ? "Salary Slip" : name}s`}</span>
+                    <span className="text-lg font-semibold">{`${name}s`}</span>
                 </div>
+                { metaKey === false && selectedRows.length !== 0 && <div className="px-2 py-1 border border-gray-300 rounded-lg text-sm">Selected: {selectedRows.length}</div> }
                 {
                     selectedRows?.length >= 0 &&
                     <TableActionsButtons 

@@ -3,6 +3,7 @@ import { InputSwitch } from "primereact/inputswitch";
 import { Tooltip } from 'primereact/tooltip';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup'; 
 import { useFormik } from "formik";
 import moment from "moment";
 import * as Yup from "yup";
@@ -72,12 +73,11 @@ const ProductionForm = () => {
                 return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
             }
 
-            if(!id){
-                if(duplicate){
-                    return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
-                }
-            }
-
+            // if(!id){
+            //     if(duplicate){
+            //         return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
+            //     }
+            // }
             
             if(id){
                 const { product, quantity, date, automate } = values; 
@@ -149,37 +149,54 @@ const ProductionForm = () => {
         )
     }
 
-    const productionOrderState = async (state) => {
+    const productionOrderState = async (e, state) => {
+        let msg = "";
         let successMsg = "";
         let errorMsg = "";
+        let btnStyle = "";
 
         switch(state){
             case 2:
                 successMsg = "Production order confirm successfully.";
                 errorMsg = "Failed to confirm production order.";
+                msg = "Do you want to confirm production order?";
+                btnStyle = "p-button-success";
                 break; 
             case 3: 
-            successMsg = "Production order is set to finished successfully.";
+                successMsg = "Production order is set to finished successfully.";
                 errorMsg = "Failed to set to finish production order.";
+                msg = "Do you want to finish production order?";
+                btnStyle = "p-button-info";
                 break; 
             case 4: 
                 successMsg = "Production order cancelled successfully.";
                 errorMsg = "Failed to cancel production order.";
+                msg = "Do you want to cancel production order?";
+                btnStyle = "p-button-danger";
                 break; 
         }
 
-        const response = await axios.put("/erp/change_production_state", { state: state, id: id });
-        if(response.statusText === "OK"){
-            setAction("change");
-            return toast.success(successMsg, { position: toast.POSITION.TOP_RIGHT });
-        }else{
-            return toast.error(errorMsg, { position: toast.POSITION.TOP_RIGHT });
-        }
+        confirmPopup({
+            target: e.currentTarget,
+            message: msg,
+            icon: 'pi pi-info-circle',
+            acceptClassName: btnStyle,
+            accept: async () => {
+                const response = await axios.put("/erp/change_production_state", { state: state, id: id });
+                if(response.statusText === "OK"){
+                    setAction("change");
+                    return toast.success(successMsg, { position: toast.POSITION.TOP_RIGHT });
+                }else{
+                    return toast.error(errorMsg, { position: toast.POSITION.TOP_RIGHT });
+                }
+            },
+        });
     }
 
     return (
         <>
             <ToastContainer draggable={false} hideProgressBar={true} />
+            <ConfirmPopup />
             <div>
                 <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                     <div className="flex items-center gap-3">
@@ -220,11 +237,11 @@ const ProductionForm = () => {
                                 (state === 1 || state === 2) && 
                                 <button 
                                     className={`${state === 2 ? "btn-primary px-4 py-2" : "btn-gray"}`} 
-                                    onClick={() => 
+                                    onClick={(e) => 
                                         state === 1 ? 
-                                        productionOrderState(2) :
+                                        productionOrderState(e, 2) :
                                         state === 2 ? 
-                                        productionOrderState(3) : null
+                                        productionOrderState(e, 3) : null
                                 }>{
                                     state === 1 ? 
                                     "Confirm Order" : 
@@ -235,7 +252,7 @@ const ProductionForm = () => {
                             {
                                 op !== "inventory" &&
                                 (state === 1 || state === 2) &&
-                                <button className="btn-gray" onClick={() => productionOrderState(4)}>Cancel</button>
+                                <button className="btn-gray" onClick={(e) => productionOrderState(e, 4)}>Cancel</button>
                             }
                         </div>
                         { id && <StateStyle /> }

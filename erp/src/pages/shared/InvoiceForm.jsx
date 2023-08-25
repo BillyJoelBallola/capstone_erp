@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { NavLink, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import DialogBox from '../../components/DialogBox';
 import emailjs from "@emailjs/browser";
@@ -408,15 +408,23 @@ const InvoiceForm = () => {
         )
     }    
 
-    const cancelInvoice = async () => {
-        const response = await axios.put("/erp/change_invoice_state", { state: 2, id: id });
-        if(response.statusText === "OK"){
-            await axios.put("/erp/change_order_state", { invoice: 2, state: formik.values.order?.state, id: formik.values.order?._id });
-            setAction("cancel");
-            return toast.success("Invoice cancelled successfully.", { position: toast.POSITION.TOP_RIGHT });
-        }else{
-            return toast.error("Faield to cancel Invoice.", { position: toast.POSITION.TOP_RIGHT });
-        }
+    const cancelInvoice = async (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: `Do you want to cancel this invoice?`,
+            icon: 'pi pi-info-circle',
+            acceptClassName: 'p-button-danger',
+            accept: async () => {
+                const response = await axios.put("/erp/change_invoice_state", { state: 2, id: id });
+                if(response.statusText === "OK"){
+                    await axios.put("/erp/change_order_state", { invoice: 2, state: formik.values.order?.state, id: formik.values.order?._id });
+                    setAction("cancel");
+                    return toast.success("Invoice cancelled successfully.", { position: toast.POSITION.TOP_RIGHT });
+                }else{
+                    return toast.error("Faield to cancel Invoice.", { position: toast.POSITION.TOP_RIGHT });
+                }
+            },
+        });
     }
 
     const sendEmail = () => {
