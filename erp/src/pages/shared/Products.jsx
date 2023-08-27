@@ -22,7 +22,7 @@ const Products = () => {
         { selectionMode: true, }, 
         { body: "image", header: "" }, 
         { field: "name", filter: "name", header: "Product Name" }, 
-        { field: "quantity", filter: "quantity", header: "Quantity On Hand" }, 
+        { field: "quantity", filter: "quantity", header: "On Hand" }, 
         { field: "price", filter: "price", header: "Sales Price"  },
         { body: "isActive", header: "Status" }, 
         { body: "quantityStatus", header: "" }, 

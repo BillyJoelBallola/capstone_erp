@@ -25,7 +25,7 @@ const InventoryReport = () => {
     const productsColumn = [
         { selectionMode: true, },
         { field: "name", filter: "name", header: "Product" }, 
-        { field: "price", filter: "price", header: "₱Unit Price" }, 
+        { field: "price", filter: "price", header: "Unit Price" }, 
         { field: "quantity", filter: "quantity", header: "On Hand" }, 
         { field: "forecast.inComing", filter: "forecast.inComing", header: "Incoming" },
         { field: "forecast.outGoing", filter: "forecast.outGoing", header: "Outgoing" },

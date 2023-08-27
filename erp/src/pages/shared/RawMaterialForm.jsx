@@ -21,7 +21,15 @@ const RawMaterialForm = () => {
     const [storages, setStorages] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
     const [adjustments, setAdjustments] = useState([]);
-    const random = `P-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}`;
+
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const referenceGenerator = (func) => {
+        const [m, d, y] = moment(Date.now()).format("L").split("/");
+        return  `${func}-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}-${y}`;
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -127,7 +135,7 @@ const RawMaterialForm = () => {
                 let duplicate = false;
         
                 // purchases?.map(item => {
-                //     if(item.supplier._id === formik.values.supplier && (item.state === 1 || item.state === 2)){
+                //     if(item.supplier._id === formik.values.supplier && item.state <= 2){
                 //         duplicate = true;
                 //     }
                 // })
@@ -136,7 +144,7 @@ const RawMaterialForm = () => {
                     return toast.error("Can't have a multiple purchase order for a supplier.", { position: toast.POSITION.TOP_RIGHT });
                 }
         
-                const response = await axios.post("/erp/replenish_purchase", { material: formik.values });
+                const response = await axios.post("/erp/replenish_purchase", { material: formik.values, reference: referenceGenerator("PRS") });
                 if(response.statusText === "OK"){
                     setAction("replenish");
                     return toast.success("Purchase order successfully added.", { position: toast.POSITION.TOP_RIGHT });

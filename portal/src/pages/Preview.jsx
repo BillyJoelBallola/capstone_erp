@@ -126,7 +126,7 @@ const Preview = () => {
                                         Items Available
                                     </span>
                                 </div>
-                                <div className='text-yellow-600 text-xs pt-3'>{quantity > product.quantity && " Your desired quantity exceed the available quantity of the products. So, your order may take a while to deliver due to production process."}</div>
+                                <div className='text-yellow-600 text-xs pt-3'>{quantity > product.quantity && " Your desired quantity exceed the available quantity of the products. Therefore, your order may take a while to deliver due to production process."}</div>
                                 <div className='grid grid-cols-2 gap-5 mt-10'>
                                     <button className='btn-dark py-4' onClick={currentCustomer ? buyNow : () => navigate("/login")}>Buy Now</button>
                                     <button className='btn-dark-outlined' onClick={currentCustomer ? addToCart : () => navigate("/login")}>Add to Cart</button>

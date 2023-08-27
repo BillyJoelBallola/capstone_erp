@@ -42,11 +42,16 @@ const Planning = () => {
 
         return (
             <div className="flex flex-col rounded-lg bg-white drop-shadow-sm h-min">
-                <div className='border-x-0 border-t-0 border px-4 py-2'>
-                    <span className='text-lg font-semibold'>Raw Materials <span className='text-xs text-red-600 bg-red-200 px-2 rounded-lg'>Reorder</span></span>
+                <div className='border-x-0 border-t-0 border px-4 py-2 grid'>
+                    <span className='text-lg font-semibold'>
+                        Raw Materials 
+                        {/* <span className='text-xs text-red-600 bg-red-200 px-2 rounded-lg'>Reorder</span> */}
+                    </span>
+                    <span className='text-sm text-gray-400'>Raw materials need replenishment based on products that has customers demand with low quantity.</span>
                 </div>
                 <div className='max-h-[500px] overflow-y-auto'>
                     {
+                        suppliers?.filter(item => item.rawMaterials.length !== 0).length !== 0 ?
                         suppliers?.filter(item => item.rawMaterials.length !== 0).map((supplier, idx) => (
                             <div key={idx} className='flex flex-col m-2 bg-gray-200 rounded-lg p-4'> 
                                 <div className='flex justify-between items-center'>
@@ -75,7 +80,10 @@ const Planning = () => {
                                     }
                                 </div>
                             </div>
-                        ))
+                        )) :
+                        <div className='p-4'>
+                            <span>No items found.</span>
+                        </div>
                     }
                 </div>
             </div> 
@@ -85,11 +93,16 @@ const Planning = () => {
     const Products = () => {
         return (
             <div className="flex flex-col rounded-lg bg-white drop-shadow-sm h-min">
-                <div className='border-x-0 border-t-0 border px-4 py-2'>
-                    <span className='text-lg font-semibold'>Products <span className='text-xs text-red-600 bg-red-200 px-2 rounded-lg'>Reorder</span></span>
+                <div className='border-x-0 border-t-0 border px-4 py-2 grid'>
+                    <span className='text-lg font-semibold'>
+                        Products
+                        {/* <span className='text-xs text-red-600 bg-red-200 px-2 rounded-lg'>Reorder</span> */}
+                    </span>
+                    <span className='text-sm text-gray-400'>Products need replenishment based on customers total demand and forecasted quantity.</span>
                 </div>  
                 <div className='max-h-[500px] overflow-y-auto grid gap-2'>
-                    {
+                    {   
+                        productionPlanning.length !== 0 ?
                         productionPlanning?.map(planning => (
                             <div key={planning._id} className='flex gap-4 p-4'>
                                 <div className='flex gap-4'>
@@ -113,10 +126,15 @@ const Planning = () => {
                                             <span className='text-gray-600'>Demand (Orders): {planning.totalDemand} Unit/s</span>
                                         </div>
                                     </div>
-                                    <button className='btn-dark px-3 self-baseline'>Produce {(Number(planning.quantity) + Number(planning.forecast.inComing) - Number(planning.forecast.outGoing)).toString().split("-").join("")} Unit/s</button>
+                                    <button className='btn-dark px-3 self-baseline'>
+                                        Produce {(Number(planning.quantity) + Number(planning.forecast.inComing) - Number(planning.forecast.outGoing)).toString().split("-").join("")} Unit/s
+                                    </button>
                                 </div>
                             </div>
-                        ))
+                        )) : 
+                        <div className='p-4'>
+                            <span>No items found.</span>
+                        </div>
                     }
                 </div>
             </div>

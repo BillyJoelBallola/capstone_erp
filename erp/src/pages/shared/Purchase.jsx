@@ -22,7 +22,7 @@ const Purchase = () => {
         { selectionMode: true, },
         { field: "reference", filter: "reference", header: "Code" },
         { field: "supplier.business", filter: "supplier.business", header: "Supplier" },
-        { body: "dateFormat", header: "Order Date" },
+        { body: "dateFormat", header: "Date" },
         { body: "dateThirdFormat", header: "Expected Arrival" },
         { field: "total",  filter: "total", header: "₱ Total" },
         { body: "state", header: "State" },

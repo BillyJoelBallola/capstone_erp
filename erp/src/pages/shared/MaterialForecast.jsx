@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import ForecastGraph from '../../components/ForecastGraph';
 
 // TODO: graph
 
@@ -85,6 +86,7 @@ const MaterialForecast = () => {
                         <span>Forecasted</span>
                     </div>
                 </div>
+                {/* <ForecastGraph id={id} /> */}
                 <div className='bg-white border border-gray-300'>
                     <div className='grid grid-cols-3 p-3 border-0 border-b border-gray-300 font-semibold'>
                         <span>Replenishment</span>
@@ -101,7 +103,7 @@ const MaterialForecast = () => {
                         </div>
                         :
                         <div className='grid p-3 border-0 border-b border-gray-300'>
-                            <span>No purchase order for this product.</span>
+                            <span>No purchase order for this material.</span>
                         </div>
                     }
                      <div className='grid grid-cols-3 p-3 border-0 border-b border-gray-30 font-semibold'>

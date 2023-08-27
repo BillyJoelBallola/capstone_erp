@@ -46,6 +46,15 @@ const ProductForm = () => {
         totalUnit: 0
     });
 
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const referenceGenerator = (func) => {
+        const [m, d, y] = moment(Date.now()).format("L").split("/");
+        return  `${func}-${(Math.random() + 1).toString(36).substring(7).toUpperCase()}-${y}`;
+    }
+
     useEffect(() => {
         axios.get("/erp/productions")
             .then(({ data }) => {
@@ -330,7 +339,7 @@ const ProductForm = () => {
                     return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
                 }
         
-                const response = await axios.post(`/erp/production_replenish/${id}`);
+                const response = await axios.post(`/erp/production_replenish`, { productId: id, reference: referenceGenerator("PRD") });
                 if(response.statusText === "OK"){
                     setAction("replenish")
                     return toast.success("Production order successfully added.", { position: toast.POSITION.TOP_RIGHT });

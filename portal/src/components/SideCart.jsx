@@ -44,9 +44,9 @@ const SideCart = ({ visible, setVisible }) => {
         const productData = products.find(item => item._id === newCart[idx].productId);
         cancelCheckOut();
         
-        if(newCart[idx].quantity >= productData?.quantity){
-            return toast.warning("Quantity must be less than to avalable items", {  position: toast.POSITION.TOP_RIGHT });
-        }
+        // if(newCart[idx].quantity >= productData?.quantity){
+        //     return toast.warning("Quantity must be less than to avalable items", {  position: toast.POSITION.TOP_RIGHT });
+        // }
         
         if(newCart[idx].quantity <= 0){
             return toast.warning("Quantity must be 1 or more", {  position: toast.POSITION.TOP_RIGHT });
@@ -170,7 +170,7 @@ const SideCart = ({ visible, setVisible }) => {
                                         <p className='text-md font-semibold text-black truncate'>{cart.productName}</p>
                                         <span className="font-semibold text-black text-xl">₱{cart.totalPrice}</span>
                                         <div className='flex items-center rounded-lg h-8'>
-                                            <button className='p-3' onClick={(e) => quantityControlButton(idx, "add")}>
+                                            <button className='p-3' onClick={() => quantityControlButton(idx, "add")}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#000" className="w-4 h-4">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                                 </svg>
@@ -181,7 +181,7 @@ const SideCart = ({ visible, setVisible }) => {
                                                 value={cart.quantity}
                                                 onChange={(e) => handleQuantityChange(e, idx)}
                                             />
-                                            <button className='p-3' onClick={(e) => quantityControlButton(idx, "minus")}>
+                                            <button className='p-3' onClick={() => quantityControlButton(idx, "minus")}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#000" className="w-4 h-4">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
                                                 </svg>
@@ -190,7 +190,7 @@ const SideCart = ({ visible, setVisible }) => {
                                     </div>
                                 </div>
                                 <div className='flex h-full items-baseline'>
-                                    <button className='hover:text-blue-500 divide-purple-150' onClick={() => saveChanges(idx)} disabled={disableButton.save}>
+                                    <button className='hover:text-blue-500 divide-purple-150 cursor-pointer' onClick={() => saveChanges(idx)} disabled={disableButton.save}>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
@@ -208,7 +208,7 @@ const SideCart = ({ visible, setVisible }) => {
                             No items yet, start picking and add to your cart.  
                         </div>
                     }
-                    
+                    <span className='text-xs'>Order quantities that exceeded the available quantity of the products may take a while to deliver due to production process.</span>
                 </div>
                 <div className='text-lg flex justify-end border border-b-0 border-x-0 border-gray-300 absolute bottom-0 left-0 right-0 py-5 px-2 bg-gray-100 font-semibold text-black text-md gap-2 items-center'>
                     <span>Total ({readyForCheckOut?.length} item) : </span>

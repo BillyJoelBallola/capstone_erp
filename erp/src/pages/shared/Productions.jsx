@@ -26,6 +26,7 @@ const Productions = () => {
         { body: "dateFormat", header: "Date" },
         { body: "state", header: "State" },
     ]
+    
     return (
         <>
             <ToastContainer

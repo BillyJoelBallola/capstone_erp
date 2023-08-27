@@ -15,12 +15,15 @@ import UserForm from './pages/settings/UserForm';
 import Inventory from './pages/inventory/Inventory';
 import Adjustments from './pages/inventory/Adjustments';
 import InventoryReport from './pages/inventory/InventoryReport';
+import AdjustmentReport from './pages/inventory/AdjustmentReport';
 
 import SupplyChain from './pages/supplyChain/SupplyChain';
 import Suppliers from './pages/supplyChain/Suppliers';
 import SupplierForm from './pages/supplyChain/SupplierForm';
 import Shipments from './pages/supplyChain/Shipments';
 import ShipmentForm from './pages/supplyChain/ShipmentForm';
+import ProductionReport from './pages/supplyChain/ProductionReport';
+import PurchaseReport from './pages/supplyChain/PurchaseReport';
 
 import Financial from './pages/financial/Financial';
 import Bills from './pages/financial/Bills';
@@ -72,9 +75,12 @@ const App = () => {
                 <Route path='/inventory' element={<Inventory />} />
                 <Route path='/inventory/adjustments' element={<Adjustments />} />
                 <Route path='/inventory/inventory_report/:op?' element={<InventoryReport />} />
+                <Route path='/inventory/adjustment_report' element={<AdjustmentReport />} />
                 <Route path='/:op/products' element={<Products />} />
                 <Route path='/supply-chain' element={<SupplyChain />} />
                 <Route path='/supply-chain/shipments' element={<Shipments />} />
+                <Route path='/supply-chain/production_report' element={<ProductionReport />} />
+                <Route path='/supply-chain/purchase_report' element={<PurchaseReport />} />
                 <Route path='/:op/shipments/shipment-form/:id?' element={<ShipmentForm />} />
                 <Route path='/:op/suppliers' element={<Suppliers />} />
                 <Route path='/:op/suppliers/supplier-form/:id?' element={<SupplierForm />} />

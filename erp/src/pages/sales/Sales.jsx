@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
@@ -7,7 +7,7 @@ const Sales = () => {
 
     useEffect(() => {
         axios.get("/erp/orders").then(({ data }) => {
-            setOrders(data?.filter(order => order.state <= 2)?.length);
+            setOrders(data?.filter(order => order.state <= 2 || order.invoice <= 2)?.length);
         });
     }, [])
 
@@ -28,4 +28,4 @@ const Sales = () => {
     )
 }
 
-export default Sales
+export default Sales;

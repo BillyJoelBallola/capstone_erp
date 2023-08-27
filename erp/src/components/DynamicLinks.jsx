@@ -124,9 +124,11 @@ const DynamicLinks = () => {
     const supplyChainReportMenu = [
         {
             label: "Production Report",
+            command: () => navigate("/supply-chain/production_report")
         },
         {
             label: "Purchase Report",
+            command: () => navigate("/supply-chain/purchase_report")
         },
     ];
 
@@ -170,6 +172,10 @@ const DynamicLinks = () => {
         {
             label: "Inventory Report",
             command: () => navigate("/inventory/inventory_report/products")
+        },
+        {
+            label: "Adjustment Report",
+            command: () => navigate("/inventory/adjustment_report")
         },
     ];
 

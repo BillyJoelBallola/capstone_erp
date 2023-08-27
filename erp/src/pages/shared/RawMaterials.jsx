@@ -22,7 +22,7 @@ const RawMaterials = () => {
         { selectionMode: true, }, 
         { field: "name", filter: "name", header: "Item Name" }, 
         { field: "supplier.business", filter: "supplier.business", header: "Supplier" }, 
-        { field: "quantity", filter: "quantity", header: "Quantity On Hand" }, 
+        { field: "quantity", filter: "quantity", header: "On Hand" }, 
         { body: "quantityStatus", header: "" }, 
     ]
 
