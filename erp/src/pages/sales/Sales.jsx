@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../context/UserContext';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 const Sales = () => {
     const [orders, setOrders] = useState(0);
+    const { setLoading } = useContext(UserContext);
 
     useEffect(() => {
+        setLoading(true);
         axios.get("/erp/orders").then(({ data }) => {
             setOrders(data?.filter(order => order.state <= 2 || order.invoice <= 2)?.length);
+            setLoading(false);
         });
     }, [])
 

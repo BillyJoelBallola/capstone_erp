@@ -127,7 +127,7 @@ const Planning = () => {
                                         </div>
                                     </div>
                                     <button className='btn-dark px-3 self-baseline'>
-                                        Produce {(Number(planning.quantity) + Number(planning.forecast.inComing) - Number(planning.forecast.outGoing)).toString().split("-").join("")} Unit/s
+                                        Produce {Number((Number(planning.quantity) + Number(planning.forecast.inComing) - Number(planning.forecast.outGoing)).toString().split("-").join(""))} Unit/s
                                     </button>
                                 </div>
                             </div>

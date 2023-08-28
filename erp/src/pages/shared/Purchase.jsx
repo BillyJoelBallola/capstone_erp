@@ -24,7 +24,7 @@ const Purchase = () => {
         { field: "supplier.business", filter: "supplier.business", header: "Supplier" },
         { body: "dateFormat", header: "Date" },
         { body: "dateThirdFormat", header: "Expected Arrival" },
-        { field: "total",  filter: "total", header: "₱ Total" },
+        { field: "formatMoney",  filter: "total", header: "₱Total" },
         { body: "state", header: "State" },
     ]
     

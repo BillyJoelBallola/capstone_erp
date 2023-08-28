@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { InComingIcon, OnHandIcon, OutGoingIcon, ProducedIcon, PurchaseIcon } from '../static/Icons';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { formatMoney } from '../static/_functions';
 import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import { Column } from 'primereact/column'; 
 import autoTable from 'jspdf-autotable';
 import moment from "moment";
 import jsPDF from "jspdf";
@@ -26,6 +28,15 @@ const ReportTable = ({ dataValue, columns, name, setAction }) => {
     const [purchaseFilter, setPurchaseFilter] = useState({
         monthYear: "",
         supplier: ""
+    })
+    const [inventorySummary, setInventorySummary] = useState({
+        onHand: 0,
+        inComing: 0,
+        outGoing: 0
+    })
+    const [supplyChainSummary, setSupplyChainSummary] = useState({
+        produced: 0,
+        purchase: 0
     })
 
     let filteredData = [];
@@ -100,7 +111,7 @@ const ReportTable = ({ dataValue, columns, name, setAction }) => {
                 filteredData.length !== 0 && filteredData.map(item => body.push([item.reference, item.product.name, item.quantity, moment(item.date).format("LL")]));
                 break;
             case "purchase":
-                filteredData.length !== 0 && filteredData.map(item => body.push([item.reference, item.supplier.name, moment(item.date).format("LL"), moment(item.expectedArrival).format("LL"),item.total]));
+                filteredData.length !== 0 && filteredData.map(item => body.push([item.reference, item.supplier.name, moment(item.date).format("LL"),item.total]));
                 break;
             default: 
                 break;
@@ -108,6 +119,55 @@ const ReportTable = ({ dataValue, columns, name, setAction }) => {
 
         return body.flat();
     };
+
+    useEffect(() => {
+        if(dataValue){
+            if(loc === "inventory"){
+                let onHand = 0;
+                let inComing = 0;
+                let outGoing = 0;
+    
+                dataValue.map(data => {
+                    onHand += data?.quantity;
+                    inComing += data?.forecast?.inComing;
+                    outGoing += data?.forecast?.outGoing;
+                });
+    
+                setInventorySummary({
+                    onHand: onHand,
+                    inComing: inComing,
+                    outGoing: outGoing ? outGoing : 0 
+                })
+            }
+
+            if(loc === "supply-chain"){
+                let produced = 0;
+                let purchase = 0;
+                let data = null;
+
+                switch(formattedName){
+                    case "production": 
+                        data = dataValue.filter(item => item.date.includes(productionFilter.monthYear) && item.product._id.toString() === productionFilter.product);
+                        break;
+                    case "purchase": 
+                        data = dataValue.filter(item => item.date.includes(purchaseFilter.monthYear) && item.supplier._id.toString() === purchaseFilter.supplier);
+                        break;
+                    default:
+                        break;
+                }
+
+                data.map(data => {
+                    produced += data?.quantity;
+                    purchase += data?.total;
+                });
+
+                setSupplyChainSummary({
+                    produced: produced ? produced : 0,
+                    purchase: purchase ? purchase : 0
+                })
+            }
+        }
+    }, [dataValue, formattedName, productionFilter, purchaseFilter])
 
     const saveAsExcelFile = (buffer, fileName) => {
         import('file-saver').then((module) => {
@@ -167,21 +227,21 @@ const ReportTable = ({ dataValue, columns, name, setAction }) => {
             head: [exportHead],
             body: [exportBody()]
         });
-        doc.save(`${fileName}.pdf`);
+        doc.save(`${fileName}-ERP.pdf`);
     };
 
     const exportExcel = () => {
         let fileName = "";
 
         switch (formattedName) {
-            case "inventory":
+            case "inventory-ERP":
                 fileName = op;
                 break;
             case "adjustment":
-                fileName = "adjustment"
+                fileName = "adjustment-ERP"
                 break;
             case "production":
-                fileName = "production"
+                fileName = "production-ERP"
                 break;
             default:
                 break;
@@ -274,9 +334,75 @@ const ReportTable = ({ dataValue, columns, name, setAction }) => {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <span>Summary</span>
-                </div>
+                {
+                    formattedName === "inventory" && op === "products" && 
+                    <div className='pb-2 flex gap-4'>
+                        <div className='border py-2 px-4 flex items-center gap-4 max-w-min rounded-lg'>
+                            <OnHandIcon />
+                            <div className='grid whitespace-nowrap'>
+                                <span className='text-xs'>On Hand</span>
+                                <span className='-mt-1 text-2xl font-semibold'>{inventorySummary.onHand}</span>
+                            </div>
+                        </div>
+                        <div className='border py-2 px-4 flex items-center gap-2 max-w-min rounded-lg'>
+                            <InComingIcon />
+                            <div className='grid whitespace-nowrap'>
+                                <span className='text-xs'>In Coming</span>
+                                <span className='-mt-1 text-2xl font-semibold'>{inventorySummary.inComing}</span>
+                            </div>
+                        </div>
+                        <div className='border py-2 px-4 flex items-center gap-2 max-w-min rounded-lg'>
+                            <OutGoingIcon />
+                            <div className='grid whitespace-nowrap'>
+                                <span className='text-xs'>Out Going</span>
+                                <span className='-mt-1 text-2xl font-semibold'>{inventorySummary.outGoing}</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {
+                    formattedName === "inventory" && op === "raw-materials" && 
+                    <div className='pb-2 flex gap-4'>
+                        <div className='border py-2 px-4 flex items-center gap-4 max-w-min rounded-lg'>
+                            <OnHandIcon />
+                            <div className='grid whitespace-nowrap'>
+                                <span className='text-xs'>On Hand</span>
+                                <span className='-mt-1 text-2xl font-semibold'>{inventorySummary.onHand}</span>
+                            </div>
+                        </div>
+                        <div className='border py-2 px-4 flex items-center gap-2 max-w-min rounded-lg'>
+                            <InComingIcon />
+                            <div className='grid whitespace-nowrap'>
+                                <span className='text-xs'>In Coming</span>
+                                <span className='-mt-1 text-2xl font-semibold'>{inventorySummary.inComing}</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {
+                    formattedName === "purchase" &&
+                    <div className='pb-2 flex gap-4'>
+                        <div className='border py-2 px-4 flex items-center gap-4 max-w-min rounded-lg'>
+                            <PurchaseIcon />
+                            <div className='grid whitespace-nowrap'>
+                                <span className='text-xs'>Total</span>
+                                <span className='-mt-1 text-2xl font-semibold'>{formatMoney(supplyChainSummary.purchase)}</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {
+                    formattedName === "production" &&
+                    <div className='pb-2 flex gap-4'>
+                        <div className='border py-2 px-4 flex items-center gap-4 max-w-min rounded-lg'>
+                            <ProducedIcon />
+                            <div className='grid whitespace-nowrap'>
+                                <span className='text-xs'>Produced</span>
+                                <span className='-mt-1 text-2xl font-semibold'>{supplyChainSummary.produced}</span>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
             <DataTable
                 ref={dt}

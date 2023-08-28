@@ -24,6 +24,7 @@ import Shipments from './pages/supplyChain/Shipments';
 import ShipmentForm from './pages/supplyChain/ShipmentForm';
 import ProductionReport from './pages/supplyChain/ProductionReport';
 import PurchaseReport from './pages/supplyChain/PurchaseReport';
+import ShipmentReport from './pages/supplyChain/ShipmentReport';
 
 import Financial from './pages/financial/Financial';
 import Bills from './pages/financial/Bills';
@@ -51,6 +52,7 @@ import Customers from './pages/sales/Customers';
 import Sales from './pages/sales/Sales';
 import Orders from './pages/sales/Orders';
 import OrderForm from './pages/sales/OrderForm';
+import SalesReport from './pages/sales/SalesReport';
 
 import HumanResource from './pages/humanResource/HumanResource';
 import Employees from './pages/humanResource/Employees';
@@ -81,6 +83,7 @@ const App = () => {
                 <Route path='/supply-chain/shipments' element={<Shipments />} />
                 <Route path='/supply-chain/production_report' element={<ProductionReport />} />
                 <Route path='/supply-chain/purchase_report' element={<PurchaseReport />} />
+                <Route path='/supply-chain/shipment_report' element={<ShipmentReport />} />
                 <Route path='/:op/shipments/shipment-form/:id?' element={<ShipmentForm />} />
                 <Route path='/:op/suppliers' element={<Suppliers />} />
                 <Route path='/:op/suppliers/supplier-form/:id?' element={<SupplierForm />} />
@@ -104,6 +107,7 @@ const App = () => {
                 <Route path='/:op/material_forecast/:id?' element={<MaterialForecast />} />
                 <Route path='/sales' element={<Sales />} />
                 <Route path='/sales/orders' element={<Orders />} />
+                <Route path='/sales/sales_report' element={<SalesReport />} />
                 <Route path='/:op/customers' element={<Customers />} />
                 <Route path='/:op/customers/customer-form/:id?' element={<CustomerForm />} />
                 <Route path='/:op/orders/order-form/:id?' element={<OrderForm />} />

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup'; 
+import { formatMoney } from "../../static/_functions";
 import { useFormik } from "formik";
 import moment from "moment";
 import * as Yup from "yup";
@@ -485,7 +486,7 @@ const PurchaseForm = () => {
                                             <div key={item.id} className={`hover:bg-gray-300 py-4 px-3 grid grid-cols-[1fr_100px_100px_100px_50px] items-center gap-10 cursor-pointer ${materials.idx === idx ? "bg-gray-300" : ""}`} onClick={() => selectMats(idx)}>
                                                 <span className='font-semibold'>{item.name}</span>
                                                 <span className='font-semibold'>{item.uom}</span>
-                                                <span className='font-semibold'>{item.price}</span>
+                                                <span className='font-semibold'>{formatMoney(item.price)}</span>
                                                 <span className='font-semibold'>{item.qty}</span>
                                                 {
                                                    state < 3 && 
@@ -504,7 +505,7 @@ const PurchaseForm = () => {
                                 <div className="flex justify-end py-6">
                                     <div className="flex gap-2 text-lg py-2 px-3 pr-64 font-semibold border-0 border-t-[1px] border-t-gray-300">
                                         <span>Total:</span>
-                                        <span>₱{totalPrice}</span>
+                                        <span>{formatMoney(totalPrice)}</span>
                                     </div>
                                 </div>
                             </div>

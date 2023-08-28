@@ -35,7 +35,7 @@ const Payments = () => {
                 "Supplier" : "Customer"}` 
         }, 
         { body: "dateFormat", header: "Payment Date"},
-        { field: "amount", filter: "amount", header: "₱Amount" },
+        { field: "formatMoney", filter: "amount", header: "₱Amount" },
     ]
 
     return (

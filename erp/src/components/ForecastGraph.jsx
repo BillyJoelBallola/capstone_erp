@@ -36,8 +36,11 @@ const ForecastGraph = ({ id }) => {
                     let qty = 0;
                     return product.forecastInDepth.map(process => {
                         if (process.reference.includes("SHP")) {
-                            process?.order?.orders?.map(order => qty += order.quantity);
+                            process?.order?.orders?.map(order => {
+                                if(order.productId === id) return qty += order.quantity;
+                            });
                         }
+
                         return {
                             reference: process.reference,
                             date: process.scheduledDate,
@@ -63,6 +66,7 @@ const ForecastGraph = ({ id }) => {
             }
         })
         return data;
+
     }
 
     const shipmentByMonth = (monthNumber) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { ToastContainer, toast } from 'react-toastify';
+import { formatMoney } from '../../static/_functions';
 import DialogBox from '../../components/DialogBox';
 import { useFormik } from "formik";
 import moment from "moment";
@@ -655,7 +656,7 @@ const BillForm = () => {
                                             <div key={order.id} className='grid grid-cols-[1fr_100px_100px_100px_50px] py-4 px-3 gap-5 bg-gray-100 border-x-0 border border-y-gray-300'>
                                                 <span className='font-semibold'>{order.name}</span>
                                                 <span className='font-semibold'>{order.uom}</span>
-                                                <span className='font-semibold'>{order.price}</span>
+                                                <span className='font-semibold'>{formatMoney(order.price)}</span>
                                                 <span className='font-semibold'>{order.qty}</span>
                                             </div>
                                         ))
@@ -668,7 +669,7 @@ const BillForm = () => {
                                 <div className='mt-8 flex flex-col'>
                                     <div className='flex gap-2 items-center self-end font-semibold'>
                                         <span>Total:</span>
-                                        <span className='text-xl'>{total} ₱</span>
+                                        <span className='text-xl'>{formatMoney(total)}</span>
                                     </div>
                                     {
                                         payment === 2 &&
@@ -678,14 +679,14 @@ const BillForm = () => {
                                                     payments.map(pay => (
                                                         <div className='flex gap-2 items-center' key={pay._id}>
                                                             <span className="italic text-green-800">Paid on {moment(pay.date).format("L")}</span>
-                                                            <span className='text-green-800'>{pay.amount} ₱</span>
+                                                            <span className='text-green-800'>{formatMoney(pay.amount)}</span>
                                                         </div>
                                                     ))
                                                 }
                                             </div>
                                             <div className='flex gap-2 items-center self-end font-semibold'>
                                                 <span>Amount Due:</span>
-                                                <span className='text-xl'>{total - amountDue} ₱</span>
+                                                <span className='text-xl'>{formatMoney(total - amountDue)}</span>
                                             </div>
                                         </>
                                     }

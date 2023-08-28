@@ -16,7 +16,6 @@ const PurchaseReport = () => {
         { field: "reference", filter: "reference", header: "Code" },
         { field: "supplier.business", filter: "supplier.business", header: "Supplier" },
         { body: "dateFormat", header: "Date" },
-        { body: "dateThirdFormat", header: "Expected Arrival" },
         { field: "total",  filter: "total", header: "Total" }
     ]
 

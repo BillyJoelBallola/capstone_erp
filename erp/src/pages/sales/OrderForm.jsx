@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { formatMoney } from '../../static/_functions';
 import moment from "moment";
 import axios from 'axios';
 
@@ -151,7 +152,7 @@ const OrderForm = () => {
                                         <div className='bg-gray-100 border-x-0 border border-y-gray-300' key={ord.productId}>
                                             <div className="py-4 px-3 grid grid-cols-[1fr_100px_100px] items-center gap-10">
                                                 <span className='font-semibold'>{ord.productName}</span>
-                                                <span className='font-semibold'>{ord.totalPrice}</span>
+                                                <span className='font-semibold'>{formatMoney(ord.totalPrice)}</span>
                                                 <span className='font-semibold'>{ord.quantity}</span>
                                             </div>
                                         </div>
@@ -161,7 +162,7 @@ const OrderForm = () => {
                                 <div className="flex justify-end py-6">
                                     <div className="flex gap-2 text-lg py-2 px-3 pr-64 font-semibold border-0 border-t-[1px] border-t-gray-300">
                                         <span>Total:</span>
-                                        <span>₱{order.total}</span>
+                                        <span>{formatMoney(order.total)}</span>
                                     </div>
                                 </div>
                             </div>

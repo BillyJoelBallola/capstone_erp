@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { ToastContainer, toast } from 'react-toastify';
+import { formatMoney } from '../../static/_functions';
 import DialogBox from '../../components/DialogBox';
 import { useFormik } from 'formik';
 import moment from "moment";
@@ -464,9 +465,9 @@ const PayrollForm = () => {
                                 </div>
                             </div>
                             <div className='mt-12 grid place-items-end'>
-                                <span className=''>Gross: ₱<b>{totals.gross ? totals.gross : "--"}</b></span>
-                                <span className=''>Deduction: ₱<b>{totals.deduction ? totals.deduction : "--"}</b></span>
-                                <span className='text-2xl font-semibold'>Net pay: ₱{totals.gross ? totals.gross - totals.deduction : "--"}</span>
+                                <span className=''>Gross: <b>{formatMoney(totals.gross ? totals.gross : 0)}</b></span>
+                                <span className=''>Deduction: ₱<b>{formatMoney(totals.deduction ? totals.deduction : 0)}</b></span>
+                                <span className='text-2xl font-semibold'>Net pay: {formatMoney(totals.gross ? totals.gross - totals.deduction : 0)}</span>
                             </div>
                         </div>
                     </form>

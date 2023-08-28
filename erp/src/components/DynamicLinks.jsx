@@ -25,6 +25,15 @@ const DynamicLinks = () => {
     const menuHumanResourceOperations = useRef(null);
     const menuSupplyChainReports = useRef(null);   
     const menuHumanResourceReports = useRef(null);
+    const menuSalesReports = useRef(null);
+
+    // Sales
+    const salesReports = [
+        {
+            label: "Sales Report",
+            command: () => navigate("/sales/sales_report")
+        }
+    ]
 
     // Human Resource
     const humanResouceOperationMenu = [
@@ -129,6 +138,10 @@ const DynamicLinks = () => {
         {
             label: "Purchase Report",
             command: () => navigate("/supply-chain/purchase_report")
+        },
+        {
+            label: "Shipment Report",
+            command: () => navigate("/supply-chain/shipment_report")
         },
     ];
 
@@ -498,7 +511,20 @@ const DynamicLinks = () => {
                         <NavLink to="/sales">Overview</NavLink>
                         <NavLink to="/sales/customers">Customers</NavLink>
                         <NavLink to="/sales/orders">Orders</NavLink>
-                        <NavLink to="/sales">Reporting</NavLink> 
+                        <div>
+                            <TieredMenu
+                                model={salesReports}
+                                popup
+                                ref={menuSalesReports}
+                                breakpoint="767px"
+                                className="text-sm"
+                            />
+                            <button
+                                onClick={(e) => menuSalesReports.current.toggle(e)}
+                            >
+                                Reporting
+                            </button>
+                        </div>
                         <NavLink to="/sales">Configuration</NavLink> 
                     </ul>
                 </div>

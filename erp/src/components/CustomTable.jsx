@@ -3,6 +3,7 @@ import AttendanceForm from "../pages/humanResource/AttendanceForm";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import TableActionsButtons from "./TableActionButtons";
 import placeHolder from "../assets/placeholder.png";
+import { formatMoney } from "../static/_functions";
 import AdjustmentDialog from "./AdjustmentDialog";
 import { DataTable } from 'primereact/datatable';
 import { FilterMatchMode } from 'primereact/api';
@@ -333,11 +334,38 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
 
     const amountAndTotal = (rowData) => {
         const { amount, total } = rowData;
-        return <span>{amount ? amount : total}</span>
+        return <span>{formatMoney(amount ? amount : total)}</span>
+    }
+
+    const money = (rowData) => {
+        const { price, total, amount } = rowData;
+        let val = 0;
+
+        if(price){
+            val = price;
+        }
+
+        if(total){
+            val = total;
+        }
+        
+        if(amount){
+            val = amount;
+        }
+
+        return formatMoney(val);
     }
 
     const NewLink = () => {
-        return <NavLink to={`${currentLocation}/${formattedName}-form`} className="btn-dark px-4">{`${formattedName === "payroll" ? "Generate Payslip" : "New"}`}</NavLink>;
+        return (
+            <NavLink to={`${currentLocation}/${formattedName}-form`} className="btn-dark px-4 flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#fff" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+
+                {`${formattedName === "payroll" ? "Generate Payslip" : "New"}`}
+            </NavLink>
+        )
     }
 
     return (
@@ -484,6 +512,8 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                             source : null 
                         }
                         field={
+                            item.field === "formatMoney" ?
+                            money :
                             item.field === "itemType" ?
                             itemType : item.field
                         }

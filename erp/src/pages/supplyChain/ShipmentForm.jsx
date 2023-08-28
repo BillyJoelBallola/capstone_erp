@@ -98,13 +98,29 @@ const ShipmentForm = () => {
             icon: 'pi pi-info-circle',
             acceptClassName: 'p-button-info',
             accept: async () => {
-                const response = await axios.put("/erp/change_shipment_state", { id: id, state: 3 });
-                if(response.statusText === "OK"){
-                    await axios.put("/erp/change_order_state", { id: shipment.order._id, invoice: shipment.order.invoice, state: 3 });
-                    setAction("ship");
-                    return toast.success("Order has been set to ship.", { position: toast.POSITION.TOP_RIGHT });
+                let isReadyToShip = true;
+
+                products?.forEach(product => {
+                    shipment?.order?.orders?.forEach(order => {
+                        if (product._id === order.productId) {
+                            if (product.quantity < order.quantity) {
+                                isReadyToShip = false;
+                            }
+                        }
+                    });
+                });
+
+                if(isReadyToShip){
+                    const response = await axios.put("/erp/change_shipment_state", { id: id, state: 3 });
+                    if(response.statusText === "OK"){
+                        await axios.put("/erp/change_order_state", { id: shipment.order._id, invoice: shipment.order.invoice, state: 3 });
+                        setAction("ship");
+                        return toast.success("Order has been set to ship.", { position: toast.POSITION.TOP_RIGHT });
+                    }else{
+                        return toast.error("Failed to ship the orders.", { position: toast.POSITION.TOP_RIGHT });
+                    }
                 }else{
-                    return toast.error("Failed to ship the orders.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.warning("Insufficient products, fulfillment is not yet ready.", { position: toast.POSITION.TOP_RIGHT });
                 }
             }
         });

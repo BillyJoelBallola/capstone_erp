@@ -23,7 +23,7 @@ const Bills = () => {
         { field: "supplier.business", filter: "supplier.business", header: "Supplier" }, 
         { body: "dateFormat", header: "Bill Date"},
         { body: "dateThirdFormat", header: "Due Date"},
-        { field: "total", filter: "total", header: "₱Total" }, 
+        { field: "formatMoney", filter: "total", header: "₱Total" }, 
         { body: "paymentStatus", header: "Payment" }, 
         { body: "state", header: "State" }, 
     ]
