@@ -3,6 +3,7 @@ import { InputSwitch } from "primereact/inputswitch";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import placeHolder from "../../assets/placeholder.png";
+import { Tooltip } from 'primereact/tooltip';
 import emailjs from "@emailjs/browser";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -172,8 +173,10 @@ const UserForm = () => {
                                     />
                                 </div>
                                 <div className="form-group">
+                                    <Tooltip target=".email-info" />
                                     <label htmlFor="" className={`${formik.touched.email && formik.errors.email ? "text-red-400" : ""}`}>
                                         {formik.touched.email && formik.errors.email ? formik.errors.email : "Email"}
+                                        <span className="pl-1 font-semibold text-gray-400 email-info" data-pr-tooltip={`Email address should be existing.`}>?</span>
                                     </label>
                                     <input
                                         type="email"
@@ -199,10 +202,12 @@ const UserForm = () => {
                                 {/* left */}
                                 <div className="flex flex-col gap-10">
                                     <div className="grid gap-2">
+                                        <Tooltip target=".inventory-info" />
                                         <div className="flex items-center justify-between border-b border-b-gray-300 py-2">
-                                            <span className="font-semibold">
+                                            <div className="font-semibold">
                                                 Inventory
-                                            </span>
+                                                <span className="pl-1 font-semibold text-gray-400 inventory-info" data-pr-tooltip={`For 'User' access level: Reporting and configuration of inventory are restricted.`}>?</span>
+                                            </div>
                                             <InputSwitch
                                                 name="inventory.access"
                                                 checked={formik.values.inventory.access}
@@ -225,10 +230,12 @@ const UserForm = () => {
                                         )}
                                     </div>
                                     <div className="grid gap-2">
+                                        <Tooltip target=".hr-info" />
                                         <div className="flex items-center justify-between border-b border-b-gray-300 py-2">
-                                            <span className="font-semibold">
-                                                Human Resource
-                                            </span>
+                                            <div className="font-semibold">
+                                                <span>Human Resource</span>
+                                                <span className="pl-1 font-semibold text-gray-400 hr-info" data-pr-tooltip={`For 'User' access level: Reporting and configuration of human resource are restricted.`}>?</span>
+                                            </div>
                                             <InputSwitch
                                                 name="humanResource.access"
                                                 checked={formik.values.humanResource.access}
@@ -252,10 +259,12 @@ const UserForm = () => {
                                         )}
                                     </div>
                                     <div className="grid gap-2">
+                                        <Tooltip target=".sys-info" />
                                         <div className="flex items-center justify-between py-2">
-                                            <span className="font-semibold">
+                                            <div className="font-semibold">
                                                 Sytem Administrator
-                                            </span>
+                                                <span className="pl-1 font-semibold text-gray-400 sys-info" data-pr-tooltip="System administrator is allowed to access general settings and user management">?</span>
+                                            </div>
                                             <InputSwitch
                                                 name="role"
                                                 checked={formik.values.role}
@@ -267,10 +276,12 @@ const UserForm = () => {
                                 {/* right */}
                                 <div className="flex flex-col gap-10">
                                     <div className="grid gap-2">
+                                        <Tooltip target=".supply-info" />
                                         <div className="flex items-center justify-between border-b border-b-gray-300 py-2">
-                                            <span className="font-semibold">
-                                                Supply Chain
-                                            </span>
+                                            <div className="font-semibold">
+                                                <span>Supply Chain</span>
+                                                <span className="pl-1 font-semibold text-gray-400 supply-info" data-pr-tooltip="For 'User' access level: Reporting and configuration of supply chain are restricted.">?</span>
+                                            </div>
                                             <InputSwitch
                                                 name="supplyChain.access"
                                                 checked={
@@ -294,10 +305,12 @@ const UserForm = () => {
                                         )}
                                     </div>
                                     <div className="grid gap-2">
+                                        <Tooltip target=".finance-info" />
                                         <div className="flex items-center justify-between border-b border-b-gray-300 py-2">
-                                            <span className="font-semibold">
-                                                Financial
-                                            </span>
+                                            <div className="font-semibold">
+                                                <span>Financial</span>
+                                                <span className="pl-1 font-semibold text-gray-400 finance-info" data-pr-tooltip="For 'User' access level: Reporting and configuration of financial are restricted.">?</span>
+                                            </div>
                                             <InputSwitch
                                                 name="financial.access"
                                                 checked={formik.values.financial.access}
@@ -317,12 +330,15 @@ const UserForm = () => {
                                                 </select>
                                             </div>
                                         )}
+                                        {formik.values.financial.role === "User" && <div className="text-sm text-gray-400">For 'User' access level: Reporting and configuration of financial are restricted.</div>}
                                     </div>
                                     <div className="grid gap-2">
+                                        <Tooltip target=".sales-info" />
                                         <div className="flex items-center justify-between border-b border-b-gray-300 py-2">
-                                            <span className="font-semibold">
-                                                Sales
-                                            </span>
+                                            <div className="font-semibold">
+                                                <span>Sales</span>
+                                                <span className="pl-1 font-semibold text-gray-400 sales-info" data-pr-tooltip="For 'User' access level: Reporting and configuration of sales are restricted.">?</span>
+                                            </div>
                                             <InputSwitch
                                                 name="sales.access"
                                                 checked={formik.values.sales.access}

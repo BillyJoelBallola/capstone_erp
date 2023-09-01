@@ -30,7 +30,7 @@ const Home = () => {
                         />
                     </div>
                 </div>
-                <div className='grid place-items-center'>
+                {/* <div className='grid place-items-center'>
                     <div className='flex gap-2 md:gap-4'>
                         <button 
                             className='bg-gray-200 flex items-center gap-2 px-3 rounded-full font-semibold hover:bg-gray-400 duration-150' 
@@ -54,7 +54,7 @@ const Home = () => {
                             <span>Chicken</span>
                         </button>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className='mt-16'>
                 <HomeProducts 

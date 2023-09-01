@@ -12,7 +12,6 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     const [purchases, setPurchases] = useState([]);
     const [rawMaterials, setRawMaterials] = useState([]);
     const navigate = useNavigate();
-    const location = op === "inventory" ? "inventory" : "supply-chain";
     
     const referenceGenerator = (func) => {
         const [m, d, y] = moment(Date.now()).format("L").split("/");
@@ -119,7 +118,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             target: e.currentTarget,
             message: `Do you want to create production order for this product?`,
             icon: 'pi pi-info-circle',
-            acceptClassName: 'p-button-success',
+            acceptClassName: 'p-button-help',
             accept: async () => {
                 let duplicate = false;
                 let good = false;
@@ -159,7 +158,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 const response = await axios.post("/erp/production_replenish", { productId: selectedRows[0]?._id, reference: referenceGenerator("PRD") });
                 if(response.statusText === "OK"){
                     const data = response.data;
-                    navigate(`/${location}/productions/production-form/${data._id}`);
+                    navigate(`/${op}/productions/production-form/${data._id}`);
                 }else{
                     return toast.error("Failed to add production order.", { position: toast.POSITION.TOP_RIGHT });
                 }
@@ -172,7 +171,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             target: e.currentTarget,
             message: `Do you want to create purchase order for this material?`,
             icon: 'pi pi-info-circle',
-            acceptClassName: 'p-button-success',
+            acceptClassName: 'p-button-help',
             accept: async () => {
                 let duplicate = false;
 
@@ -189,7 +188,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 const response = await axios.post("/erp/replenish_purchase", { material: selectedRows[0], reference: referenceGenerator("PRS") });
                 if(response.statusText === "OK"){
                     const data = response.data;
-                    navigate(`/${location}/purchases/purchase-form/${data._id}`);
+                    navigate(`/${op}/purchases/purchase-form/${data._id}`);
                 }else{
                     toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
                 }
@@ -202,7 +201,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             target: e.currentTarget,
             message: `Do you want to create purchase orders for this materials?`,
             icon: 'pi pi-info-circle',
-            acceptClassName: 'p-button-success',
+            acceptClassName: 'p-button-help',
             accept: async () => {
                 let mats = [];
                 let total = 0;
@@ -237,7 +236,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 const response = await axios.post("/erp/add_purchase", { supplier: selectedRows[0]?.supplier?._id, date: Date.now(), expectedArrival: Date.now(), materials: mats, total: total, reference: referenceGenerator("PRS") });
                 if(response.statusText === "OK"){
                     const data = response.data;
-                    navigate(`/${location}/purchases/purchase-form/${data._id}`);
+                    navigate(`/${op}/purchases/purchase-form/${data._id}`);
                 }else{
                     toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
                 }
@@ -272,87 +271,97 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     }
 
     // manage-user -> user
-    if(formatName === "user" && selectedRows?.length === 1){
-        return (
-            <>
-                <ConfirmPopup />
-                <div className="flex gap-1">
-                    <NavLink to={`/settings/manage-users/user-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
-                    <button className="btn-gray" onClick={setToActive}>Active</button>
-                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
-                </div>
-            </>
-       
-        )
-    }
-    if(formatName === "user" && selectedRows?.length > 1){
-        return (
-            <>
-                <ConfirmPopup />
-                <div className="flex gap-1">
-                    <button className="btn-gray" onClick={setToActive}>Active</button>
-                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
-                </div>
-            </>
-        )   
+    if(formatName === "user"){
+        if(selectedRows?.length === 1){
+            return (
+                <>
+                    <ConfirmPopup />
+                    <div className="flex gap-1">
+                        <NavLink to={`/settings/manage-users/user-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+                        <button className="btn-gray" onClick={setToActive}>Active</button>
+                        <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                    </div>
+                </>
+           
+            )
+        }
+
+        if(selectedRows?.length > 1){
+            return (
+                <>
+                    <ConfirmPopup />
+                    <div className="flex gap-1">
+                        <button className="btn-gray" onClick={setToActive}>Active</button>
+                        <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                    </div>
+                </>
+            )   
+        }
     }
 
     // inventory -> raw-material
-    if((op === "inventory" && formatName === "raw-material") && selectedRows?.length === 1){
-        return (
-            <>
-                <ConfirmPopup />
-                <div className="flex gap-1">
-                    <NavLink to={`/inventory/raw-materials/raw-material-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
-                    <button className="btn-gray" onClick={() => setVisible(true)}>Adjust</button>
-                    <button className="btn-gray" onClick={replenishMaterial}>Replenish</button>
-                </div>
-            </>
-        )
-    }
-    if((op === "inventory" && formatName === "raw-material") && selectedRows?.length > 1){
-        const values = selectedRows.map(item => item.supplier.business);
-        const areEqual = values.every(value => value === values[0]);
-        return (
-            <>
-                <ConfirmPopup />
-                {
-                    areEqual && 
+    if(op === "inventory" && formatName === "raw-material"){
+        if(selectedRows?.length === 1){
+            return (
+                <>
+                    <ConfirmPopup />
                     <div className="flex gap-1">
-                        <button className="btn-gray" onClick={replenishMaterials}>Replenish</button>
+                        <NavLink to={`/inventory/raw-materials/raw-material-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+                        <button className="btn-gray" onClick={() => setVisible(true)}>Adjust</button>
+                        <button className="btn-gray" onClick={replenishMaterial}>Replenish</button>
                     </div>
-                }
-            </>
-        )   
-    }
+                </>
+            )
+        }
 
-    // inventory -> producto
-    if((op === "inventory" && formatName === "product") && selectedRows?.length === 1){
-        return (
-            <>
-                <ConfirmPopup />
-                <div className="flex gap-1">
-                    <NavLink to={`/inventory/products/product-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
-                    <button className="btn-gray" onClick={() => setVisible(true)}>Adjust</button>
-                    <button className="btn-gray" onClick={replenishProduct}>Replenish</button>
-                    <button className="btn-gray" onClick={setToActive}>Active</button>
-                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
-                </div>
-            </>
-        )
-    }
-    if((op === "inventory" && formatName === "product") && selectedRows?.length > 1){
-        return (
-            <>
-                <ConfirmPopup />
-                <div className="flex gap-1">
-                    <button className="btn-gray" onClick={setToActive}>Active</button>
-                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
-                </div>
-            </>
-        )   
+        if(selectedRows?.length > 1){
+            const values = selectedRows.map(item => item.supplier.business);
+            const areEqual = values.every(value => value === values[0]);
+            return (
+                <>
+                    <ConfirmPopup />
+                    {
+                        areEqual && 
+                        <div className="flex gap-1">
+                            <button className="btn-gray" onClick={replenishMaterials}>Replenish</button>
+                        </div>
+                    }
+                </>
+            )   
+        }
     }
     
+    // inventory -> producto
+    if(op === "inventory" && formatName === "product"){
+        if(selectedRows?.length === 1){
+            return (
+                <>
+                    <ConfirmPopup />
+                    <div className="flex gap-1">
+                        <NavLink to={`/inventory/products/product-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+                        <button className="btn-gray" onClick={() => setVisible(true)}>Adjust</button>
+                        <button className="btn-gray" onClick={replenishProduct}>Replenish</button>
+                        <button className="btn-gray" onClick={setToActive}>Active</button>
+                        <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                    </div>
+                </>
+            )
+        }
+
+        if(selectedRows?.length > 1){
+            return (
+                <>
+                    <ConfirmPopup />
+                    <div className="flex gap-1">
+                        <button className="btn-gray" onClick={setToActive}>Active</button>
+                        <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                    </div>
+                </>
+            )   
+        }
+       
+    }
+
     // inventory -> production
     if((op === "inventory" && formatName === "production") && selectedRows?.length === 1){
         return (
@@ -379,57 +388,6 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     <button className='btn-gray' onClick={() => cancelProcess("purchase")}>Cancel</button>
                 }
             </div>
-        )
-    }
-   
-    // supply-chain -> raw-material
-    if((op === "supply-chain" && formatName === "raw-material") && selectedRows?.length === 1){
-        return (
-            <div className="flex gap-1">
-                <NavLink to={`/supply-chain/raw-materials/raw-material-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
-                <button className="btn-gray" onClick={replenishMaterial}>Replenish</button>
-            </div>
-        )
-    }
-    if((op === "supply-chain" && formatName === "raw-material") && selectedRows?.length > 1){
-        const values = selectedRows.map(item => item.supplier.business);
-        const areEqual = values.every(value => value === values[0]);
-        return (
-            <>
-                <ConfirmPopup />
-                {
-                    areEqual && 
-                    <div className="flex gap-1">
-                        <button className="btn-gray" onClick={replenishMaterials}>Replenish</button>
-                    </div>
-                }
-            </>
-        )   
-    }
-    
-    // supply-chain -> products
-    if((op === "supply-chain" && formatName === "product") && selectedRows?.length === 1){
-        return (
-            <div className="flex gap-1">
-                <NavLink to={`/supply-chain/products/product-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
-                <button className="btn-gray" onClick={replenishProduct}>Replenish</button>
-            </div>
-        )
-    }
-
-     // supply-chain -> production
-    if((op === "supply-chain" && formatName === "production") && selectedRows?.length === 1){
-        return (
-            <>
-                <div className="flex gap-1">
-                    <NavLink to={`/supply-chain/productions/production-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
-                    {
-                        selectedRows[0]?.state === 1 && selectedRows[0]?.state !== 4 && 
-                        <button className='btn-gray' onClick={() => cancelProcess("production")}>Cancel</button>
-                    }
-                </div>
-            </>
-        
         )
     }
 
@@ -537,27 +495,30 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
 
     //human-resource -> employees 
     if(formatName === "employee" && selectedRows?.length === 1){
-        return (
-            <>
-                <ConfirmPopup />
-                <div className="flex gap-1">
-                    <NavLink to={`/human-resource/employees/employee-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
-                    <button className="btn-gray" onClick={setToActive}>Active</button>
-                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
-                </div>
-            </>
-        )
-    }
-    if(formatName === "employee" && selectedRows?.length > 1){
-        return (
-            <>
-                <ConfirmPopup />
-                <div className="flex gap-1">
-                    <button className="btn-gray" onClick={setToActive}>Active</button>
-                    <button className="btn-gray" onClick={setToInactive}>Inactive</button>
-                </div>
-            </>
-        )   
+        if (selectedRows?.length === 1) {
+            return (
+                <>
+                    <ConfirmPopup />
+                    <div className="flex gap-1">
+                        <NavLink to={`/human-resource/employees/employee-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+                        <button className="btn-gray" onClick={setToActive}>Active</button>
+                        <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                    </div>
+                </>
+            )
+        }
+
+        if(selectedRows?.length > 1){
+            return (
+                <>
+                    <ConfirmPopup />
+                    <div className="flex gap-1">
+                        <button className="btn-gray" onClick={setToActive}>Active</button>
+                        <button className="btn-gray" onClick={setToInactive}>Inactive</button>
+                    </div>
+                </>
+            )   
+        }
     }
 
     //human-resource -> attendance 

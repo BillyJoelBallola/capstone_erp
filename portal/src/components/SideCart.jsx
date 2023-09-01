@@ -208,7 +208,7 @@ const SideCart = ({ visible, setVisible }) => {
                             No items yet, start picking and add to your cart.  
                         </div>
                     }
-                    <span className='text-xs'>Order quantities that exceeded the available quantity of the products may take a while to deliver due to production process.</span>
+                    <div className='text-xs bg-yellow-50 p-2 border border-yellow-500 text-yellow-600 rounded-lg'>Order quantities that exceeded the available quantity of the products may take a while to deliver due to production process.</div>
                 </div>
                 <div className='text-lg flex justify-end border border-b-0 border-x-0 border-gray-300 absolute bottom-0 left-0 right-0 py-5 px-2 bg-gray-100 font-semibold text-black text-md gap-2 items-center'>
                     <span>Total ({readyForCheckOut?.length} item) : </span>

@@ -171,8 +171,8 @@ const Account = () => {
                     <ProgressSpinner />
                 </div> 
                 :
-                <div className='py-28 side-margin flex gap-5'>
-                    <div className='basis-[350px]'>   
+                <div className='py-28 side-margin flex flex-col md:flex-row gap-5'>
+                    <div className='md:basis-[350px]'>   
                         <div className='grid py-2'>
                             <span className='font-semibold'>{currentCustomer?.name}</span>
                             <span className='text-sm'>{currentCustomer?.email}</span>
@@ -366,7 +366,7 @@ const Account = () => {
                                                         <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
                                                         <button className='text-sm whitespace-nowrap underline hover:text-red-500' onClick={() => cancelOrder(order._id)}>Cancel Order</button>
                                                     </div>
-                                                    <div className='grid gap-3 pl-10'>
+                                                    <div className='grid gap-3 md:pl-10'>
                                                         {
                                                             order.orders.map(ord => (
                                                                 <div key={ord.productId} className='flex gap-5 items-center'>
@@ -408,7 +408,7 @@ const Account = () => {
                                                             }
                                                         </div>
                                                     </div>
-                                                    <div className='grid gap-3 pl-10'>
+                                                    <div className='grid gap-3 md:pl-10'>
                                                         {
                                                             order.orders.map(ord => (
                                                                 <div key={ord.productId} className='flex gap-5 items-center'>
@@ -451,7 +451,7 @@ const Account = () => {
                                                         </div>
                                                         <button className='btn-gray' onClick={() => handleReceiveAll(order._id)} disabled={disableButton}>Receive All</button>
                                                     </div>
-                                                    <div className='grid gap-3 pl-10'>
+                                                    <div className='grid gap-3 md:pl-10'>
                                                         {
                                                             order.orders.map(ord => (
                                                                 <div key={ord.productId} className='flex gap-5 items-center'>
@@ -499,7 +499,7 @@ const Account = () => {
                                                             }
                                                         </div>
                                                     </div>
-                                                    <div className='grid gap-3 pl-10'>
+                                                    <div className='grid gap-3 md:pl-10'>
                                                         {
                                                             order.orders.map(ord => (
                                                                 <div key={ord.productId} className='flex gap-5 items-center'>
@@ -534,7 +534,7 @@ const Account = () => {
                                                         <span className='font-semibold'>{order.reference} - ₱{order.total}</span>
                                                         <span className='text-sm whitespace-nowrap text-red-500'>Cancelled</span>
                                                     </div>
-                                                    <div className='grid gap-3 pl-10'>
+                                                    <div className='grid gap-3 md:pl-10'>
                                                         {
                                                             order.orders.map(ord => (
                                                                 <div key={ord.productId} className='flex gap-5 items-center'>

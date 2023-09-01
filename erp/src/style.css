@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 *{
     color: #212121;
 }
@@ -29,7 +31,7 @@ input[type="month"]{
 }
 
 .btn-red{ 
-    @apply py-1 px-4 bg-white text-red-400 text-sm border border-red-400 font-bold rounded-md hover:bg-red-100 hover:border-red-100 transition-all delay-100 ease-in-out; 
+    @apply py-1 px-4 bg-white text-red-500 text-sm border border-red-500 font-bold rounded-md hover:bg-red-100 hover:border-red-100 transition-all delay-100 ease-in-out; 
 }
 
 .btn-green{ 

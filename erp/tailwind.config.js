@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         'roboto': ['Roboto',' sans-serif'],
+        'cabin': ['Cabin', 'sans-serif']
       },
       backgroundColor: {
         'dark': '#303030',

@@ -10,7 +10,7 @@ const Sales = () => {
     useEffect(() => {
         setLoading(true);
         axios.get("/erp/orders").then(({ data }) => {
-            setOrders(data?.filter(order => order.state <= 2 || order.invoice <= 2)?.length);
+            setOrders(data?.filter(order => order.state <= 2 || order.invoice === 1)?.length);
             setLoading(false);
         });
     }, [])

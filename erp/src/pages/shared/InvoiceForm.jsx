@@ -499,6 +499,7 @@ const InvoiceForm = () => {
                                         op === "financial" && payment !== 3 &&
                                         <>
                                             <button className='btn-primary p-2' onClick={() => setVisible(true)}>Payment</button>
+                                            <button className='btn-dark-gray' onClick={sendEmail}>Print</button>
                                             <button className='btn-dark-gray' onClick={sendEmail}>Send email</button>
                                         </>
                                     }

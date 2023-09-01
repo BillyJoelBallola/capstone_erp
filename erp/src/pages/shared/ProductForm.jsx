@@ -462,7 +462,7 @@ const ProductForm = () => {
                         <div className="flex gap-1">
                             <button className="btn-gray" onClick={replenish}>Replenish</button>
                             {
-                                op === "iventory" &&
+                                op === "inventory" &&
                                 <button className="btn-gray" onClick={() => setVisible(true)}>Adjust</button>
                             }
                         </div>

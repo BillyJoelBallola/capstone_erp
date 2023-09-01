@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { TieredMenu } from "primereact/tieredmenu";
 import settingsIcon from "../assets/settings.svg";

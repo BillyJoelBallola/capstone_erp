@@ -362,7 +362,6 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#fff" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-
                 {`${formattedName === "payroll" ? "Generate Payslip" : "New"}`}
             </NavLink>
         )
@@ -410,7 +409,12 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                     }
                     {
                         formattedName === "attendance" &&
-                        <button className="btn-dark px-4" onClick={() => setVisibleAttendance(true)}>Add</button>
+                        <button className="btn-dark px-4 flex items-center gap-1" onClick={() => setVisibleAttendance(true)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#fff" className="w-5 h-5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            Add
+                        </button>
                     }
                     { 
                         op === "financial" && formattedName === "supplier" &&

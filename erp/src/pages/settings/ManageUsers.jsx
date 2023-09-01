@@ -33,7 +33,7 @@ const ManageUsers = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
-            <CustomTable dataValue={users} name="User" columns={columns} setAction={setAction}/>
+            <CustomTable dataValue={users} name="User" columns={columns} setAction={setAction} metaKey={false}/>
         </>
   )
 }
