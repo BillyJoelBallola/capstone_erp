@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import * as Yup from "yup";
 import axios from "axios";
+import { Tooltip } from 'primereact/tooltip';
 
 const referenceGenerator = (func) => {
     const [m, d, y] = moment(Date.now()).format("L").split("/");
@@ -288,8 +289,8 @@ const BillForm = () => {
                 .required("Supplier is required."),
             date: Yup.date()
                 .required("Bill Order is required."),
-            dueDate: Yup.date()
-                .required("Due Date is required."),
+            // dueDate: Yup.date()
+            //     .required("Due Date is required."),
             journal: Yup.string()
                 .min(4, "Journal must be 4 characters or more.")
                 .required("Journal is required."),
@@ -615,6 +616,7 @@ const BillForm = () => {
                                     />
                                 </div>
                                 <div className="form-group">
+                                    <Tooltip target=".finance-info" />
                                     <label
                                         htmlFor=""
                                         className={`${
@@ -628,6 +630,7 @@ const BillForm = () => {
                                         formik.errors.dueDate
                                             ? formik.errors.dueDate
                                             : "Due Date"}
+                                            <span className="pl-1 font-semibold text-gray-400 finance-info" data-pr-tooltip="Due date is based to the payment terms.">?</span>
                                     </label>
                                     <input 
                                         type="date" 

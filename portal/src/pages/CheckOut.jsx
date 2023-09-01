@@ -191,7 +191,11 @@ const CheckOut = () => {
                             </div>
                             <div>
                                 <h3 className='font-semibold'>Payment Details</h3>
-                                <div className='mt-2 text-sm'>empty</div>
+                                <div className='mt-2 text-sm'>
+                                    <div>Cash On Delivery</div>
+                                    <div>Bank Cheque</div>
+                                    <div>Gcash</div>
+                                </div>
                             </div>
                             <div className='grid gap-2'>
                                 <div className='h-[1px] bg-gray-300'/>      

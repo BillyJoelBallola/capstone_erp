@@ -22,7 +22,6 @@ const InvoiceSchema = new Schema({
     },
     dueDate: {
         type: Date,
-        required: true
     },
     journal: {
         type: String,

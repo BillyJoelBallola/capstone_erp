@@ -21,7 +21,6 @@ const BillSchema = new Schema({
     },
     dueDate: {
         type: Date,
-        required: true
     },
     journal: {
         type: String,

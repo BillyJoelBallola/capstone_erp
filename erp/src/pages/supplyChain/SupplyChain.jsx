@@ -30,7 +30,7 @@ const SupplyChain = () => {
                 <span className="text-lg font-semibold">Supply Chain Overview</span>
             </div>
             <div className='pt-28 pb-10 px-6'>
-                <div className='grid grid-cols-3 gap-4 mb-6'>
+                <div className='grid md:grid-cols-3 gap-4 mb-6'>
                     <div className='grid gap-4 bg-white border border-gray-300 p-4 border-r-yellow-400 border-r-4'>
                         <span className='text-lg font-semibold'>Shipments</span>
                         <NavLink to="/supply-chain/shipments" className="btn-dark-gray max-w-min whitespace-nowrap px-4">{shipment} to Process</NavLink>

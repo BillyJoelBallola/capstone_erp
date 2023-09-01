@@ -104,13 +104,13 @@ const Planning = () => {
                     {   
                         productionPlanning.length !== 0 ?
                         productionPlanning?.map(planning => (
-                            <div key={planning._id} className='flex gap-4 p-4'>
+                            <div key={planning._id} className='flex flex-col md:flex-row md:gap-4 gap-2 p-4'>
                                 <div className='flex gap-4'>
                                     <div className="w-28 aspect-square grid place-items-center">
                                         <img className="object-contain rounded-md drop-shadow-lg" src={planning.productImg === "" ? placeHolder : `http://localhost:4000/uploads${planning.productImg}`} alt="product-image" />
                                     </div>
                                 </div>
-                                <div className='flex justify-between w-full'>
+                                <div className='flex flex-col gap-4 justify-between w-full'>
                                     <div className='flex flex-col justify-center'>
                                         <NavLink to={`${path}/products/product-form/${planning._id}`} className='text-xl font-semibold text-black hover:underline'>{planning.name}</NavLink>
                                         <NavLink to={`${path}/product_forecast/${planning._id}`} className='flex gap-1 items-center hover:underline'>
@@ -143,7 +143,7 @@ const Planning = () => {
 
     return (
         <div className='w-full'>
-            <div className='grid gap-4 md:grid-cols-2'>
+            <div className='grid pb-10 gap-4 md:grid-cols-2'>
                 <Products />
                 <RawMaterials />
             </div>

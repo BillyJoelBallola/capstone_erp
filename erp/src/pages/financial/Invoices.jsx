@@ -22,7 +22,7 @@ const Invoices = () => {
         { field: "reference", filter: "reference", header: "Code" }, 
         { field: "customer.name", filter: "customer.name", header: "Customer" }, 
         { body: "dateFormat", header: "Invoice Date"},
-        { body: "dateThirdFormat", header: "Due Date"},
+        // { body: "dateThirdFormat", header: "Due Date"},
         { field: "formatMoney", filter: "total", header: "₱Total" }, 
         { body: "paymentStatus", header: "Payment" }, 
         { body: "state", header: "State" }, 

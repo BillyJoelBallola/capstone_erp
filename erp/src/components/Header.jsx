@@ -53,10 +53,10 @@ const Header = () => {
     }
 
     return (
-        <nav className='z-40 w-screen py-2 bg-white/[.1] backdrop-blur-xl md:bg-transparent top-0 fixed px-6'>
+        <nav className='z-40 w-screen py-2 bg-white/[.1] backdrop-blur-xl md:bg-transparent top-0 fixed px-2 md:px-6'>
             <div className='flex justify-between items-center w-full'>
                 <DynamicLinks />
-                <div className='relative'>
+                <div>
                     <button onClick={(e) => menu.current.toggle(e)}>
                         {
                             currentUser &&

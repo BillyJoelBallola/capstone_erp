@@ -263,7 +263,7 @@ const UserForm = () => {
                                         <div className="flex items-center justify-between py-2">
                                             <div className="font-semibold">
                                                 Sytem Administrator
-                                                <span className="pl-1 font-semibold text-gray-400 sys-info" data-pr-tooltip="System administrator is allowed to access general settings and user management">?</span>
+                                                <span className="pl-1 font-semibold text-gray-400 sys-info" data-pr-tooltip="System administrator has access to general settings and user management">?</span>
                                             </div>
                                             <InputSwitch
                                                 name="role"

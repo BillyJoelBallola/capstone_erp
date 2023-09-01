@@ -45,11 +45,11 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
         let color = "";
         let text  = "";
         let label = "";
-
+        
         if(quantity <= 10){
             color = "bg-red-100";
             text = "text-red-700";
-            label = "Reorder";
+            label = currentLocation.includes("product") ? "Restock" : "Reorder";
         }
         if(quantity > 11){
             color = "bg-green-100";
@@ -131,7 +131,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
             indicator = "Paid";
         }
 
-        return <span className={`${colorStyle} ${textColorStyle} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
+        return <span className={`${colorStyle} ${textColorStyle} whitespace-nowrap rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
     }
     
     const state = (rowData) => {
@@ -381,7 +381,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                 setAction={setAction}
                 attendanceData={formattedName === "attendance" ? dataValue : null}
             />
-            <div className="pt-14 px-4 flex gap-3 items-center justify-between py-3 border border-t-0 border-b-gray-200 bg-white">
+            <div className="pt-14 px-4 flex flex-col md:flex-row gap-3 md:items-center justify-between py-3 border border-t-0 border-b-gray-200 bg-white">
                 <div className="flex gap-3 items-center">
                     {   
                         op === "inventory" && 
@@ -445,8 +445,8 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                 }   
                 {
                     selectedRows?.length === 0 ?
-                    <div className="w-1/4">
-                        <div className="flex items-center bg-gray-100 pl-2 rounded-md">
+                    <div className="md:w-1/4">
+                        <div className="flex items-center bg-gray-100 pl-2 rounded-md border border-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#6B7280" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                             </svg>

@@ -38,7 +38,7 @@ const OrderForm = () => {
             const invoiceData = data.find(item => item.order._id === id);
             setInvoice(invoiceData);  
         })
-    }, [shipment, invoice])
+    }, [])
     
     const confirmOrder = async (e) => {
         confirmPopup({
