@@ -55,6 +55,7 @@ const EmployeeForm = () => {
             dob: Yup.date()
                 .required("Date of birth is required."),
             age: Yup.number()
+                .min(1, "Age must be higher than 1.")
                 .required("Age is required."),
             gender: Yup.string()
                 .required("Gender is required."),

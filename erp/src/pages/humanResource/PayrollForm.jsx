@@ -1,15 +1,72 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import { ConfirmPopup, confirmPopup } from 'primereact/confirmpopup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import { formatMoney } from '../../static/_functions';
 import DialogBox from '../../components/DialogBox';
+import logo from "../../assets/micaella-logo.png";
+import { useReactToPrint } from 'react-to-print';
 import { useFormik } from 'formik';
 import moment from "moment";
 import * as Yup from "yup";
 import axios from 'axios';
 
-// TODO: Print slip
+// TODO: Preview
+
+const PaySlipPreview = ({ setPreview, data, totals, reference }) => {
+    const previewRef = useRef(null);
+
+    const printSlip = useReactToPrint({
+        content: () => previewRef.current
+    });
+
+    return (
+        <div className='absolute z-40 bg-black/80 inset-0 py-20'>
+            <div className='max-w-[70%] mx-auto'>
+                <div className="mb-2 flex justify-between">
+                    <div className='flex gap-3 items-center'>
+                        <button onClick={() => setPreview(false)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#fff" className="w-5 h-5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                            </svg>
+                        </button>
+                        <span className='text-lg font-semibold text-white'>Preview</span>
+                    </div>
+                    <div className='text-white flex gap-3'>
+                        <button onClick={printSlip}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#fff" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div className="bg-white p-6" ref={previewRef}>
+                    <div className="py-2 border border-x-0 border-t-0 border-gray-400">
+                        <div className="flex w-32">
+                            <img src={logo} alt="logo" className='object-fit'/>
+                        </div>
+                    </div>
+                    <div className='py-2 grid gap-10'>
+                        <div className='flex justify-between'>
+                            <div className='grid'>
+                                <span>{data.name}</span>
+                                <span>{data.department.name}</span>
+                            </div>
+                            <div>
+                                <span>Period: <b>{moment(data.from).format("ll")} - {moment(data.to).format("ll")}</b></span>
+                            </div>
+                        </div>
+                        <div>
+                            <span className="text-2xl font-semibold">{reference}</span>
+                            <div></div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 const PaymentForm = ({ netPay, visible, setVisible, setAction }) => {
     const id = useParams().id;
@@ -117,7 +174,9 @@ const PaymentForm = ({ netPay, visible, setVisible, setAction }) => {
 const PayrollForm = () => {
     const id = useParams().id;
     const navigate = useNavigate();
+    const [data, setData] = useState({});
     const [visible, setVisible] = useState(false);
+    const [preview, setPreview] = useState(false);
     const [employees, setEmployees] = useState([]);
     const [reference, setReference] = useState("");
     const [payment, setPayment] = useState("");
@@ -126,11 +185,11 @@ const PayrollForm = () => {
     const [attendance, setAttendance] = useState("");
     const [attendanceDay, setAttendanceDay] = useState(0);
     const [paymentData, setPaymentData] = useState([]);
-    const [date, setData] = useState("");
+    const [date, setDate] = useState("");
     const [employeeData, setEmployeeData] = useState({
-       position: "",
-       deductions: [],
-       salary: 0
+        department: "",
+        deductions: [],
+        salary: 0
     });
     const [totals, setTotals] = useState({
         gross: 0,
@@ -199,11 +258,15 @@ const PayrollForm = () => {
                 formik.values.to = data.toDate ? data.toDate.toString().slice(0, 10) : "";
                 formik.values.earning = data.earning;
                 setPaymentData(data.paymentData);
-                setData(data.date);
+                setDate(data.date);
                 setPayment(data.payment);
                 setReference(data.reference);
                 setState(data.state);
                 setAction("");
+                setTotals({
+                    gross: data.gross,
+                    deduction: data.deduction
+                })
             })
         }
     }, [id, action]);
@@ -221,8 +284,9 @@ const PayrollForm = () => {
         if(formik.values.employee){
             employees.find(emp => {
                 if(formik.values.employee === emp._id){
+                    setData(emp);
                     setEmployeeData({
-                        position: emp.position.name,
+                        department: emp.department.name,
                         salary: emp.salary,
                         deductions: emp.deductions
                     })
@@ -230,7 +294,7 @@ const PayrollForm = () => {
             });
         }else{
             setEmployeeData({
-                position: "",
+                department: "",
                 salary: "",
                 deductions: []
             })
@@ -240,7 +304,7 @@ const PayrollForm = () => {
             })
             formik.resetForm();
         }
-    }, [formik.values.employee, employees])
+    }, [formik.values.employee])
 
     useEffect(() => {
         if (formik.values.from !== "" && formik.values.to !== "" && attendance) {
@@ -296,20 +360,37 @@ const PayrollForm = () => {
         
     }, [employeeData.deductions, formik.values.earning, id])
 
-    const cancelSlip = async () => {
-        const data = {id: id, state: 2};
+    const cancelSlip = (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: 'Do you want to delete this record?',
+            acceptClassName: 'p-button-danger',
+            accept: async () => {
+                const data = {id: id, state: 2};
 
-        const response = await axios.put("/erp/change_payslip_status", data)
-        if(response.statusText === "OK"){
-            setAction("cancelled"); 
-            return toast.success("Payslip has been cancelled.", { position: toast.POSITION.TOP_RIGHT });
-        }else{
-            return toast.error("Failed to cancel payslip.", { position: toast.POSITION.TOP_RIGHT });
-        }
+                const response = await axios.put("/erp/change_payslip_status", data)
+                if(response.statusText === "OK"){
+                    setAction("cancelled"); 
+                    return toast.success("Payslip has been cancelled.", { position: toast.POSITION.TOP_RIGHT });
+                }else{
+                    return toast.error("Failed to cancel payslip.", { position: toast.POSITION.TOP_RIGHT });
+                }
+            }
+        });
     }
 
     return (
         <>
+            {
+                preview &&   
+                <PaySlipPreview 
+                    data={{...data, employeeData, from: formik.values.from, to: formik.values.to}}
+                    setPreview={setPreview}
+                    totals={totals}
+                    reference={reference}
+                />
+            }
+            <ConfirmPopup />
             <ToastContainer
                 draggable={false}
                 hideProgressBar={true}
@@ -343,8 +424,8 @@ const PayrollForm = () => {
                                 id && state === 1 &&
                                 <>
                                     { payment <= 2 && <button className='btn-primary p-2' onClick={() => setVisible(true)}>Payment</button>}
+                                    { <button className='btn-dark-gray px-4 py-2' onClick={() => setPreview(true)}>Preview</button> }
                                     { payment === 1 && <button className='btn-dark-gray p-2' onClick={cancelSlip}>Cancel</button>}
-                                    { payment === 3 && <button className='btn-dark-gray px-4 py-2 whitespace-nowrap'>Print Slip</button>}
                                 </>
                             }
                         </div>
