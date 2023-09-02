@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import { ConfirmPopup, confirmPopup } from "primereact/confirmpopup";
 import { country } from "../../static/country";
 import axios from 'axios';
 
@@ -7,16 +9,20 @@ const CustomerForm = () => {
     const id = useParams().id;
     const op = useParams().op;
     const navigate = useNavigate();
-    const [customer, setCustomer] = useState({});
     const [salesNumber, setSalesNumber] = useState(0);
+    const [customer, setCustomer] = useState({});
+    const [action, setAction] = useState('');
+    const [state, setState] = useState(0);
 
     useEffect(() => {
-        if(id){
+        if(id || action){
             axios.get(`/erp/customer/${id}`).then(({ data }) => {
                 setCustomer(data);
+                setState(data.state);
+                setAction("");
             })
         }
-    }, [id])
+    }, [id, action])
 
     useEffect(() => {
         axios.get("/erp/orders").then(({ data }) => {
@@ -24,9 +30,40 @@ const CustomerForm = () => {
         })
     }, [])
 
+    
+    const StateStyle = () => {
+        return (
+            <div className="flex justify-end">
+                <div className="max-w-min p-2 font-semibold text-sm flex items-center justify-center gap-3 relative">
+                    {state === 1 && <div className="text-red-400 border-red-400 bg-gray-200 border px-2 rounded-full z-10">Request</div>}
+                    {state === 2 && <div className="text-green-400 border-green-400 bg-gray-200 border px-2 rounded-full z-10">Confirm</div>}
+                </div>
+            </div>
+        )
+    }
+
+    const confirmCustomer = (e) => {
+        confirmPopup({
+            target: e.currentTarget,
+            message: 'Do you want to confirm this customer?',
+            acceptClassName: 'p-button-info',
+            accept: async () => {
+                const response = await axios.put("/erp/change_customer_state", { id: id, state: 2 });
+                if(response.statusText === "OK"){
+                    setAction("confirm");
+                    return toast.success("Customer account confirmed.", { position: toast.POSITION.TOP_RIGHT });
+                }else{
+
+                }
+            }
+        });
+    }
+
     return (
-        <div>
-            <div className="fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
+        <>
+            <ToastContainer draggable={false} hideProgressBar={true} />
+            <ConfirmPopup />
+            <div className="z-20 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
                 <div className='flex items-center gap-3'>       
                     <div className='flex gap-2'>
                         <div className="grid justify-center">
@@ -52,7 +89,13 @@ const CustomerForm = () => {
                     </div>
                 }
             </div>
-            <div className="px-6 py-8 pt-32 bg-gray-100">
+            <div className="px-6 py-8 pt-28 bg-gray-100">
+                <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                        {state === 1 && <button className='btn-dark-gray' onClick={confirmCustomer}>Confrim</button>}
+                    </div>
+                    { id && <StateStyle /> }
+                </div>
                 <div className="p-4 border grid gap-4 bg-white">
                     <div className="grid gap-4">
                         <div className="form-group w-full">
@@ -114,7 +157,7 @@ const CustomerForm = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

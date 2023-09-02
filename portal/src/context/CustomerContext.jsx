@@ -33,12 +33,12 @@ export const CustomerContextProvider = ({ children }) => {
 
     useEffect(() => {
         if(currentCustomer !== null || cartAction !== ""){
-            axios.get(`/erp/customer_cart/${currentCustomer._id}`).then(({ data }) => {
+            axios.get(`/erp/customer_cart/${currentCustomer?._id}`).then(({ data }) => {
                 setCart(data);
                 setCartAction("");
             })
         }
-    }, [cartAction, currentCustomer])
+    }, [cartAction, currentCustomer]);
     
     return(
         <CustomerContext.Provider 

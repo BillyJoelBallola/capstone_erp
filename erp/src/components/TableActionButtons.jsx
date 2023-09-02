@@ -173,7 +173,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             icon: 'pi pi-info-circle',
             acceptClassName: 'p-button-help',
             accept: async () => {
-                let duplicate = false;
+                // let duplicate = false;
 
                 purchases?.map(item => {
                     if(item.supplier._id === selectedRows[0]?.supplier._id && (item.state === 1 || item.state === 2)){
@@ -205,18 +205,17 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             accept: async () => {
                 let mats = [];
                 let total = 0;
-                let duplicate = false;
+                // let duplicate = false;
                
-        
                 // purchases?.map(item => {
                 //     if(item.supplier._id === selectedRows[0]?.supplier._id && (item.state === 1 || item.state === 2)){
                 //         duplicate = true;
                 //     }
                 // })
         
-                if(duplicate){
-                    return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
-                }
+                // if(duplicate){
+                //     return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
+                // }
         
                 selectedRows.map(item => {
                     const subTotal = item.price * 10;
@@ -276,7 +275,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             return (
                 <>
                     <ConfirmPopup />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-wrap">
                         <NavLink to={`/settings/manage-users/user-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
                         <button className="btn-gray" onClick={setToActive}>Active</button>
                         <button className="btn-gray" onClick={setToInactive}>Inactive</button>
@@ -290,7 +289,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             return (
                 <>
                     <ConfirmPopup />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-wrap">
                         <button className="btn-gray" onClick={setToActive}>Active</button>
                         <button className="btn-gray" onClick={setToInactive}>Inactive</button>
                     </div>
@@ -305,7 +304,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             return (
                 <>
                     <ConfirmPopup />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-wrap">
                         <NavLink to={`/inventory/raw-materials/raw-material-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
                         <button className="btn-gray" onClick={() => setVisible(true)}>Adjust</button>
                         <button className="btn-gray" onClick={replenishMaterial}>Replenish</button>
@@ -322,7 +321,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     <ConfirmPopup />
                     {
                         areEqual && 
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 flex-wrap">
                             <button className="btn-gray" onClick={replenishMaterials}>Replenish</button>
                         </div>
                     }
@@ -337,7 +336,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             return (
                 <>
                     <ConfirmPopup />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-wrap">
                         <NavLink to={`/inventory/products/product-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
                         <button className="btn-gray" onClick={() => setVisible(true)}>Adjust</button>
                         <button className="btn-gray" onClick={replenishProduct}>Replenish</button>
@@ -352,7 +351,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             return (
                 <>
                     <ConfirmPopup />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-wrap">
                         <button className="btn-gray" onClick={setToActive}>Active</button>
                         <button className="btn-gray" onClick={setToInactive}>Inactive</button>
                     </div>
@@ -366,7 +365,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     if((op === "inventory" && formatName === "production") && selectedRows?.length === 1){
         return (
             <>
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-wrap">
                     <NavLink to={`/inventory/productions/production-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
                     {
                         selectedRows[0]?.state === 1 && selectedRows[0]?.state !== 4 && 
@@ -381,7 +380,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     // inventory -> purchase
     if((op === "inventory" && formatName === "purchase") && selectedRows?.length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/inventory/purchases/purchase-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
                 {
                     selectedRows[0]?.state === 1 && selectedRows[0]?.state !== 4 && 
@@ -394,7 +393,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     // supply-chain -> purchase
     if((op === "supply-chain" && formatName === "purchase") && selectedRows?.length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/supply-chain/purchases/purchase-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
                 {
                     selectedRows[0]?.state === 1 && selectedRows[0]?.state !== 4 && 
@@ -407,7 +406,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     // supply-chain -> suppliers
     if(formatName === "supplier" && Object.keys(selectedRows).length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/${op}/suppliers/supplier-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
@@ -416,7 +415,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     //supply-chain -> orders
     if(formatName === "shipment" && selectedRows?.length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/supply-chain/shipments/shipment-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
@@ -425,7 +424,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     // financial -> bill
     if(formatName === "bill" && selectedRows?.length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/financial/bills/bill-form/${selectedRows[0]?.purchase._id}/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
@@ -441,7 +440,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             link = `/financial/payments/customers/payment-form/${selectedRows[0]?._id}`;
         }
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={link} className="btn-gray">View</NavLink>
             </div>
         )
@@ -460,7 +459,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             link = `/financial/invoices/invoice-form/${selectedRows[0]?.order._id}/${selectedRows[0]?._id}`;
         }
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={link} className="btn-gray">View</NavLink>
             </div>
         )
@@ -469,7 +468,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     //financial -> invoices
     if(formatName === "invoice" && selectedRows?.length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/financial/invoices/invoice-form/${selectedRows[0]?.order?._id}/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
@@ -478,7 +477,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     //sales -> orders 
     if(formatName === "order" && selectedRows?.length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/sales/orders/order-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
@@ -487,7 +486,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     //sales -> customers 
     if(formatName === "customer" && selectedRows?.length === 1){
         return (
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-wrap">
                 <NavLink to={`/sales/customers/customer-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
@@ -499,7 +498,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             return (
                 <>
                     <ConfirmPopup />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-wrap">
                         <NavLink to={`/human-resource/employees/employee-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
                         <button className="btn-gray" onClick={setToActive}>Active</button>
                         <button className="btn-gray" onClick={setToInactive}>Inactive</button>
@@ -512,7 +511,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             return (
                 <>
                     <ConfirmPopup />
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 flex-wrap">
                         <button className="btn-gray" onClick={setToActive}>Active</button>
                         <button className="btn-gray" onClick={setToInactive}>Inactive</button>
                     </div>
@@ -526,7 +525,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         return (
             <>
                 <ConfirmPopup />
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-wrap">
                     <button className="btn-gray" onClick={timeOut}>Time-out</button>
                 </div>
             </>

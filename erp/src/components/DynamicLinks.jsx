@@ -326,7 +326,7 @@ const DynamicLinks = () => {
                         <NavLink to="/">Configuration</NavLink>
                     </ul>
                      {/* Mobile */}
-                    <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
+                    <ul className={`md:hidden flex bg-white absolute top-10 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-8 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
                         <NavLink to="/inventory">Overview</NavLink>
                         <div>
                             <TieredMenu

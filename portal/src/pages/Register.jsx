@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
 import { country } from "../static/country";
+import { Dialog } from 'primereact/dialog';
+import { useFormik } from 'formik';
 import * as Yup from "yup";
 import axios from 'axios';
-
-// PLAN TODO: Wait for accepting registered accounts by admins;
 
 const Register = () => {
     const navigate = useNavigate();
@@ -78,9 +77,9 @@ const Register = () => {
             
             const response = await axios.post("/erp/add_customer", val);
             if(typeof response.data === "object"){
-                // setRegisterDone(true);
                 await axios.post("/erp/add_cart", { customerId: response.data._id });
-                navigate("/login");
+                setRegisterDone(true);
+                // navigate("/login");
             }else{
                 return toast.error(response.data, { position: toast.POSITION.TOP_RIGHT });
             }
@@ -102,6 +101,27 @@ const Register = () => {
 
     return (
         <>
+            <Dialog 
+                header="Register" 
+                visible={registerDone} 
+                // style={{ width: '30vw' }} 
+                className='w-[90vw] md:w-[40vw]'
+                onHide={() => { 
+                    setRegisterDone(false);
+                    navigate("/login");
+                }}
+            >
+                <div className='flex flex-col gap-6'>
+                    <p>Thank you for registering with Micaella's Meat Products Customer Portal. We appreciate your interest in our services. If your account request is confirmed, we will contact you through the provided phone number or email address.</p>
+                    <button 
+                        className='btn-dark self-end px-6 py-2 max-w-min left-0' 
+                        onClick={() => { 
+                            setRegisterDone(false);
+                            navigate("/login");
+                        }}
+                    >OK</button>
+                </div>
+            </Dialog>
             <ToastContainer
                 draggable={false}
                 hideProgressBar={true}
@@ -304,12 +324,6 @@ const Register = () => {
                             </div>
                         </form>
                     }
-                    {/* {
-                        registerDone &&
-                        <div>
-
-                        </div>
-                    } */}
                 </div>
             </div>
         </>

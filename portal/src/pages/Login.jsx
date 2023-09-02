@@ -39,8 +39,8 @@ const Login = () => {
                 draggable={false}
                 hideProgressBar={true}
             />
-            <div className='grid place-content-center h-screen w-screen'>
-                <div className='grid gap-8 w-96'>
+            <div className='grid place-items-center h-screen w-screen'>
+                <div className='grid gap-8 w-[90%] md:w-[50%] lg:w-[30%]'>
                     <span className='font-semibold text-2xl text-center'>Login your account here.</span>
                     <form className='grid gap-4 border rounded-md p-4' onSubmit={formik.handleSubmit}>
                         <div className="form-group">

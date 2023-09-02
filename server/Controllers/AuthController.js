@@ -34,15 +34,19 @@ export const customerLogin = async (req, res) => {
     const customerData = await Customer.findOne({ email });
     
     if(customerData){
-        const correctPass = bcrypt.compareSync(password, customerData.account.password);
-        if(correctPass){
-        jwt.sign({ id: customerData._id, name: customerData.name, business: customerData.business, email: customerData.email, address: customerData.address, account: customerData.account, contact: customerData.contact }, process.env.JWT_SECRET, {}, (err, token) => {
-                if (err) throw err;
-                res.cookie("portal_token", token);
-                res.status(200).json(customerData);
-            });
+        if(customerData.state === 2){
+            const correctPass = bcrypt.compareSync(password, customerData.account.password);
+            if(correctPass){
+            jwt.sign({ id: customerData._id, name: customerData.name, business: customerData.business, email: customerData.email, address: customerData.address, account: customerData.account, contact: customerData.contact }, process.env.JWT_SECRET, {}, (err, token) => {
+                    if (err) throw err;
+                    res.cookie("portal_token", token);
+                    res.status(200).json(customerData);
+                });
+            }else{
+                res.json("Incorrect Password");
+            }
         }else{
-            res.json("Incorrect Password");
+            res.json("Account has not been confirmed yet.");
         }
     }else{
         res.json("User not found");

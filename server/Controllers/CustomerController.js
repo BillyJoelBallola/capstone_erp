@@ -5,6 +5,8 @@ import bcrypt from "bcrypt";
 
 const brcyptSalt = bcrypt.genSaltSync(10);
 
+// stata: 1 -> Request, 2 -> Confirmed
+
 export const addCustomer = async (req, res) => {
     const { name, business, address, email, contact, account } = await req.body;
     const customerData = await Customer.findOne({ email });
@@ -19,7 +21,8 @@ export const addCustomer = async (req, res) => {
             account: {
                 ...account,
                 password: bcrypt.hashSync(account.password, brcyptSalt)
-            }
+            },
+            state: 1
         });
         res.status(200).json(newCustomer);
     } catch (error) {
@@ -168,3 +171,14 @@ export const getCustomerById = async (req, res) => {
     }
 }
 
+export const changeState = async (req, res) => {
+    const { id, state } = await req.body;
+    try {
+        const customerData = await Customer.findById(id);
+        customerData.set({ state });
+        customerData.save();
+        res.status(200).json(customerData);
+    } catch (error) {
+        res.status(500).json(error.message);
+    }
+}

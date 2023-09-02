@@ -91,7 +91,7 @@ const Header = () => {
             />
             <header className='w-screen bg-white fixed border border-t-0 border-x-0 z-10'>
                 <div className='bg-gradient-to-r from-[#e02c4d] to-[#d73b6c] border border-x-0 border-t-0'>
-                    <div className='side-margin text-white font-semibold text-xs py-1 flex items-center justify-between'>
+                    <div className='side-margin text-white font-semibold text-xs py-1 flex flex-col md:flex-row items-center justify-between'>
                         <span>MICAELLA'S MEAT PRODUCTS</span>      
                         <div className='flex gap-4'>
                             <div className='flex gap-1 items-center'>
@@ -133,8 +133,9 @@ const Header = () => {
                                         axios.post("/erp/customer_logout")
                                         navigate("/")
                                         setUpdate("logout")
-                                        setCurrentCustomer("")
-                                        cancelCheckOut()
+                                        setCurrentCustomer(null)
+                                        setCart(null);
+                                        // cancelCheckOut()
                                     }}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">

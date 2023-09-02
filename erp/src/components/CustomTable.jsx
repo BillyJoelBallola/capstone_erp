@@ -356,6 +356,25 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
         return formatMoney(val);
     }
 
+    const customerState = (rowData) => {
+        const { state } = rowData;
+        let colorStyle = "";
+        let textColorStyle = "";
+        let indicator = "";
+        
+        if(state === 1 ){
+            colorStyle = "bg-red-100";
+            textColorStyle = "text-red-700";
+            indicator = "Request";
+        }
+        if(state === 2){
+            colorStyle = "bg-green-100";
+            textColorStyle = "text-green-700";
+            indicator = "Confirmed";
+        }
+        return <span className={`${colorStyle} ${textColorStyle} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
+    }
+
     const NewLink = () => {
         return (
             <NavLink to={`${currentLocation}/${formattedName}-form`} className="btn-dark px-4 flex items-center gap-1">
@@ -420,11 +439,11 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                         op === "financial" && formattedName === "supplier" &&
                         <NewLink />
                     }
-                    <span className="text-lg font-semibold">{`${name}s`}</span>
+                    <span className="md:text-lg font-semibold">{`${name}s`}</span>
                 </div>
                 { 
                     metaKey === false && selectedRows.length !== 0 && 
-                    <div className="px-2 py-1 border border-indigo-300 bg-indigo-50  rounded-lg text-sm flex items-center gap-2">
+                    <div className="px-2 py-1 border border-indigo-300 bg-indigo-50  rounded-lg text-sm flex items-center gap-2 max-w-min whitespace-nowrap">
                         <span className="text-indigo-500">Selected: {selectedRows.length}</span>
                         <button onClick={() => setSelectedRows([])}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.4} stroke="#6366F1" className="w-4 h-4">
@@ -498,6 +517,8 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                             dateFourthFormat :
                             item.body === "state" ? 
                             state :
+                            item.body === "customerState" ? 
+                            customerState :
                             item.body === "paymentStatus" ? 
                             paymentStatus :
                             item.body === "replenishActions" ?

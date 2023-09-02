@@ -27,7 +27,7 @@ const SupplyChain = () => {
     return (
         <div>
             <div className="z-10 fixed left-0 right-0 px-4 pt-14 flex items-center justify-between py-4 border-0 border-b border-b-gray-200 bg-white">
-                <span className="text-lg font-semibold">Supply Chain Overview</span>
+                <span className="md:text-lg font-semibold">Supply Chain Overview</span>
             </div>
             <div className='pt-28 pb-10 px-6'>
                 <div className='grid md:grid-cols-3 gap-4 mb-6'>

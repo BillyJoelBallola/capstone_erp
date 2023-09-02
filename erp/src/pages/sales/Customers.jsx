@@ -23,6 +23,7 @@ const Customers = () => {
         { field: "business", filter: "business", header: "Business" }, 
         { body: "addressFormat", header: "Address" }, 
         { field: "contact.phoneNumber", filter: "contact.phoneNumber", header: "Contact" }, 
+        { body: "customerState", header: "" }, 
     ]
 
     return (

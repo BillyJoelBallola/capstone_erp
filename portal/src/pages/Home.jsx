@@ -17,7 +17,7 @@ const Home = () => {
         <div className='pt-40 py-32'>
             <div className='grid gap-8'>
                 <div className='flex items-center justify-center'>
-                    <div className='w-11/12 md:w-2/3 lg:w-2/5 flex gap-3 items-center bg-gray-200 py-1 px-4 rounded-lg'>
+                    <div className='w-11/12 md:w-2/3 lg:w-2/5 flex gap-3 items-center bg-gray-200 py-1 px-4 rounded-lg border border-gray-400'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#6B7280" className="w-5 h-5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                         </svg>

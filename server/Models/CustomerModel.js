@@ -26,6 +26,10 @@ const CustomerSchema = new Schema({
     date: {
         type: Date,
         default: Date.now,
+    },
+    state: {
+        type: Number,
+        required: true,
     }
 });
 
