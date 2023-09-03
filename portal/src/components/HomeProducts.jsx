@@ -3,6 +3,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { CustomerContext } from '../context/CustomerContext';
 import { ToastContainer, toast } from "react-toastify";
 import { NavLink, useNavigate } from 'react-router-dom';
+import { formatMoney } from '../static/_functions';
 import axios from "axios";
 
 const HomeProducts = ({ query }) => {
@@ -78,8 +79,7 @@ const HomeProducts = ({ query }) => {
                                         <div className='flex gap-1 overflow-hidden items-center justify-between font-semibold text-lg'>
                                             <NavLink to={`/preview/${product._id}`} className='truncate hover:text-blue-400 duration-150'>{product.name}</NavLink>
                                             <span>
-                                                <span className='text-sm'>₱</span>
-                                                {product.price}
+                                                {formatMoney(product.price)}
                                             </span>
                                         </div>
                                         <p className='text-sm text-gray-500 truncate'>{product.description}</p>

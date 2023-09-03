@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CustomerContext } from '../context/CustomerContext';
-import { useNavigate } from "react-router-dom";
-import DialogBox from '../components/DialogBox';
-import { Dialog } from 'primereact/dialog';
+import { ToastContainer, toast } from 'react-toastify';
 import successIcon from "../assets/success_icon.png";
+import { formatMoney } from '../static/_functions';
+import DialogBox from '../components/DialogBox';
+import { useNavigate } from "react-router-dom";
+import { Dialog } from 'primereact/dialog';
 import moment from "moment";
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
 
 const PurchaseMessage = ({ purchase }) => {
     const navigate = useNavigate();
@@ -158,7 +159,7 @@ const CheckOut = () => {
                                         <div className='w-full'>
                                             <div className='flex items-center justify-between md:text-xl font-semibold'>
                                                 <h3>{item.productName}</h3>
-                                                <p>₱{item.totalPrice}</p>
+                                                <p>{formatMoney(item.totalPrice)}</p>
                                             </div>
                                             <p className='self-end'>Quantity: {item.quantity}</p>
                                         </div>

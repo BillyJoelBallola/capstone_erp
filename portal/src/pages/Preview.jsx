@@ -3,6 +3,7 @@ import { CustomerContext } from '../context/CustomerContext';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import { formatMoney } from '../static/_functions';
 import axios from "axios";
 
 const Preview = () => {
@@ -98,7 +99,7 @@ const Preview = () => {
                                 </div>
                                 <div className='my-5 w-full h-[1px] bg-gray-200'/>
                                 <div className='grid'>
-                                    <span className='font-semibold text-xl'>₱{product.price}</span>
+                                    <span className='font-semibold text-xl'>{formatMoney(product.price)}</span>
                                     <span className='text-gray-600 text-sm'>Unit Price</span>
                                 </div>
                                 <div className='my-5 w-full h-[1px] bg-gray-200'/>

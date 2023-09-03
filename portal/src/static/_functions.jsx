@@ -1,7 +1,7 @@
 export const formatMoney = (value) => {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'PHP', 
+        currency: 'PHP',
         minimumFractionDigits: 2,
     });
     

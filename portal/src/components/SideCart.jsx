@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { CustomerContext } from '../context/CustomerContext';
+import { formatMoney } from '../static/_functions';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from 'primereact/sidebar';
 import { toast } from "react-toastify";
@@ -120,7 +121,7 @@ const SideCart = ({ visible, setVisible }) => {
                 total += item.totalPrice;
             })
         }
-        return <span className='text-2xl'>₱{total}</span>;
+        return <span className='text-2xl'>{formatMoney(total)}</span>;
     } 
 
     const checkOut = () => {
@@ -168,7 +169,7 @@ const SideCart = ({ visible, setVisible }) => {
                                     </div>
                                     <div className='grid gap-1'>
                                         <p className='text-md font-semibold text-black truncate'>{cart.productName}</p>
-                                        <span className="font-semibold text-black text-xl">₱{cart.totalPrice}</span>
+                                        <span className="font-semibold text-black text-xl">{formatMoney(cart.totalPrice)}</span>
                                         <div className='flex items-center rounded-lg h-8'>
                                             <button className='p-3' onClick={() => quantityControlButton(idx, "add")}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#000" className="w-4 h-4">
