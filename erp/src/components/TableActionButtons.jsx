@@ -330,7 +330,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         }
     }
     
-    // inventory -> producto
+    // inventory -> production
     if(op === "inventory" && formatName === "product"){
         if(selectedRows?.length === 1){
             return (
@@ -386,6 +386,15 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     selectedRows[0]?.state === 1 && selectedRows[0]?.state !== 4 && 
                     <button className='btn-gray' onClick={() => cancelProcess("purchase")}>Cancel</button>
                 }
+            </div>
+        )
+    }
+
+    // supply-chain -> production
+    if((op === "supply-chain" && formatName === "production") && selectedRows?.length === 1){
+        return (
+            <div className="flex gap-1 flex-wrap">
+                <NavLink to={`/supply-chain/productions/production-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
             </div>
         )
     }
