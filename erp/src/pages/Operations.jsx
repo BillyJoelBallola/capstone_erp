@@ -13,7 +13,7 @@ const Operations = () => {
         let location = "";
         currentUser?.userAccess?.forEach(acs => {
         if(splitPath === acs.name && acs.access === true){
-            location = "/" + acs.name;
+            location = path;
         }
         });
         

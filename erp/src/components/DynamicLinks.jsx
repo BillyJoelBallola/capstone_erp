@@ -792,7 +792,7 @@ const DynamicLinks = () => {
                     </div>
                     {/* Web */}
                     <ul className="md:flex hidden p-2 gap-3 header-link text-sm font-semibold">
-                        <NavLink to="/sales">Overview</NavLink>
+                        {/* <NavLink to="/sales">Overview</NavLink> */}
                         <NavLink to="/sales/customers">Customers</NavLink>
                         <NavLink to="/sales/orders">Orders</NavLink>
                         <div>
