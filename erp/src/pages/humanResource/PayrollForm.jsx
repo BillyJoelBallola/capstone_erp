@@ -185,6 +185,7 @@ const PayrollForm = () => {
     const [attendance, setAttendance] = useState("");
     const [attendanceDay, setAttendanceDay] = useState(0);
     const [paymentData, setPaymentData] = useState([]);
+    const [employee, setEmployee] = useState("");
     const [date, setDate] = useState("");
     const [employeeData, setEmployeeData] = useState({
         department: "",
@@ -257,6 +258,7 @@ const PayrollForm = () => {
                 formik.values.from = data.fromDate ? data.fromDate.toString().slice(0, 10) : "";
                 formik.values.to = data.toDate ? data.toDate.toString().slice(0, 10) : "";
                 formik.values.earning = data.earning;
+                setEmployee(data.employee);
                 setPaymentData(data.paymentData);
                 setDate(data.date);
                 setPayment(data.payment);
@@ -266,7 +268,7 @@ const PayrollForm = () => {
                 setTotals({
                     gross: data.gross,
                     deduction: data.deduction
-                })
+                });
             })
         }
     }, [id, action]);
@@ -304,60 +306,65 @@ const PayrollForm = () => {
             })
             formik.resetForm();
         }
-    }, [formik.values.employee])
+    }, [formik.values.employee, employees])
 
     useEffect(() => {
-        if (formik.values.from !== "" && formik.values.to !== "" && attendance) {
-            const attendanceData = attendance.filter(attend => 
-                attend.employee.toString() === formik.values.employee &&
-                attend.timeOut >= formik.values.from && 
-                attend.timeOut <= formik.values.to 
-            );
-            setAttendanceDay(attendanceData.length);
-        } else {
-            setAttendanceDay(0);
+        if(employeeData.salary !== null){
+            if (formik.values.from !== "" && formik.values.to !== "" && attendance) {
+                const attendanceData = attendance.filter(attend => 
+                    attend.employee.toString() === formik.values.employee &&
+                    attend.timeOut >= formik.values.from && 
+                    attend.timeOut <= formik.values.to 
+                );
+                setAttendanceDay(attendanceData.length);
+            } else {
+                setAttendanceDay(0);
+            }
         }
     }, [formik.values.from, formik.values.to, formik.values.employee, attendance]);
 
     useEffect(() => { 
         let totalDeduction = 0;
-        if(employeeData.deductions && attendanceDay){
-            employeeData.deductions.map(deduct => {
-                totalDeduction += deduct.amount;
-            })
-            setTotals({
-                gross: employeeData.salary * attendanceDay,
-                deduction: totalDeduction
-            });
-        }
-
-        if(attendanceDay === 0){
-            setTotals({
-                gross: 0,
-                deduction: 0
-            })
+        if(employeeData.salary !== null){
+            if(employeeData.deductions && attendanceDay !== 0){
+                employeeData.deductions.map(deduct => {
+                    totalDeduction += deduct.amount;
+                })
+                setTotals({
+                    gross: employeeData.salary * attendanceDay,
+                    deduction: totalDeduction
+                });
+            }
+    
+            if(attendanceDay === 0){
+                setTotals({
+                    gross: 0,
+                    deduction: 0
+                })
+            }
         }
     }, [employeeData.deductions, attendanceDay])
 
     useEffect(() => { 
         let totalDeduction = 0;
-        if(formik.values.earning !== 0){
-            employeeData.deductions.map(deduct => {
-                totalDeduction += deduct.amount;
-            })
-            setTotals({
-                gross: formik.values.earning,
-                deduction: totalDeduction
-            });
-        }
-
-        if(formik.values.earning === 0 && id !== undefined){
-            setTotals({
-                gross: 0,
-                deduction: 0
-            }) 
-        }
+        if(employeeData.salary === null){
+            if(formik.values.earning !== 0){
+                employeeData.deductions.map(deduct => {
+                    totalDeduction += deduct.amount;
+                })
+                setTotals({
+                    gross: formik.values.earning,
+                    deduction: totalDeduction
+                });
+            }
         
+            if(formik.values.earning === 0){
+                setTotals({
+                    gross: 0,
+                    deduction: 0
+                }) 
+            }
+        }
     }, [employeeData.deductions, formik.values.earning, id])
 
     const cancelSlip = (e) => {
@@ -384,7 +391,7 @@ const PayrollForm = () => {
             {
                 preview &&   
                 <PaySlipPreview 
-                    data={{...data, employeeData, from: formik.values.from, to: formik.values.to}}
+                    data={{...data, from: formik.values.from, to: formik.values.to}}
                     setPreview={setPreview}
                     totals={totals}
                     reference={reference}
@@ -481,7 +488,8 @@ const PayrollForm = () => {
                                                     <span className='text-xl font-semibold'>₱{employeeData?.salary}</span>
                                                 </div>
                                                 <div className='grid gap-2'>
-                                                    <span>Attendance (days): <b>{attendanceDay}</b></span>                                             <div className='grid grid-cols-2 gap-4'>   
+                                                    <span>Attendance (days): <b>{attendanceDay}</b></span>                                             
+                                                    <div className='grid grid-cols-2 gap-4'>   
                                                         <div className="form-group">
                                                             <label htmlFor="" className={`${formik.touched.from && formik.errors.from ? "text-red-400" : ""}`}>
                                                                 {formik.touched.from && formik.errors.from ? formik.errors.from : "From"}
@@ -509,19 +517,49 @@ const PayrollForm = () => {
                                                     </div>
                                                 </div>
                                             </> :
-                                            <div className="form-group">
-                                                <label htmlFor="" className={`${formik.touched.earning && formik.errors.earning ? "text-red-400" : ""}`}>
-                                                    {formik.touched.earning && formik.errors.earning ? formik.errors.earning : "Earning"}
-                                                </label>   
-                                                <input 
-                                                    type="number"
-                                                    name='earning'
-                                                    placeholder='₱'
-                                                    value={formik.values.earning}
-                                                    onChange={formik.handleChange}
-                                                    onBlur={formik.handleBlur} 
-                                                />
-                                            </div>  
+                                            <>
+                                                <div className="form-group">
+                                                    <label htmlFor="" className={`${formik.touched.earning && formik.errors.earning ? "text-red-400" : ""}`}>
+                                                        {formik.touched.earning && formik.errors.earning ? formik.errors.earning : "Earning"}
+                                                    </label>   
+                                                    <input 
+                                                        type="number"
+                                                        name='earning'
+                                                        placeholder='₱'
+                                                        value={formik.values.earning}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur} 
+                                                    />
+                                                </div>  
+                                                <div className='grid gap-2'>                                          
+                                                    <div className='grid grid-cols-2 gap-4'>   
+                                                        <div className="form-group">
+                                                            <label htmlFor="" className={`${formik.touched.from && formik.errors.from ? "text-red-400" : ""}`}>
+                                                                {formik.touched.from && formik.errors.from ? formik.errors.from : "From"}
+                                                            </label>   
+                                                            <input 
+                                                                type="date" 
+                                                                name='from'
+                                                                value={formik.values.from}
+                                                                onChange={formik.handleChange}
+                                                                onBlur={formik.handleBlur}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="" className={`${formik.touched.to && formik.errors.to ? "text-red-400" : ""}`}>
+                                                                {formik.touched.to && formik.errors.to ? formik.errors.to : "To"}
+                                                            </label>   
+                                                            <input 
+                                                                type="date" 
+                                                                name='to'
+                                                                value={formik.values.to}
+                                                                onChange={formik.handleChange}
+                                                                onBlur={formik.handleBlur}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
                                         }
                                     </div>
                                     <div>
@@ -547,7 +585,7 @@ const PayrollForm = () => {
                             </div>
                             <div className='mt-12 grid place-items-end'>
                                 <span className=''>Gross: <b>{formatMoney(totals.gross ? totals.gross : 0)}</b></span>
-                                <span className=''>Deduction: ₱<b>{formatMoney(totals.deduction ? totals.deduction : 0)}</b></span>
+                                <span className=''>Deduction: <b>{formatMoney(totals.deduction ? totals.deduction : 0)}</b></span>
                                 <span className='text-2xl font-semibold'>Net pay: {formatMoney(totals.gross ? totals.gross - totals.deduction : 0)}</span>
                             </div>
                         </div>

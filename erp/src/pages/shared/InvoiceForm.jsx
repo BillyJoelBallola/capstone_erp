@@ -64,7 +64,7 @@ const InvoicePreview = ({ setPreview, data, customers, total }) => {
                         </div>
                         <div>
                             <span className="text-2xl font-semibold">{data.reference}</span>
-                            <div className='mt-6'>
+                            <div className='mt-2'>
                                 <div className='grid grid-cols-[1fr_100px_100px_50px] gap-5 mb-2'>
                                     <span className='font-semibold'>Item</span>
                                     <span className='font-semibold'>Price</span>
