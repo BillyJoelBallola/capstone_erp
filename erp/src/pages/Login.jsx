@@ -43,20 +43,20 @@ const Login = () => {
         <div className="w-screen h-screen grid place-content-center font-roboto bg-white">
             <div className="flex flex-col items-center gap-8">
                 <div className="flex items-center gap-4">
-                    <div>
-                    <img
-                        className="w-32"
-                        src={logo}
-                        alt="micaella's logo" />
+                    <div className='w-32'>
+                        <img
+                            className="object-contain"
+                            src={logo}
+                            alt="micaella's logo" />
                     </div>
                     <div className="h-full w-[2px] bg-gray-300"></div>
                     <div className="font-bold">
-                    <span className="text-5xl tracking-[.5rem]">ERP</span>
-                        <br/>
-                    <span className="text-md tracking-[.5rem]">SYSTEM</span>
+                        <span className="text-5xl tracking-[.5rem]">ERP</span>
+                            <br/>
+                        <span className="text-md tracking-[.5rem]">SYSTEM</span>
                     </div>
                 </div>
-                <form className="flex flex-col gap-4 w-[300px] border p-5 rounded-lg" onSubmit={formik.handleSubmit}>
+                <form className="flex flex-col gap-4 w-full border p-5 rounded-lg" onSubmit={formik.handleSubmit}>
                     <div className="form-group">
                         <label 
                             className={`${formik.touched.email && formik.errors.email ? "text-red-400" : ""}`}
