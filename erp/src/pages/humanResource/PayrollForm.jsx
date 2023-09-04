@@ -471,8 +471,8 @@ const PayrollForm = () => {
                                 </select>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="">Position</label>
-                                <span className='text-lg font-semibold'>{employeeData.position ? employeeData.position : "--"}</span>
+                                <label htmlFor="">Department</label>
+                                <span className='text-lg font-semibold'>{employeeData.department ? employeeData.department : "--"}</span>
                             </div>
                         </div>
                         <div className='mt-4'>
