@@ -207,8 +207,8 @@ const Account = () => {
                                 <Divider />
                                 <div>
                                     <div className='flex gap-3 items-center'>
-                                        <NavLink to="/account/profile/information" className={`${sub === "information" ? "border-gray-600 rounded-lg" : "border-transparent"} border p-1 text-gray-600 `}>Information</NavLink>
-                                        <NavLink to="/account/profile/security" className={`${sub === "security" ? "border-gray-600 rounded-lg" : "border-transparent"} border p-1 text-gray-600 `}>Security</NavLink>
+                                        <NavLink to="/account/profile/information" className={`${sub === "information" ? "border-gray-200 bg-gray-100 rounded-lg" : "border-transparent"} border p-1 text-gray-600 `}>Information</NavLink>
+                                        <NavLink to="/account/profile/security" className={`${sub === "security" ? "border-gray-200 bg-gray-100 rounded-lg" : "border-transparent"} border p-1 text-gray-600 `}>Security</NavLink>
                                     </div>
                                     <div className='mt-6'>
                                         {
