@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef, useContext} from 'react';
 import { confirmPopup, ConfirmPopup  } from 'primereact/confirmpopup';
 import { useParams, useNavigate } from "react-router-dom";
+import { UserContext } from '../../context/UserContext';
 import { toast, ToastContainer } from "react-toastify";
 import { formatMoney } from '../../static/_functions';
 import DialogBox from '../../components/DialogBox';
@@ -96,10 +97,11 @@ const InvoicePreview = ({ setPreview, data, customers, total }) => {
 }
 
 const PaymentForm = ({ invoiceData, setVisible, setAction, visible }) => {
+    const { settings } = useContext(UserContext)
     const [isBankMethod, setIsBankMethod] = useState(true);
     const [amountDue, setAmountDue] = useState(0);
     const [difference, setDifference] = useState(0);
-
+    
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
@@ -203,8 +205,12 @@ const PaymentForm = ({ invoiceData, setVisible, setAction, visible }) => {
                                 onBlur={formik.handleBlur}
                             >
                                 <option value="">-- select journal --</option>
-                                <option value="Cash">Cash</option>
-                                <option value="Bank">Bank</option>
+                                {
+                                    settings?.financial?.journals &&
+                                    settings.financial.journals.map((journal, idx) => (
+                                        <option value={journal.name} key={idx}>{journal.name}</option>
+                                    ))
+                                }
                             </select>
                         </div>
                         <div className="form-group">
@@ -229,26 +235,14 @@ const PaymentForm = ({ invoiceData, setVisible, setAction, visible }) => {
                                 onBlur={formik.handleBlur}
                             >
                                 <option value="">-- select method --</option>
-                                <option value="Manual">Manual</option>
                                 {
-                                    isBankMethod &&
-                                    <option value="Cheque">Cheque</option>
+                                    settings?.financial?.paymentMethod &&
+                                    settings.financial.paymentMethod.map((method, idx) => (
+                                        <option value={method} key={idx}>{method}</option>
+                                    ))
                                 }
                             </select>
                         </div>
-                        {
-                            isBankMethod &&
-                            <div className="form-group">
-                                <label htmlFor="">Recipient Bank Account</label>
-                                <select
-                                    name='bank'
-                                    value={formik.values.bank}
-                                    onChange={formik.handleChange}
-                                >
-                                    <option value="">-- bank account --</option>
-                                </select>
-                            </div>
-                        }
                     </div>
                     <div className='flex flex-col gap-5 w-full'>
                         <div className="form-group">

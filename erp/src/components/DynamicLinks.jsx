@@ -29,6 +29,7 @@ const DynamicLinks = () => {
     const menuSupplyChainReports = useRef(null);   
     const menuHumanResourceReports = useRef(null);
     const menuSalesReports = useRef(null);
+    const menuHRReports = useRef(null);
 
     // Sales
     const salesReports = [
@@ -49,7 +50,17 @@ const DynamicLinks = () => {
             command: () => navigate("/human-resource/payrolls")
         }
     ];
-
+    const humanResouceReportMenu = [
+        {
+            label: "Attendance Report",
+            command: () => navigate("/human-resource")
+        },
+        {
+            label: "Payroll Report",
+            command: () => navigate("/human-resource")
+        }
+    ];
+    
     // financial
     const financialCustomersMenu = [
         {
@@ -222,7 +233,7 @@ const DynamicLinks = () => {
                         <span className="font-semibold text-lg">Settings</span>
                     </div>
                     <ul className="flex gap-3 header-link text-sm font-semibold">
-                        <NavLink to="/settings">General Settings</NavLink>
+                        <NavLink to="/settings/general">General Settings</NavLink>
                         <NavLink to="/settings/manage-users">
                             Manage Users
                         </NavLink>
@@ -323,7 +334,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/">Configuration</NavLink>
+                        <NavLink to="/inventory/configurations/inv-config">Configuration</NavLink>
                     </ul>
                      {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-10 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-8 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -372,7 +383,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/">Configuration</NavLink>
+                        <NavLink to="/inventory/configurations/inv-config">Configuration</NavLink>
                     </ul>
                 </div>
             );
@@ -427,8 +438,23 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         <NavLink to="/human-resource/employees">Employees</NavLink>
-                        <NavLink to="/human-resource">Reporting</NavLink> 
-                        <NavLink to="/human-resource">Configuration</NavLink> 
+                        <div>
+                            <TieredMenu
+                                model={humanResouceReportMenu}
+                                popup
+                                ref={menuHumanResourceReports}
+                                breakpoint="767px"
+                                className="text-sm"
+                            />
+                            <button
+                                onClick={(e) =>
+                                    menuHumanResourceReports.current.toggle(e)
+                                }
+                            >
+                                Reporting
+                            </button>
+                        </div>
+                        <NavLink to="/human-resource/configurations/hr-config">Configuration</NavLink> 
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -450,8 +476,23 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         <NavLink to="/human-resource/employees">Employees</NavLink>
-                        <NavLink to="/human-resource">Reporting</NavLink> 
-                        <NavLink to="/human-resource">Configuration</NavLink> 
+                        <div>
+                            <TieredMenu
+                                model={humanResouceReportMenu}
+                                popup
+                                ref={menuHumanResourceReports}
+                                breakpoint="767px"
+                                className="text-sm"
+                            />
+                            <button
+                                onClick={(e) =>
+                                    menuHumanResourceReports.current.toggle(e)
+                                }
+                            >
+                                Reporting
+                            </button>
+                        </div>
+                        <NavLink to="/human-resource/configurations/hr-config">Configuration</NavLink> 
                     </ul>
                 </div>
             );
@@ -553,7 +594,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/financial">Configuration</NavLink>
+                        <NavLink to="/financial/configurations/fn-config">Configuration</NavLink>
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -622,7 +663,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/financial">Configuration</NavLink>
+                        <NavLink to="/financial/configurations/fn-config">Configuration</NavLink>
                     </ul>
                 </div>
             );
@@ -705,7 +746,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/">Configuration</NavLink>
+                        <NavLink to="/supply-chain/configurations/sc-config">Configuration</NavLink>
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -755,7 +796,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/">Configuration</NavLink>
+                        <NavLink to="/supply-chain/configurations/sc-config">Configuration</NavLink>
                     </ul>
                 </div>
             );
@@ -809,7 +850,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/sales">Configuration</NavLink> 
+                        <NavLink to="/sales/configurations/sl-config">Configuration</NavLink> 
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -830,7 +871,7 @@ const DynamicLinks = () => {
                                 Reporting
                             </button>
                         </div>
-                        <NavLink to="/sales">Configuration</NavLink> 
+                        <NavLink to="/sales/configurations/sl-config">Configuration</NavLink> 
                     </ul>
                 </div>
             );

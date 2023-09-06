@@ -62,6 +62,8 @@ import Attendance from './pages/humanResource/Attendance';
 import Payrolls from './pages/humanResource/Payrolls';
 import PayrollForm from './pages/humanResource/PayrollForm';
 
+import Configurations from './pages/shared/Configurations';
+
 const App = () => {
     return (
         <Routes>
@@ -71,7 +73,7 @@ const App = () => {
             <Route path="/" element={<Layout />}>
                 <Route path='/' element={<Operations />} />
                 <Route path='/dashboard' element={<Dashboard />} />
-                <Route path='/settings' element={<Settings />} />
+                <Route path='/:op?/:tab?' element={<Configurations />} />
                 <Route path='/settings/manage-users' element={<ManageUsers />} />
                 <Route path='/settings/manage-users/user-form/:id?' element={<UserForm />} />
                 <Route path='/inventory' element={<Inventory />} />
@@ -117,6 +119,7 @@ const App = () => {
                 <Route path='/human-resource/payrolls/payroll-form/:id?' element={<PayrollForm />} />
                 <Route path='/human-resource/employees' element={<Employees />} />
                 <Route path='/human-resource/employees/employee-form/:id?' element={<EmployeeForm />} />
+                <Route path='/:op/configurations/:tab?' element={<Configurations />} />
             </Route>
         </Routes>
     )

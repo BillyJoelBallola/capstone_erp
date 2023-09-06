@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import moment from 'moment';
@@ -10,6 +11,7 @@ const PaymentForm = () => {
     const id = useParams().id;
     const entity = useParams().entity;
     const navigate = useNavigate();
+    const { settings } = useContext(UserContext);
     const [isBankMethod, setIsBankMethod] = useState(true);
     const [reference, setReference] = useState("");
     const [suppliers, setSuppliers] = useState([]);  
@@ -344,8 +346,12 @@ const PaymentForm = () => {
                                         onBlur={formik.handleBlur}
                                     >
                                         <option value="">-- select journal --</option>
-                                        <option value="Cash">Cash</option>
-                                        <option value="Bank">Bank</option>
+                                        {
+                                            settings?.financial?.journals &&
+                                            settings.financial.journals.map((journal, idx) => (
+                                                <option value={journal.name} key={idx}>{journal.name}</option>
+                                            ))
+                                        }
                                     </select>
                                 </div>
                                 <div className="form-group">
@@ -371,8 +377,12 @@ const PaymentForm = () => {
                                         onBlur={formik.handleBlur}
                                     >
                                         <option value="">-- select method --</option>
-                                        <option value="Manual">Manual</option>
-                                        <option value="Cheque">Cheque</option>
+                                        {
+                                            settings?.financial?.paymentMethod &&
+                                            settings.financial.paymentMethod.map((method, idx) => (
+                                                <option value={method} key={idx}>{method}</option>
+                                            ))
+                                        }
                                     </select>
                                 </div>
                                 {

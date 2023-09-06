@@ -435,10 +435,10 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                             Add
                         </button>
                     }
-                    { 
+                    {/* { 
                         op === "financial" && formattedName === "supplier" &&
                         <NewLink />
-                    }
+                    } */}
                     <span className="md:text-lg font-semibold">{`${name}s`}</span>
                 </div>
                 { 
