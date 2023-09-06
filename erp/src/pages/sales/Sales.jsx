@@ -5,12 +5,17 @@ import axios from 'axios';
 
 const Sales = () => {
     const [orders, setOrders] = useState(0);
+    const [customers, setCustomers] = useState(0);
     const { setLoading } = useContext(UserContext);
 
     useEffect(() => {
         setLoading(true);
         axios.get("/erp/orders").then(({ data }) => {
             setOrders(data?.filter(order => order.state <= 2 && order.invoice <= 3)?.length);
+            setLoading(false);
+        });
+        axios.get("/erp/customers").then(({ data }) => {
+            setCustomers(data?.filter(customer => customer.state === 1)?.length);
             setLoading(false);
         });
     }, [])
@@ -28,7 +33,7 @@ const Sales = () => {
                     </div>
                     <div className='grid gap-4 bg-white border border-gray-300 p-4 border-r-blue-400 border-r-4'>
                         <span className='text-lg font-semibold'>Customers</span>
-                        <NavLink to="/sales/customers" className="btn-dark-gray max-w-min whitespace-nowrap px-4">{orders} to Process</NavLink>
+                        <NavLink to="/sales/customers" className="btn-dark-gray max-w-min whitespace-nowrap px-4">{customers} to Process</NavLink>
                     </div>
                 </div>
             </div>

@@ -19,6 +19,10 @@ const SettingSchema = new Schema({
     financial: {
         journals: { type: Object },
         paymentMethod: { type: Object }
+    },
+    sales: {
+        orderMin: { type: Number },
+        orderMax: { type: Number }
     }
 });
 

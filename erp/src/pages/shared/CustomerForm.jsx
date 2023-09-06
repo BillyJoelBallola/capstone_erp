@@ -26,7 +26,7 @@ const CustomerForm = () => {
 
     useEffect(() => {
         axios.get("/erp/orders").then(({ data }) => {
-            setSalesNumber(data.filter(order => order.customer._id === id).length);
+            setSalesNumber(data.filter(order => order?.customer?._id === id).length);
         })
     }, [])
 
