@@ -107,7 +107,7 @@ const App = () => {
                 <Route path='/:op/replenishment' element={<Replenishment />} />
                 <Route path='/:op/product_forecast/:id?' element={<ProductForecast />} />
                 <Route path='/:op/material_forecast/:id?' element={<MaterialForecast />} />
-                {/* <Route path='/sales' element={<Sales />} /> */}
+                <Route path='/sales' element={<Sales />} />
                 <Route path='/sales/orders' element={<Orders />} />
                 <Route path='/sales/sales_report' element={<SalesReport />} />
                 <Route path='/:op/customers' element={<Customers />} />

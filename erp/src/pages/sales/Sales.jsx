@@ -26,6 +26,10 @@ const Sales = () => {
                         <span className='text-lg font-semibold'>Orders</span>
                         <NavLink to="/sales/orders" className="btn-dark-gray max-w-min whitespace-nowrap px-4">{orders} to Process</NavLink>
                     </div>
+                    <div className='grid gap-4 bg-white border border-gray-300 p-4 border-r-blue-400 border-r-4'>
+                        <span className='text-lg font-semibold'>Customers</span>
+                        <NavLink to="/sales/customers" className="btn-dark-gray max-w-min whitespace-nowrap px-4">{orders} to Process</NavLink>
+                    </div>
                 </div>
             </div>
         </div>
