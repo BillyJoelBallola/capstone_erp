@@ -116,7 +116,7 @@ const SideCart = ({ visible, setVisible }) => {
 
     const TotatCheckOut = () => {
         let total = 0;
-        if(readyForCheckOut.length > 0){
+        if(readyForCheckOut?.length > 0){
             readyForCheckOut.map(item => {
                 total += item.totalPrice;
             })
