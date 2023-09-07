@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
 import placeHolder from "../../assets/placeholder.png";
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate, useParams } from 'react-router-dom';
 import { country } from "../../static/country";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,12 +11,11 @@ import axios from 'axios';
 const EmployeeForm = () => {
     const id = useParams().id;
     const navigate = useNavigate();
+    const { settings } = useContext(UserContext);
     const [departments, setDepartment] = useState([]);
-    const [deductions, setDeductions] = useState([]);
     const [selectedDeductions, setSelectedDeductions] = useState([]);
     const [isActive, setIsActive] = useState(true);
     const [deductionData, setDeductionData] = useState({
-        id: "",
         name: "",
         amount: 0
     })
@@ -23,9 +23,6 @@ const EmployeeForm = () => {
     useEffect(() => {
         axios.get("/erp/departments").then(({ data }) => {
             setDepartment(data);
-        })
-        axios.get("/erp/deductions").then(({ data }) => {
-            setDeductions(data);
         })
     }, [])
 
@@ -147,17 +144,14 @@ const EmployeeForm = () => {
 
     const resetDeduction = () => {
         setDeductionData({
-            id: "",
             name: "",
             amount: 0
         })
     }
 
     const selectDeduction = (e) => {
-        const id = e.target.value;
-        const selected = deductions.find(item => id === item._id);
+        const selected = settings?.humanResource?.deductions[e.target.value];
         setDeductionData({
-            id: selected?._id,
             name: selected?.name,
             amount: selected?.amount
         })
@@ -165,20 +159,19 @@ const EmployeeForm = () => {
 
     const addDeduction = () => {
         if(deductionData.id === "") return toast.warning("Select deduction.", { position: toast.POSITION.TOP_RIGHT });
-
         let good = false;
-        const duplicate = selectedDeductions.find(item => deductionData.id === item.id);
 
-        if(duplicate){
+        if(selectedDeductions.find(item => deductionData.name.includes(item.name))){
             good = true;
         }
+
         if(good) {
             resetDeduction();
             return toast.error("Deduction already exist.", { position: toast.POSITION.TOP_RIGHT })
         };
 
-        setSelectedDeductions(prev => [...prev, deductionData]);
         resetDeduction();
+        return setSelectedDeductions(prev => [...prev, deductionData]);
     }
 
     const removeDeduction = (idx) => {
@@ -491,13 +484,13 @@ const EmployeeForm = () => {
                                             <label htmlFor="">Deduction</label>
                                             <div className='flex items-center gap-4 cursor-pointer'>
                                                 <select
-                                                    value={deductionData.id}
+                                                    // value={Number(deductionData?.length - 1)}
                                                     onChange={selectDeduction}
                                                 >
                                                     <option value="">-- select deduction --</option>
                                                     {
-                                                        deductions?.map(deduction => (
-                                                            <option value={deduction._id} key={deduction._id}>{deduction.name} - ₱{deduction.amount}</option>
+                                                        settings?.humanResource?.deductions?.map((deduction, idx) => (
+                                                            <option value={idx} key={idx}>{deduction.name} - ₱{deduction.amount}</option>
                                                         ))
                                                     }
                                                 </select>
@@ -512,7 +505,7 @@ const EmployeeForm = () => {
                                             {
                                                 selectedDeductions?.length !== 0 ?
                                                 selectedDeductions?.map((deduction, idx) => (
-                                                    <div className='grid grid-cols-[1fr_50px] gap-8 py-2' key={deduction.id}>
+                                                    <div className='grid grid-cols-[1fr_50px] gap-8 py-2' key={idx}>
                                                         <div className='flex items-center justify-between'>
                                                             <span>{deduction.name}</span>
                                                             <span>₱{deduction.amount}</span>

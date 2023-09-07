@@ -59,8 +59,8 @@ import Employees from './pages/humanResource/Employees';
 import Dashboard from './pages/dashboard/Dashboard';
 import EmployeeForm from './pages/humanResource/EmployeeForm';
 import Attendance from './pages/humanResource/Attendance';
-import Payrolls from './pages/humanResource/Payrolls';
-import PayrollForm from './pages/humanResource/PayrollForm';
+import Payslips from './pages/humanResource/Payslips';
+import PaysliplForm from './pages/humanResource/PaysliplForm';
 
 import Configurations from './pages/shared/Configurations';
 
@@ -115,8 +115,8 @@ const App = () => {
                 <Route path='/:op/orders/order-form/:id?' element={<OrderForm />} />
                 <Route path='/human-resource' element={<HumanResource />} />
                 <Route path='/human-resource/attendance' element={<Attendance />} />
-                <Route path='/human-resource/payrolls' element={<Payrolls />} />
-                <Route path='/human-resource/payrolls/payroll-form/:id?' element={<PayrollForm />} />
+                <Route path='/human-resource/payslips' element={<Payslips />} />
+                <Route path='/human-resource/payslips/payslip-form/:id?' element={<PaysliplForm />} />
                 <Route path='/human-resource/employees' element={<Employees />} />
                 <Route path='/human-resource/employees/employee-form/:id?' element={<EmployeeForm />} />
                 <Route path='/:op/configurations/:tab?' element={<Configurations />} />

@@ -3,7 +3,7 @@ import { UserContext } from '../../context/UserContext';
 import CustomTable from '../../components/CustomTable';
 import axios from 'axios';
 
-const Payrolls = () => {
+const Payslips = () => {
     const { setLoading } = useContext(UserContext);
     const [payrolls, setPayrolls] = useState([]);
     const [action, setAction] = useState("");
@@ -28,8 +28,8 @@ const Payrolls = () => {
     ]
 
     return (
-        <CustomTable dataValue={payrolls} columns={columns} name={"Payroll"} setAction={setAction} metaKey={true} />
+        <CustomTable dataValue={payrolls} columns={columns} name={"Payslip"} setAction={setAction} metaKey={true} />
     )
 }
 
-export default Payrolls;
+export default Payslips;

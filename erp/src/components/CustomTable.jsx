@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AttendanceForm from "../pages/humanResource/AttendanceForm";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import TableActionsButtons from "./TableActionButtons";
+import { UserContext } from "../context/UserContext";
 import placeHolder from "../assets/placeholder.png";
 import { formatMoney } from "../static/_functions";
 import AdjustmentDialog from "./AdjustmentDialog";
@@ -14,6 +15,7 @@ import axios from "axios";
 
 const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
     const op = useParams().op;
+    const { settings } = useContext(UserContext);
     const formattedName = name.toLowerCase().split(" ").join("-");
     const currentLocation = useLocation().pathname;
     const [productions, setProductions] = useState([]);
@@ -46,15 +48,20 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
         let text  = "";
         let label = "";
         
-        if(quantity <= 10){
+        if(quantity <= settings?.inventory?.productMin){
             color = "bg-red-100";
             text = "text-red-700";
             label = currentLocation.includes("product") ? "Restock" : "Reorder";
         }
-        if(quantity > 11){
+        if(quantity >= settings?.inventory?.productMin){
             color = "bg-green-100";
             text = "text-green-700";
             label = "Sufficient";
+        }
+        if(quantity >= settings?.inventory?.productMax){
+            color = "bg-yellow-100";
+            text = "text-yellow-700";
+            label = "Overstock";
         }
 
         return <span className={`px-2 rounded-md font-semibold text-sm ${color} ${text}`}>{label}</span>;
@@ -70,22 +77,19 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
     }
 
     const isActive = (rowData) => {
-        const { status, active } = rowData;
-        let colorStyle = "";
-        let textColorStyle = "";
+        const { status } = rowData;
+        let style = "";
         let indicator = "";
 
         if(status){
-            colorStyle = "bg-green-100";
-            textColorStyle = "text-green-700";
+            style = "bg-green-100 text-green-700";
             indicator = "Active";
         }else{
-            colorStyle = "bg-red-100";
-            textColorStyle = "text-red-700";
+            style = "bg-red-100 text-red-700";
             indicator = "Inactive";
         }
 
-        return <span className={`${colorStyle} ${textColorStyle} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
+        return <span className={`${style} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
     }
     
     const dateFormat = (rowData) => {
@@ -111,132 +115,110 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
 
     const paymentStatus = (rowData) => {
         const { payment } = rowData;
-        let colorStyle = "";
-        let textColorStyle = "";
+        let style = "";
         let indicator = "";
 
         if(payment === 1){
-            colorStyle = "bg-red-100";
-            textColorStyle = "text-red-700";
+            style = "bg-red-100 text-red-700";
             indicator = "Not paid";
         }
         if(payment === 2){
-            colorStyle = "bg-yellow-100";
-            textColorStyle = "text-yellow-700";
+            style = "bg-yellow-100 text-yellow-700";
             indicator = "Partially Paid";
         }
         if(payment === 3){
-            colorStyle = "bg-green-100";
-            textColorStyle = "text-green-700";
+            style = "bg-green-100 text-green-700";
             indicator = "Paid";
         }
 
-        return <span className={`${colorStyle} ${textColorStyle} whitespace-nowrap rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
+        return <span className={`${style} whitespace-nowrap rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
     }
     
     const state = (rowData) => {
         const { state, supplier } = rowData;
-        let colorStyle = "";
-        let textColorStyle = "";
+        let style = "";
         let indicator = "";
 
         if(state === 1){
-            colorStyle = "bg-yellow-100";
-            textColorStyle = "text-yellow-700";
+            style = "bg-yellow-100 text-yellow-700";
             indicator = "Pending";
         }
         if((formattedName === "bill" || formattedName === "invoice") && state === 1){
-            colorStyle = "bg-green-100";
-            textColorStyle = "text-green-700";
+            style = "bg-green-100 text-green-700";
             indicator = "Posted";
         }
         if(state === 2){
-            colorStyle = "bg-blue-100";
-            textColorStyle = "text-blue-700";
+            style = "bg-blue-100 text-blue-700";
             indicator = "In Progress";
         }
         if((formattedName === "bill" || formattedName === "invoice") && state === 2){
-            colorStyle = "bg-red-100";
-            textColorStyle = "text-red-700";
+            style = "bg-red-100 text-red-700";
             indicator = "Cancelled";
         }
         if(state >= 3){
-            colorStyle = "bg-green-100";
-            textColorStyle = "text-green-700";
+            style = "bg-green-100 text-green-700";
             indicator = "Done";
         }
         if(state === 4){
-            colorStyle = "bg-red-100";
-            textColorStyle = "text-red-700";
+            style = "bg-red-100 text-red-700";
             indicator = "Cancelled";
         }
         if(op === "supply-chain" && supplier && state === 3){
-            colorStyle = "bg-cyan-100";
-            textColorStyle = "text-cyan-700";
+            style = "bg-cyan-100 text-cyan-700";
             indicator = "Waiting bills";
         }
         if(op === "supply-chain" && supplier && state === 5){
-            colorStyle = "bg-green-100";
-            textColorStyle = "text-green-700";
+            style = "bg-green-100 text-green-700";
             indicator = "Billed";
         }
 
-        return <span className={`${colorStyle} ${textColorStyle} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
+        return <span className={`${style} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
     }
 
     const orderState = (rowData) => {
         const { invoice, state, order } = rowData;
-        let colorStyle = "";
-        let textColorStyle = "";
+        let style = "";
         let indicator = "";
         
         if(formattedName === "order"){
             if(invoice === 1 ){
-                colorStyle = "bg-yellow-100";
-                textColorStyle = "text-yellow-700";
+                style = "bg-yellow-100 text-yellow-700";
                 indicator = "Pending";
             }
             if(invoice === 2){
-                colorStyle = "bg-blue-100";
-                textColorStyle = "text-blue-700";
+                style = "bg-blue-100 text-blue-700";
                 indicator = "To Invoice";
             }
             if(invoice === 3){
-                colorStyle = "bg-green-100";
-                textColorStyle = "text-green-700";
+                style = "bg-green-100 text-green-700";
                 indicator = "Invoiced";
             }    
             if(state === 5){
-                colorStyle = "bg-red-100";
-                textColorStyle = "text-red-700";
+                style = "bg-red-100 text-red-700";
                 indicator = "Cancelled";
             }    
         }
 
         if(formattedName === "shipment"){
             if(state === 1){
-                colorStyle = "bg-yellow-100";
-                textColorStyle = "text-yellow-700";
+                style = "bg-yellow-100 text-yellow-700";
                 indicator = "Pending";
             }
             if(state === 2){
-                colorStyle = "bg-blue-100";
-                textColorStyle = "text-blue-700";
+                style = "bg-blue-100 text-blue-700";
                 indicator = "Ready";
             }
             if(state === 3 && order?.state !== 4){
-                colorStyle = "bg-amber-100";
-                textColorStyle = "text-amber-700";
+                style = "bg-amber-100 text-amber-700";
                 indicator = "Ship";
             }
             if(state === 3 && order?.state === 4){
-                colorStyle = "bg-green-100";
-                textColorStyle = "text-green-700";
+                style = "bg-green-100 text-green-700";
                 indicator = "Done";
             }
         }
     
-        return <span className={`${colorStyle} ${textColorStyle} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
+        return <span className={`${style} rounded-md px-2 text-sm font-semibold`}>{indicator}</span>
     }
 
     const source = (rowData) => {
@@ -381,7 +363,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#fff" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                {`${formattedName === "payroll" ? "Generate Payslip" : "New"}`}
+                {`${formattedName === "payslip" ? "Generate Payslip" : "New"}`}
             </NavLink>
         )
     }
@@ -420,7 +402,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                         formattedName === "payment" ||
                         formattedName === "bill" ||
                         formattedName === "employee" ||
-                        formattedName === "payroll" ||
+                        formattedName === "payslip" ||
                         // formattedName === "order" ||
                         // formattedName === "customer" ||
                         formattedName === "invoice" ?

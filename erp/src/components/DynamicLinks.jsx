@@ -46,8 +46,8 @@ const DynamicLinks = () => {
             command: () => navigate("/human-resource/attendance")
         },
         {
-            label: "Payrolls",
-            command: () => navigate("/human-resource/payrolls")
+            label: "Payslips",
+            command: () => navigate("/human-resource/payslips")
         }
     ];
     const humanResouceReportMenu = [

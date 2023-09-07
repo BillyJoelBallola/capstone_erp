@@ -11,7 +11,7 @@ const Attendance = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get("/erp/current_attendance").then(({ data }) => {
+        axios.get("/erp/attendance").then(({ data }) => {
             setAttendance(data);
             setLoading(false);
         })

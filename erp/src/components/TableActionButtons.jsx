@@ -483,6 +483,24 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
         )
     }
 
+    //financial -> customers 
+    if(op === 'financial' && formatName === "customer" && selectedRows?.length === 1){
+        return (
+            <div className="flex gap-1 flex-wrap">
+                <NavLink to={`/financial/customers/customer-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+            </div>
+        )
+    }
+
+    //financial -> suppliers 
+    if(op === 'financial' && formatName === "supplier" && selectedRows?.length === 1){
+        return (
+            <div className="flex gap-1 flex-wrap">
+                <NavLink to={`/financial/suppliers/supplier-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+            </div>
+        )
+    }
+
     //sales -> orders 
     if(formatName === "order" && selectedRows?.length === 1){
         return (
@@ -540,10 +558,10 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             </>
         )
     }
-
-    //human-resource -> payroll 
-    if(formatName === "payroll" && selectedRows?.length === 1){
-        return <NavLink to={`/human-resource/payrolls/payroll-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
+    
+    //human-resource -> payslip 
+    if(formatName === "payslip" && selectedRows?.length === 1){
+        return <NavLink to={`/human-resource/payslips/payslip-form/${selectedRows[0]?._id}`} className="btn-gray">View</NavLink>
     }
 }
 

@@ -12,8 +12,6 @@ import moment from "moment";
 import * as Yup from "yup";
 import axios from 'axios';
 
-// TODO: Preview
-
 const PaySlipPreview = ({ setPreview, data, totals, reference }) => {
     const previewRef = useRef(null);
 
@@ -171,7 +169,7 @@ const PaymentForm = ({ netPay, visible, setVisible, setAction }) => {
     )
 }
 
-const PayrollForm = () => {
+const PaysliplForm = () => {
     const id = useParams().id;
     const navigate = useNavigate();
     const [data, setData] = useState({});
@@ -624,4 +622,4 @@ const PayrollForm = () => {
     )
 }
 
-export default PayrollForm;
+export default PaysliplForm;
