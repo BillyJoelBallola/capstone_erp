@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { CustomerContext } from '../context/CustomerContext';
+import logo from '../assets/micaella-logo.png';
 import DialogBox from './DialogBox';
 import SideCart from './SideCart';
 import axios from 'axios';
@@ -42,15 +43,21 @@ const Header = () => {
         if(path.includes("check_out")){
             return (
                 <button className='font-semibold text-md grid text-start' onClick={() => setDialogVisble(true)}>
-                    <span>CUSTOMER</span>
-                    <span className='-mt-2'>PORTAL</span>
+                    {/* <span>CUSTOMER</span>
+                    <span className='-mt-2'>PORTAL</span> */}
+                    <div className='w-12'>
+                        <img src={logo} alt="logo" className='object-fit aspect-square' />
+                    </div>
                 </button>
             )
         }else{
             return (
                 <NavLink to="/" className='font-semibold text-md grid'>
-                    <span>CUSTOMER</span>
-                    <span className='-mt-2'>PORTAL</span>
+                    {/* <span>CUSTOMER</span>
+                    <span className='-mt-2'>PORTAL</span> */}
+                    <div className='w-16'>
+                        <img src={logo} alt="logo" className='object-contain' />
+                    </div>
                 </NavLink > 
             )
         }
