@@ -43,8 +43,6 @@ const Header = () => {
         if(path.includes("check_out")){
             return (
                 <button className='font-semibold text-md grid text-start' onClick={() => setDialogVisble(true)}>
-                    {/* <span>CUSTOMER</span>
-                    <span className='-mt-2'>PORTAL</span> */}
                     <div className='w-12'>
                         <img src={logo} alt="logo" className='object-fit aspect-square' />
                     </div>
@@ -53,8 +51,6 @@ const Header = () => {
         }else{
             return (
                 <NavLink to="/" className='font-semibold text-md grid'>
-                    {/* <span>CUSTOMER</span>
-                    <span className='-mt-2'>PORTAL</span> */}
                     <div className='w-16'>
                         <img src={logo} alt="logo" className='object-contain' />
                     </div>

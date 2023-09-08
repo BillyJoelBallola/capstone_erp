@@ -41,7 +41,7 @@ const Login = () => {
             hideProgressBar={true}
         />
         <div className="w-screen h-screen grid place-content-center font-roboto bg-white">
-            <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center gap-8 w-screen">
                 <div className="flex items-center gap-4">
                     <div className='w-32'>
                         <img
@@ -56,7 +56,7 @@ const Login = () => {
                         <span className="text-md tracking-[.5rem]">SYSTEM</span>
                     </div>
                 </div>
-                <form className="flex flex-col gap-4 w-full border p-5 rounded-lg" onSubmit={formik.handleSubmit}>
+                <form className="flex flex-col gap-4 w-[90%] md:w-[50%] lg:w-[30%] border p-5 rounded-lg" onSubmit={formik.handleSubmit}>
                     <div className="form-group">
                         <label 
                             className={`${formik.touched.email && formik.errors.email ? "text-red-400" : ""}`}
