@@ -29,7 +29,7 @@ const Login = () => {
                 navigate("/");
                 setCurrentUser(response.data);
             }else{
-                return toast.error(response.data, { position: toast.POSITION.TOP_RIGHT });
+                return toast.error(response.data, { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }
     })
@@ -43,7 +43,7 @@ const Login = () => {
         <div className="w-screen h-screen grid place-content-center font-roboto bg-white">
             <div className="flex flex-col items-center gap-8 w-screen">
                 <div className="flex items-center gap-4">
-                    <div className='w-32'>
+                    <div className='w-36'>
                         <img
                             className="object-contain"
                             src={logo}

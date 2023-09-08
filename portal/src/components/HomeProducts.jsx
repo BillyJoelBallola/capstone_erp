@@ -44,9 +44,9 @@ const HomeProducts = ({ query, display }) => {
             if(response.statusText === "OK"){
                 setCartAction("addToCart");
                 setAddToCartButton(false);
-                return toast.success("Item add to cart successfully.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.success("Item add to cart successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
             }else{
-                return toast.error("Failed to add item.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to add item.", { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }else{
             navigate("/login");
@@ -100,7 +100,7 @@ const HomeProducts = ({ query, display }) => {
                         {
                             filteredProductsByNames ?
                             filteredProductsByNames?.map(product => (
-                                <div className='flex flex-col md:flex-row gap-2 justify-between bg-gray-100 rounded-lg p-4' key={product._id}>
+                                <div className='flex flex-col md:flex-row gap-2 justify-between bg-gray-100 border rounded-lg p-4' key={product._id}>
                                     <div className='flex gap-6'>
                                         <div className='bg-gray-100 min-w-32 w-32 md:w-40 rounded-lg grid place-items-center overflow-hidden border'>
                                             <img src={`http://localhost:4000/uploads${product.productImg}`} alt={product.name} className='object-fit aspect-square'/>

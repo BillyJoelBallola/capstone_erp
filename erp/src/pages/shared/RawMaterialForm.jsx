@@ -61,18 +61,18 @@ const RawMaterialForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_raw-material", values);
                 if(response.statusText === "OK"){
-                    return toast.success("Raw material edited successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Raw material edited successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to edit raw material.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to edit raw material.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }else{
                 const response = await axios.post("/erp/add_raw-material", values);
                 if(response.statusText === "OK"){
                     const data = response.data;
                     navigate(`/${location}/raw-materials/raw-material-form/${data._id}`);
-                    return toast.success("Raw material added successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Raw material added successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add raw material.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add raw material.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }
         }
@@ -141,15 +141,15 @@ const RawMaterialForm = () => {
                 // })
         
                 if(duplicate){
-                    return toast.error("Can't have a multiple purchase order for a supplier.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Can't have a multiple purchase order for a supplier.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
         
                 const response = await axios.post("/erp/replenish_purchase", { material: formik.values, reference: referenceGenerator("PRS") });
                 if(response.statusText === "OK"){
                     setAction("replenish");
-                    return toast.success("Purchase order successfully added.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Purchase order successfully added.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add purchase order for this item.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add purchase order for this item.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }           
             },
         });

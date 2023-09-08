@@ -27,9 +27,9 @@ const ChangePassword = () => {
             const response = await axios.put("/erp/change_password", { email: `${email}@gmail.com`, password: values.confirmPassword });
             if(response.statusText === "OK"){
                 setLogin(true);
-                return toast.success("Password change successfully.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.success("Password change successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
             }else{
-                return toast.error("Failed to change password. Try again.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to change password. Try again.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
             }
         }
     })

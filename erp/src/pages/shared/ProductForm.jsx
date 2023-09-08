@@ -194,18 +194,18 @@ const ProductForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_product", { ...values, rawMaterials: rawMaterials, instructions: instructions });
                 if(response.statusText === "OK"){
-                    return toast.success("Product edited successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Product edited successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT_RIGHT });
                 }else{
-                    return toast.error("Failed to add product.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add product.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT_RIGHT });
                 }
             }else{
                 const response = await axios.post("/erp/add_product", { ...values, rawMaterials: rawMaterials, instructions: instructions });
                 if(response.statusText === "OK"){
                     const data = response.data;
                     navigate(`/${location}/products/product-form/${data._id}`);
-                    return toast.success("Product added successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Product added successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT_RIGHT });
                 }else{
-                    return toast.error("Failed to add product.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add product.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
                 }
             }
         }
@@ -252,7 +252,7 @@ const ProductForm = () => {
 
     const addInstruction = () => {
         if(instruction.text === ""){
-            return toast.warning("Instruction is empty", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Instruction is empty", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
         }
         setInstructions(prev => ([...prev, instruction.text]));
         resetIntruction();
@@ -260,7 +260,7 @@ const ProductForm = () => {
 
     const editInstruction = () => {
         if(instruction.text === ""){
-            return toast.warning("Instruction is empty", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Instruction is empty", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
         }
         instructions.splice(instruction.idx, instruction.idx + 1, instruction.text);
         resetIntruction();
@@ -268,17 +268,17 @@ const ProductForm = () => {
 
     const pushRawMats = () => {
         if(component?.rawId === ""){
-            return toast.warning("Select an item.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Select an item.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
         }
 
         if(component?.qty === 0 || component?.qty === ""){
-            return toast.warning("Quantity must be 1 or more.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Quantity must be 1 or more.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
         }
 
         const duplicateItem = rawMaterials.filter((item) => (component.rawId === item.rawId));
         if(duplicateItem.length >= 1){
             resetComponent();
-            return toast.error("Failed to add item that already exist in the list.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to add item that already exist in the list.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
         }
      
         setRawMaterials(prev => ([...prev, component]));
@@ -287,11 +287,11 @@ const ProductForm = () => {
 
     const pushEditedRawMats = () => {
         if(component?.rawId === ""){
-            return toast.warning("Select an item.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Select an item.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
         }
 
         if(component?.qty === 0 || component?.qty === ""){
-            return toast.warning("Quantity must be 1 or more.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Quantity must be 1 or more.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
         }
 
         rawMaterials.splice(component.idx, component.idx + 1, component);
@@ -332,19 +332,19 @@ const ProductForm = () => {
                 // })
         
                 if(good){
-                    return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
                 }
         
                 if(duplicate){
-                    return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Production order already issued for this product.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
                 }
         
                 const response = await axios.post(`/erp/production_replenish`, { productId: id, reference: referenceGenerator("PRD") });
                 if(response.statusText === "OK"){
                     setAction("replenish")
-                    return toast.success("Production order successfully added.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Production order successfully added.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
                 }else{
-                    return toast.error("Failed to add production order for this product.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add production order for this product.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHT });
                 }
             },
         });

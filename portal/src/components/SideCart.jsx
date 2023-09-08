@@ -33,9 +33,9 @@ const SideCart = ({ visible, setVisible }) => {
         if(response.statusText === "OK"){
             setCartAction("removeItem");
             setDisableButton(prev => ({...prev, remove: false}));
-            return toast.success("Item remove successfully.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.success("Item remove successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
         }else{
-            return toast.error("Failed to remove item.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to remove item.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
     }
 
@@ -46,19 +46,19 @@ const SideCart = ({ visible, setVisible }) => {
         cancelCheckOut();
         
         // if(newCart[idx].quantity >= productData?.quantity){
-        //     return toast.warning("Quantity must be less than to avalable items", {  position: toast.POSITION.TOP_RIGHT });
+        //     return toast.warning("Quantity must be less than to avalable items", {  position: toast.POSITION.BOTTOM_RIGHT });
         // }
         
         if(newCart[idx].quantity <= 0){
-            return toast.warning("Quantity must be 1 or more", {  position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Quantity must be 1 or more", {  position: toast.POSITION.BOTTOM_RIGHT });
         }
         
         const response = await axios.put("/erp/change_cart_item", { id: cart._id, cart: newCart });
         if(response.statusText === "OK"){
             setDisableButton(prev => ({...prev, save: false}));
-            return toast.success("Save changes successfully", {  position: toast.POSITION.TOP_RIGHT });
+            return toast.success("Save changes successfully", {  position: toast.POSITION.BOTTOM_RIGHT });
         }else{
-            return toast.error("Failed to save changes", {  position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to save changes", {  position: toast.POSITION.BOTTOM_RIGHT });
         }
     }
 
@@ -129,7 +129,7 @@ const SideCart = ({ visible, setVisible }) => {
             setVisible(false);
             navigate("/check_out");
         }else{
-            return toast.warning("Select items from the cart", { position: toast.POSITION.TOP_RIGHT }); 
+            return toast.warning("Select items from the cart", { position: toast.POSITION.BOTTOM_RIGHT }); 
         }
     }
 

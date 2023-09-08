@@ -75,17 +75,17 @@ const SupplierForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_supplier", newValues);
                 if(response.statusText === "OK"){
-                    return toast.success("Supplier succefully edited.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Supplier succefully edited.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to edit supplier.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to edit supplier.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }else{
                 const response = await axios.post("/erp/add_supplier", newValues);
                 if(response.statusText === "OK"){
                     navigate(`/${op}/suppliers/supplier-form/${response.data._id}`);
-                    return toast.success("Supplier succefully added.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Supplier succefully added.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add supplier.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add supplier.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }
         }

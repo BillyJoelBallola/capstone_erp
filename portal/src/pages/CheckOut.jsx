@@ -122,7 +122,7 @@ const CheckOut = () => {
             setDisableButton(false);
             setPurchase(true);
         }else{
-            return toast.error("Failed to purchase.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to purchase.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
     }
 

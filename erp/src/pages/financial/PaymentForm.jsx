@@ -73,17 +73,17 @@ const PaymentForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_payment", { ...values, id: id });
                 if(response.statusText === "OK"){
-                    return toast.success("Payment successfully edited.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Payment successfully edited.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to edit payment.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to edit payment.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }else{
                 const response = await axios.post("/erp/add_payment", { ...values, type: type, reference: referenceGenerator("SPAY") });
                 if(response.statusText === "OK"){
                     navigate(`/financial/payments/payment-form/${response.data._id}`);
-                    return toast.success("Payment successfully added.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Payment successfully added.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add payment.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add payment.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }
         }

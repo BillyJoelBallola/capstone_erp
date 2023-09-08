@@ -143,7 +143,7 @@ const PaymentForm = ({ invoiceData, setVisible, setAction, visible }) => {
                 helper.resetForm();
                 setVisible(false);
             }else{
-                return toast.error("Failed to add payment.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to add payment.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHT_RIGHTGHT });
             }
         }
     })
@@ -386,9 +386,9 @@ const InvoiceForm = () => {
                     const orderResponse = await axios.get(`/erp/order/${id}`);
                     await axios.put("/erp/change_order_state", { id: orderResponse?.data?._id, state: orderResponse?.data?.state, invoice: 3 });
                     navigate(`/${op}/invoices/invoice-form/${id}/${response.data._id}`);
-                    return toast.success("Customer order successfully invoice.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Customer order successfully invoice.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHT_RIGHTGHT });
                 }else{
-                    return toast.error("Faield to invoice customer order.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Faield to invoice customer order.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHT_RIGHTGHT });
                 }
             }
         }
@@ -499,9 +499,9 @@ const InvoiceForm = () => {
                 if(response.statusText === "OK"){
                     await axios.put("/erp/change_order_state", { invoice: 2, state: formik.values.order?.state, id: formik.values.order?._id });
                     setAction("cancel");
-                    return toast.success("Invoice cancelled successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Invoice cancelled successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHT });
                 }else{
-                    return toast.error("Faield to cancel Invoice.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Faield to cancel Invoice.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHT });
                 }
             },
         });
@@ -527,9 +527,9 @@ const InvoiceForm = () => {
             },
             "Ms1LVJ5aom_Nyf7ct"
         ).then(res => {
-            return toast.success("Customer invoice sent.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.success("Customer invoice sent.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHT });
         }).catch((err) => {
-            return toast.error("Failed to send.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to send.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHT });
         })
     }
 

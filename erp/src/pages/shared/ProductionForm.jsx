@@ -70,12 +70,12 @@ const ProductionForm = () => {
             })
 
             if(good){
-                return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.BOTTOM_RIGHT });
             }
 
             // if(!id){
             //     if(duplicate){
-            //         return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
+            //         return toast.error("Production order already issued for this product.", { position: toast.POSITION.BOTTOM_RIGHT });
             //     }
             // }
             
@@ -83,18 +83,18 @@ const ProductionForm = () => {
                 const { product, quantity, date, automate } = values; 
                 const response = await axios.put("/erp/update_production", { _id: id, product: product, quantity: quantity, date: date, state: state, automate: automate });
                 if(response.statusText === "OK"){
-                    return toast.success("Edited Successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Edited Successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to edit production", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to edit production", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }else{
                 const response = await axios.post("/erp/add_production", { product: values.product, quantity: values.quantity, date: values.date, automate: values.automate, reference: referenceGenerator("PRD") });
                 if(response.statusText === "OK"){
                     const data = response.data;
                     navigate(`/${op}/productions/production-form/${data._id}`);
-                    return toast.success("Added Successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Added Successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add production", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add production", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }
         }
@@ -185,9 +185,9 @@ const ProductionForm = () => {
                 const response = await axios.put("/erp/change_production_state", { state: state, id: id });
                 if(response.statusText === "OK"){
                     setAction("change");
-                    return toast.success(successMsg, { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success(successMsg, { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error(errorMsg, { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error(errorMsg, { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             },
         });

@@ -254,11 +254,11 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
         })
 
         if(good){
-            return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         if(duplicate){
-            return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Production order already issued for this product.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         if(values?.product){
@@ -266,9 +266,9 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
             const { product, quantity } = values;
             const response = await axios.post("/erp/add_production", { product, quantity, date: Date.now(), automate: false, reference: random });
             if(response.statusText === "OK"){
-                return toast.success("Item re-order successfully.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.success("Item re-order successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
             }else{
-                return toast.error("Failed to re-order this item.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to re-order this item.", { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }else{
             const { supplier, materials, total } = values;
@@ -276,9 +276,9 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
             const expectedData = expected.setDate(expected.getDate() + 2);
             const response = await axios.post("/erp/add_purchase", { supplier, date: Date.now(), expectedArrival: expectedData, materials, total, automate: false });
             if(response.statusText === "OK"){
-                return toast.success("Item re-order successfully.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.success("Item re-order successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
             }else{
-                return toast.error("Failed to re-order this item.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to re-order this item.", { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }
     }

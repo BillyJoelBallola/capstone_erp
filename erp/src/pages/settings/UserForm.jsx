@@ -80,7 +80,7 @@ const UserForm = () => {
                 values.sales.access === false &&
                 values.financial.access === false
             ){
-                return toast.error("Failed to add. user account must have atleast one[1] access right.", { position: toast.POSITION.TOP_RIGHT }); 
+                return toast.error("Failed to add. user account must have atleast one[1] access right.", { position: toast.POSITION.BOTTOM_RIGHT }); 
             }
 
             const userAccess = new Array(values.dashboard, values.settings, values.inventory, values.supplyChain, values.financial, values.sales, values.humanResource);
@@ -89,9 +89,9 @@ const UserForm = () => {
                 const { data } = await axios.put("/erp/update_user", { _id: values._id, name: values.name, email: values.email, password: values.password, role: values.role, status: values.status, userAccess: userAccess, userImage: values.userImage});
                 if(typeof data === "object"){
                     navigate(`/settings/manage-users/user-form/${data._id}`);
-                    return toast.success("Account edited successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Account edited successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add user account.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add user account.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }else{
                 const [ tempPass, dom ] = values.email.split("@");
@@ -110,9 +110,9 @@ const UserForm = () => {
                         return;
                     });
                     navigate(`/settings/manage-users/user-form/${data._id}`);
-                    return toast.success("Account added successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Account added successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add user account.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add user account.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }
         }

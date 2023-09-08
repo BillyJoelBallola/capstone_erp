@@ -8,10 +8,10 @@ export const login = async (req, res) => {
     const { email, password } = await req.body;
     const userData = await User.findOne({ email });
     
-    if(!userData?.status){
-        res.json("You are signing in an inactive account.");
-    }else{
-        if(userData){
+    if(userData){
+        if(!userData?.status){
+            res.json("You are signing in an inactive account.");
+        }else{
             const correctPass = bcrypt.compareSync(password, userData.password);
             if(correctPass){
                 jwt.sign({ role: userData.role, status: userData.status, name: userData.name, password: userData.password, email: userData.email, id: userData._id, userAccess: userData.userAccess }, process.env.JWT_SECRET, {}, (err, token) => {
@@ -22,11 +22,10 @@ export const login = async (req, res) => {
             }else{
                 res.json("Incorrect Password");
             }
-        }else{
-            res.json("User not found");
-        } 
-    }
-   
+        }
+    }else{
+        res.json("User not found");
+    } 
 }
 
 export const customerLogin = async (req, res) => {

@@ -82,9 +82,9 @@ const Account = () => {
         const response = await axios.put("/erp/change_order_state", { id: id, state: 5 });
         if(response.statusText === "OK"){
             setOrderAction("change");
-            return toast.success("Order has been cancelled.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.success("Order has been cancelled.", { position: toast.POSITION.BOTTOM_RIGHT });
         }else{
-            return toast.error("Failed to cancel order.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to cancel order.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
     }
 
@@ -96,9 +96,9 @@ const Account = () => {
             await axios.put("/erp/change_order_state", { id: orderId, invoice: invoiceCurrentStatus?.invoice, state: 4 });
             setOrderAction("receive");
             setDisableButton(false);
-            return toast.success("Order receive successfully.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.success("Order receive successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
         }else{
-            return toast.error("Failed to receive order.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to receive order.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
     }
 
@@ -152,9 +152,9 @@ const Account = () => {
             const response = await axios.put("/erp/update_customer_information", val);
             if(response.statusText === "OK"){
                 setUpdate("editInformation");
-                return toast.success("Profile information edited successfully.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.success("Profile information edited successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
             }else{
-                return toast.error("Failed to edit profile information.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to edit profile information.", { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }
     })

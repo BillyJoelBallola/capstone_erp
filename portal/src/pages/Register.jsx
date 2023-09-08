@@ -81,7 +81,7 @@ const Register = () => {
                 setRegisterDone(true);
                 // navigate("/login");
             }else{
-                return toast.error(response.data, { position: toast.POSITION.TOP_RIGHT });
+                return toast.error(response.data, { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }
     })

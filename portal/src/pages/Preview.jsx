@@ -44,22 +44,22 @@ const Preview = () => {
         }
 
         if(quantity < 1){
-            return toast.warning("Quantity must be 1 or more", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Quantity must be 1 or more", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         const response = await axios.put("/erp/add_cart_item", { data: data, id: cart._id });
         if(response.statusText === "OK"){
             setCartAction("addToCart");
             setQuantity(1);
-            return toast.success("Item add to cart successfully.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.success("Item add to cart successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
         }else{
-            return toast.error("Failed to add item.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to add item.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
     }
 
     const buyNow = async () => {
         if(Number(quantity) < 1){
-            return toast.warning("Quantity must be 1 or more", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Quantity must be 1 or more", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         setBuyNowData({

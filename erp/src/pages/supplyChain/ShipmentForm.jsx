@@ -38,9 +38,9 @@ const ShipmentForm = () => {
             if(response.statusText === "OK"){
                 axios.put("/erp/change_shipment_state", { id: id, state: 2 });
                 setAction("confirm");
-                return toast.success("Shipment confirm successfully.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.success("Shipment confirm successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
             }else{
-                return toast.error("Failed to confirm shipment.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to confirm shipment.", { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }
     })
@@ -115,12 +115,12 @@ const ShipmentForm = () => {
                     if(response.statusText === "OK"){
                         await axios.put("/erp/change_order_state", { id: shipment.order._id, invoice: shipment.order.invoice, state: 3 });
                         setAction("ship");
-                        return toast.success("Order has been set to ship.", { position: toast.POSITION.TOP_RIGHT });
+                        return toast.success("Order has been set to ship.", { position: toast.POSITION.BOTTOM_RIGHT });
                     }else{
-                        return toast.error("Failed to ship the orders.", { position: toast.POSITION.TOP_RIGHT });
+                        return toast.error("Failed to ship the orders.", { position: toast.POSITION.BOTTOM_RIGHT });
                     }
                 }else{
-                    return toast.warning("Insufficient products, fulfillment is not yet ready.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.warning("Insufficient products, fulfillment is not yet ready.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }
         });

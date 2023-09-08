@@ -44,12 +44,12 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     const response = await axios.put("/erp/timeOut_attendance", { id: attendance._id });
                     if(response.statusText === "OK"){
                         setAction("timeOut");
-                        return toast.success("Time out.", { position: toast.POSITION.TOP_RIGHT });
+                        return toast.success("Time out.", { position: toast.POSITION.BOTTOM_RIGHT });
                     }else{
-                        return toast.error("Failed to time out.", { position: toast.POSITION.TOP_RIGHT });
+                        return toast.error("Failed to time out.", { position: toast.POSITION.BOTTOM_RIGHT });
                     }
                 }else{
-                    return toast.warning("Employee already out.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.warning("Employee already out.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             },
         });
@@ -76,9 +76,9 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     }
                     setAction("active");
                     setSelectedRows(null);
-                    toast.success(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} set to active.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.success(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} set to active.`, { position: toast.POSITION.BOTTOM_RIGHT }); 
                 } catch (error) {
-                    toast.error(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} failed set to active.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.error(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} failed set to active.`, { position: toast.POSITION.BOTTOM_RIGHT }); 
                 } 
             },
         });
@@ -105,9 +105,9 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     }
                     setAction("inactive");
                     setSelectedRows(null);
-                    toast.success(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} set to inactive.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.success(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} set to inactive.`, { position: toast.POSITION.BOTTOM_RIGHT }); 
                 } catch (error) {
-                    toast.error(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} failed set to inactive.`, { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.error(`${formatName === "user" ? "User" : formatName === "employee" ? "Employee" : "Product"} failed set to inactive.`, { position: toast.POSITION.BOTTOM_RIGHT }); 
                 } 
             },
         });
@@ -148,11 +148,11 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 // })
         
                 if(good){
-                    return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to produce. Insufficient raw materials.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
         
                 if(duplicate){
-                    return toast.error("Production order already issued for this product.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Production order already issued for this product.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
         
                 const response = await axios.post("/erp/production_replenish", { productId: selectedRows[0]?._id, reference: referenceGenerator("PRD") });
@@ -160,7 +160,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     const data = response.data;
                     navigate(`/${op}/productions/production-form/${data._id}`);
                 }else{
-                    return toast.error("Failed to add production order.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add production order.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             },
         });
@@ -182,7 +182,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 })
                 
                 // if(duplicate){
-                //     return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
+                //     return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.BOTTOM_RIGHT });
                 // }
                 
                 const response = await axios.post("/erp/replenish_purchase", { material: selectedRows[0], reference: referenceGenerator("PRS") });
@@ -190,7 +190,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     const data = response.data;
                     navigate(`/${op}/purchases/purchase-form/${data._id}`);
                 }else{
-                    toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.error("Failed to replenish", { position: toast.POSITION.BOTTOM_RIGHT }); 
                 }
             },
         });
@@ -214,7 +214,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                 // })
         
                 // if(duplicate){
-                //     return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.TOP_RIGHT });
+                //     return toast.error("Can't have a multiple purchase order for a single supplier.", { position: toast.POSITION.BOTTOM_RIGHT });
                 // }
         
                 selectedRows.map(item => {
@@ -237,7 +237,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
                     const data = response.data;
                     navigate(`/${op}/purchases/purchase-form/${data._id}`);
                 }else{
-                    toast.error("Failed to replenish", { position: toast.POSITION.TOP_RIGHT }); 
+                    toast.error("Failed to replenish", { position: toast.POSITION.BOTTOM_RIGHT }); 
                 }
             },
         });
@@ -249,10 +249,10 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             if(response.statusText === "OK" ){
                 const data = response.data;
                 setAction("cancel");
-                return toast.success(`Production ${data.reference} has been cancelled.`, { position: toast.POSITION.TOP_RIGHT });
+                return toast.success(`Production ${data.reference} has been cancelled.`, { position: toast.POSITION.BOTTOM_RIGHT });
             }else{
                 setAction("cancel");
-                return toast.error(`Failed to cancel production ${data.reference}.`, { position: toast.POSITION.TOP_RIGHT });
+                return toast.error(`Failed to cancel production ${data.reference}.`, { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }
         
@@ -261,10 +261,10 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
             if(response.statusText === "OK" ){
                 const data = response.data;
                 setAction("cancel");
-                return toast.success(`Purchase order ${data.reference} has been cancelled.`, { position: toast.POSITION.TOP_RIGHT });
+                return toast.success(`Purchase order ${data.reference} has been cancelled.`, { position: toast.POSITION.BOTTOM_RIGHT });
             }else{
                 setAction("cancel");
-                return toast.error(`Failed to cancel purchase order ${data.reference}.`, { position: toast.POSITION.TOP_RIGHT });
+                return toast.error(`Failed to cancel purchase order ${data.reference}.`, { position: toast.POSITION.BOTTOM_RIGHT });
             }
         }
     }

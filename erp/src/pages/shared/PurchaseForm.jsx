@@ -57,18 +57,18 @@ const PurchaseForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_purchase", { _id: id, supplier: values.supplier, date: values.date, expectedArrival: values.expectedArrival, materials: values.materials, total: totalPrice, state: state, automate: values.automate, reference: referenceGenerator("PRS") });
                 if(response.statusText === "OK"){
-                    return toast.success("Edited Successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Edited Successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to edit.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to edit.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }else{
                 const response = await axios.post("/erp/add_purchase", {supplier: values.supplier, date: values.date, expectedArrival: values.expectedArrival, materials: values.materials, total: totalPrice, state: values.state, automate: values.automate, reference: referenceGenerator("PRS") });
                 if(response.statusText === "OK"){
                     const data = response.data;
                     navigate(`/${op}/purchases/purchase-form/${data._id}`);
-                    return toast.success("Added Successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Added Successfully.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error("Failed to add.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add.", { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             }
         }
@@ -129,17 +129,17 @@ const PurchaseForm = () => {
     
     const addItem = () => {
         if(materials.id === "" || materials.qty === "" || materials.price === ""){
-            return toast.warning("Fill up all fields of items.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Fill up all fields of items.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         if( materials.qty <= 0){
-            return toast.warning("Quatity must be 1 or more.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Quatity must be 1 or more.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         const duplicateItem = formik.values.materials.filter((item) => (materials.id === item.id));
         if(duplicateItem.length >= 1){
             resetMaterials();
-            return toast.error("Failed to add item that already exist in the list.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.error("Failed to add item that already exist in the list.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         setTotalPrice(prev => prev + (Number(materials.price) * materials.qty));
@@ -149,11 +149,11 @@ const PurchaseForm = () => {
     
     const addEditItem = () => {
         if(materials.id === "" || materials.qty === "" || materials.price === ""){
-            return toast.warning("Fill up all fields of items.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Fill up all fields of items.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         if(materials.qty <= 0){
-            return toast.warning("Quatity must be 1 or more.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Quatity must be 1 or more.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
 
         formik.values.materials.splice(materials.idx, materials.idx + 1, materials);
@@ -251,9 +251,9 @@ const PurchaseForm = () => {
                 const response = await axios.put("/erp/change_purchase_state", { state: state, id: id });
                 if(response.statusText === "OK"){
                     setAction("change");
-                    return toast.success(successMsg, { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success(successMsg, { position: toast.POSITION.BOTTOM_RIGHT });
                 }else{
-                    return toast.error(errorMsg, { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error(errorMsg, { position: toast.POSITION.BOTTOM_RIGHT });
                 }
             },
         });

@@ -61,7 +61,7 @@ const PaymentForm = ({ billData, setVisible, setAction }) => {
                 helper.resetForm();
                 setVisible(false);
             }else{
-                return toast.error("Failed to add payment.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to add payment.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
             }
         }
     })
@@ -299,9 +299,9 @@ const BillForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_bill", {...values, id: id});
                 if(response.statusText === "OK"){
-                    return toast.success("Edited successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Edited successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
                 }else{
-                    return toast.error("Faield to edit.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Faield to edit.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
                 }
             }else{
                 const response = await axios.post("/erp/add_bill", {...values, total: total, reference: referenceGenerator("BILL")});
@@ -309,9 +309,9 @@ const BillForm = () => {
                     const id = purchaseId === undefined ? selectedOrderId : purchaseId;
                     await axios.put("/erp/change_purchase_state", { state: 5, id: id });
                     navigate(`/${op}/bills/bill-form/${id}/${response.data._id}`);
-                    return toast.success("Purchase order successfully billed.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Purchase order successfully billed.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
                 }else{
-                    return toast.error("Faield to bill purchase order.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Faield to bill purchase order.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
                 }
             }
         }
@@ -419,10 +419,10 @@ const BillForm = () => {
                 const response = await axios.put("/erp/change_bill_state", { state: 2, id: id });
                 if(response.statusText === "OK"){
                     await axios.put("/erp/change_purchase_state", { state: 3, id: formik.values.purchase._id });
-                    toast.success("Bill cancelled successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    toast.success("Bill cancelled successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
                     setAction("cancel");
                 }else{
-                    return toast.error("Faield to cancel bill.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Faield to cancel bill.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
                 }
             },
         });

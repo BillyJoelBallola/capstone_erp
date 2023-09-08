@@ -21,7 +21,7 @@ const Operations = () => {
         if(location !== ""){
             navigate(location);
         }else{
-            return toast.warning("Your account don't have permission to access this operation.", { position: toast.POSITION.TOP_RIGHT });
+            return toast.warning("Your account don't have permission to access this operation.", { position: toast.POSITION.BOTTOM_RIGHT });
         }
     }
 

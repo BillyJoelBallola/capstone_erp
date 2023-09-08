@@ -88,11 +88,11 @@ const PaymentForm = ({ netPay, visible, setVisible, setAction }) => {
                 setAction("pay"); 
                 setVisible(false);
                 helpers.resetForm();
-                return toast.success("Payment successfully.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.success("Payment successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
             }else{
                 setVisible(false);
                 helpers.resetForm();
-                return toast.error("Failed to cancel payslip.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.error("Failed to cancel payslip.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
             }
         }
     })
@@ -233,17 +233,17 @@ const PaysliplForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_payslip", data);
                 if(response.statusText === "OK"){
-                    return toast.success("Payslip edited successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Payslip edited successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
                 }else{
-                    return toast.error("Failed to edit payslip.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to edit payslip.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
                 } 
             }else{
                 const response = await axios.post("/erp/add_payslip", data);
                 if(response.statusText === "OK"){
                     navigate(`/human-resource/payrolls/payroll-form/${response.data._id}`);
-                    return toast.success("Payslip added successfully.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Payslip added successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
                 }else{
-                    return toast.error("Failed to add payslip.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add payslip.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
                 }
             }
         }
@@ -376,9 +376,9 @@ const PaysliplForm = () => {
                 const response = await axios.put("/erp/change_payslip_status", data)
                 if(response.statusText === "OK"){
                     setAction("cancelled"); 
-                    return toast.success("Payslip has been cancelled.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Payslip has been cancelled.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
                 }else{
-                    return toast.error("Failed to cancel payslip.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to cancel payslip.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHT });
                 }
             }
         });

@@ -101,17 +101,17 @@ const EmployeeForm = () => {
             if(id){
                 const response = await axios.put("/erp/update_employee", { _id: id, ...data });
                 if(response.statusText === "OK"){
-                    return toast.success("Employee updated successfully.", { position: toast.POSITION.TOP_RIGHT }); 
+                    return toast.success("Employee updated successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT }); 
                 }else{
-                    return toast.error("Failed to update employee.", { position: toast.POSITION.TOP_RIGHT }); 
+                    return toast.error("Failed to update employee.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT }); 
                 }
             }else{
                 const response = await axios.post("/erp/add_employee", data);
                 if(response.statusText === "OK"){
                     navigate(`/human-resource/employees/employee-form/${response.data._id}`);
-                    return toast.success("Employee added successfully.", { position: toast.POSITION.TOP_RIGHT }); 
+                    return toast.success("Employee added successfully.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT }); 
                 }else{
-                    return toast.error("Failed to add employee.", { position: toast.POSITION.TOP_RIGHT }); 
+                    return toast.error("Failed to add employee.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT }); 
                 }
             }
         }
@@ -158,7 +158,7 @@ const EmployeeForm = () => {
     }
 
     const addDeduction = () => {
-        if(deductionData.id === "") return toast.warning("Select deduction.", { position: toast.POSITION.TOP_RIGHT });
+        if(deductionData.id === "") return toast.warning("Select deduction.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT });
         let good = false;
 
         if(selectedDeductions.find(item => deductionData.name.includes(item.name))){
@@ -167,7 +167,7 @@ const EmployeeForm = () => {
 
         if(good) {
             resetDeduction();
-            return toast.error("Deduction already exist.", { position: toast.POSITION.TOP_RIGHT })
+            return toast.error("Deduction already exist.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHT })
         };
 
         resetDeduction();

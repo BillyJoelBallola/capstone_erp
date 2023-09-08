@@ -52,9 +52,9 @@ const OrderForm = () => {
                     // Undecided Function: after order confirmation the sales person will added.
                     axios.post("/erp/add_shipment", { orderId: id, reference: referenceGenerator("SHP") });
                     setAction("confirm");
-                    return toast.success( "Sales order has been confirm and ready for invoicing", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success( "Sales order has been confirm and ready for invoicing", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHT });
                 }else{
-                    return toast.error("Failed to confirm sales order.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to confirm sales order.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHT });
                 }
             }
         })

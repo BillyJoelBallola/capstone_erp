@@ -43,7 +43,7 @@ const Header = () => {
         if(path.includes("check_out")){
             return (
                 <button className='font-semibold text-md grid text-start' onClick={() => setDialogVisble(true)}>
-                    <div className='w-12'>
+                    <div className='w-20'>
                         <img src={logo} alt="logo" className='object-fit aspect-square' />
                     </div>
                 </button>
@@ -51,7 +51,7 @@ const Header = () => {
         }else{
             return (
                 <NavLink to="/" className='font-semibold text-md grid'>
-                    <div className='w-16'>
+                    <div className='w-20'>
                         <img src={logo} alt="logo" className='object-contain' />
                     </div>
                 </NavLink > 
@@ -93,8 +93,8 @@ const Header = () => {
                 func={buttonFuction}
             />
             <header className='w-screen bg-white fixed border border-t-0 border-x-0 z-10'>
-                <div className='bg-gradient-to-r from-[#e02c4d] to-[#d73b6c] border border-x-0 border-t-0'>
-                    <div className='side-margin text-white font-semibold text-xs py-1 flex flex-col md:flex-row items-center justify-between'>
+                <div className='bg-gradient-to-r bg-gray-100 border border-x-0 border-t-0'>
+                    <div className='side-margin font-semibold text-gray-500 text-xs py-1 flex flex-col md:flex-row items-center justify-between'>
                         <span>MICAELLA'S MEAT PRODUCTS</span>      
                         <div className='flex gap-4'>
                             <div className='flex gap-1 items-center'>

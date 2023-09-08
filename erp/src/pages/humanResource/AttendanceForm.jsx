@@ -43,7 +43,7 @@ const AttendanceForm = ({ visible, setVisible, setAction, attendanceData }) => {
             if(present){
                 helpers.resetForm();
                 setVisible(false);
-                return toast.warning("Employee already timed-in.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.warning("Employee already timed-in.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHTGHTGHT });
             }
 
             if(values.employee && !!outAlready === false){ 
@@ -52,18 +52,18 @@ const AttendanceForm = ({ visible, setVisible, setAction, attendanceData }) => {
                     setAction("timeIn");
                     setVisible(false);
                     setDisabled(false);
-                    return toast.success("Time in.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Time in.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHTGHTGHT });
                 } catch (error) {
                     setVisible(false);
                     setDisabled(false);
-                    return toast.error("Failed to add time-in.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.error("Failed to add time-in.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHTGHTGHT });
                 }
             }
 
             if(values.employee && outAlready){
                 helpers.resetForm();
                 setVisible(false);
-                return toast.warning("Employee is already out.", { position: toast.POSITION.TOP_RIGHT });
+                return toast.warning("Employee is already out.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHTGHTGHT });
             }
         }
     })

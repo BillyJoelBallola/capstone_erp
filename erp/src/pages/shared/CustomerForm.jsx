@@ -51,7 +51,7 @@ const CustomerForm = () => {
                 const response = await axios.put("/erp/change_customer_state", { id: id, state: 2 });
                 if(response.statusText === "OK"){
                     setAction("confirm");
-                    return toast.success("Customer account confirmed.", { position: toast.POSITION.TOP_RIGHT });
+                    return toast.success("Customer account confirmed.", { position: toast.POSITION.BOTTOM_RIGHTGHTGHTGHTGHTGHTGHTGHTGHT });
                 }else{
 
                 }
