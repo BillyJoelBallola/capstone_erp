@@ -26,6 +26,7 @@ input[type="month"]{
     @apply border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-400 w-full; 
 }
 
+
 .btn-outlined{ 
     @apply py-1 px-4 bg-white text-blue-400 text-sm border border-blue-400 font-bold rounded-md hover:bg-blue-100 hover:border-blue-100 transition-all delay-100 ease-in-out; 
 }
