@@ -234,7 +234,7 @@ const DynamicLinks = () => {
                         </div>
                         <span className="font-semibold text-lg">Settings</span>
                     </div>
-                    <ul className="flex gap-3 header-link text-sm font-semibold">
+                    <ul className="flex gap-3 header-link text-sm">
                         <NavLink to="/settings/general">General Settings</NavLink>
                         <NavLink to="/settings/manage-users">
                             Manage Users
