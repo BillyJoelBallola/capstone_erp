@@ -424,9 +424,9 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                     <span className="md:text-lg font-semibold">{`${name}s`}</span>
                 </div>
                 { 
-                    metaKey === false && selectedRows.length !== 0 && 
+                    metaKey === false && selectedRows?.length !== 0 && selectedRows?.length !== undefined && 
                     <div className="px-2 py-1 border border-indigo-300 bg-indigo-50  rounded-lg text-sm flex items-center gap-2 max-w-min whitespace-nowrap">
-                        <span className="text-indigo-500">Selected: {selectedRows.length}</span>
+                        <span className="text-indigo-500">Selected: {selectedRows?.length}</span>
                         <button onClick={() => setSelectedRows([])}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.4} stroke="#6366F1" className="w-4 h-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
