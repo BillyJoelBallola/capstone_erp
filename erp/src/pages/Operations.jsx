@@ -11,10 +11,11 @@ const Operations = () => {
     const access = (path) => {  
         const splitPath = path.split("/")[1];
         let location = "";
+
         currentUser?.userAccess?.forEach(acs => {
-        if(splitPath === acs.name && acs.access === true){
-            location = path;
-        }
+            if(splitPath === acs.name && acs.access === true){
+                location = path;
+            }
         });
         
         if(location !== ""){
@@ -32,16 +33,14 @@ const Operations = () => {
             />
             <div className='py-28 w-screen h-screen overflow-y-auto grid place-items-center pb-5 md:pt-0 bg-gray-100'>
                 <div className='grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-14 md:gap-y-10'>
-                {
-                    operations?.map((op, idx) => (
-                    <div className='grid place-items-center gap-4 text-center' key={idx}>
-                        <div onClick={() => access(op.path)} className="cursor-pointer grid place-items-center rounded-md bg-white w-28 aspect-square drop-shadow-md hover:shadow-xl duration-200">
-                        {op.icon}
-                        </div>
-                        <span className='text-sm font-semibold'>{op.name}</span>
-                    </div>  
-                    ))
-                }
+                    {
+                        operations?.map((op, idx) => (
+                            <div className='grid place-items-center gap-4 text-center' key={idx}>
+                                <div onClick={() => access(op.path)} className="border cursor-pointer grid place-items-center rounded-md bg-white w-28 aspect-square drop-shadow-md hover:shadow-xl duration-200">{op.icon}</div>
+                                <span className='text-sm font-semibold'>{op.name}</span>
+                            </div>  
+                        ))
+                    }
                 </div>
             </div>
         </>

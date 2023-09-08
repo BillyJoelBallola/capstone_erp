@@ -23,7 +23,7 @@ const UserForm = () => {
             status: true,
             dashboard: {
                 name: "dashboard",
-                access: false,
+                access: true,
             },
             settings: {
                 name: "settings",
@@ -68,9 +68,11 @@ const UserForm = () => {
         onSubmit: async (values) => {
 
             if(values.role === true){
-                values.dashboard.access = true;
                 values.settings.access = true;
+            }else{
+                values.settings.access = false;
             }
+
             if(
                 values.inventory.access === false &&
                 values.supplyChain.access === false &&
@@ -81,7 +83,7 @@ const UserForm = () => {
                 return toast.error("Failed to add. user account must have atleast one[1] access right.", { position: toast.POSITION.TOP_RIGHT }); 
             }
 
-            const userAccess = new Array(values.dashboard, values.settings, values.inventory, values.supplyChain, values.financial, values.sales, values.humanResource)
+            const userAccess = new Array(values.dashboard, values.settings, values.inventory, values.supplyChain, values.financial, values.sales, values.humanResource);
             
             if(id){
                 const { data } = await axios.put("/erp/update_user", { _id: values._id, name: values.name, email: values.email, password: values.password, role: values.role, status: values.status, userAccess: userAccess, userImage: values.userImage});
@@ -135,7 +137,7 @@ const UserForm = () => {
                 formik.values.sales = data.userAccess[6];
             })
         }
-    }, [])
+    }, []);
 
     return (
         <>
@@ -330,7 +332,6 @@ const UserForm = () => {
                                                 </select>
                                             </div>
                                         )}
-                                        {formik.values.financial.role === "User" && <div className="text-sm text-gray-400">For 'User' access level: Reporting and configuration of financial are restricted.</div>}
                                     </div>
                                     <div className="grid gap-2">
                                         <Tooltip target=".sales-info" />

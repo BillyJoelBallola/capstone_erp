@@ -4,7 +4,7 @@ import { UserContext } from '../context/UserContext';
 import placeHolder from "../assets/placeholder.png";
 import axios from "axios";
 
-// TODO: function fro production and purchase
+// TODO: function for production and purchase
 
 const Planning = () => {
     const path = useLocation().pathname;
@@ -41,7 +41,7 @@ const Planning = () => {
         });
 
         return (
-            <div className="flex flex-col rounded-lg bg-white drop-shadow-sm h-min">
+            <div className="flex flex-col rounded-lg bg-white drop-shadow-sm h-min border">
                 <div className='border-x-0 border-t-0 border px-4 py-2 grid'>
                     <span className='text-lg font-semibold'>
                         Raw Materials 
@@ -92,7 +92,7 @@ const Planning = () => {
 
     const Products = () => {
         return (
-            <div className="flex flex-col rounded-lg bg-white drop-shadow-sm h-min">
+            <div className="flex flex-col rounded-lg bg-white drop-shadow-sm h-min border">
                 <div className='border-x-0 border-t-0 border px-4 py-2 grid'>
                     <span className='text-lg font-semibold'>
                         Products

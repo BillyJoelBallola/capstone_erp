@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import humanResouceIcon from "../assets/human_resource.svg";
+import supplyChainIcon from "../assets/supply_chain.svg";
+import { UserContext } from "../context/UserContext";
 import { TieredMenu } from "primereact/tieredmenu";
 import settingsIcon from "../assets/settings.svg";
 import dashboardIcon from "../assets/dashboard.svg";
 import inventoryIcon from "../assets/inventory.svg";
-import humanResouceIcon from "../assets/human_resource.svg";
-import supplyChainIcon from "../assets/supply_chain.svg";
 import financialIcon from "../assets/finance.svg";
 import portalIcon from "../assets/portal.svg";
 
@@ -13,6 +14,7 @@ import portalIcon from "../assets/portal.svg";
 
 const DynamicLinks = () => {
     const navigate = useNavigate();
+    const { currentUser } = useContext(UserContext);
     const path = useLocation().pathname.split("/");
     const [navControl, setNavControl] = useState(false);
     const menuFinancialCustomers = useRef(null);
@@ -288,7 +290,7 @@ const DynamicLinks = () => {
                         </div>
                     </div>
                     {/* Web */}
-                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm font-semibold">
+                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm">
                         <NavLink to="/inventory">Overview</NavLink>
                         <div>
                             <TieredMenu
@@ -318,23 +320,28 @@ const DynamicLinks = () => {
                                 Products
                             </button>
                         </div>
-                        <div>
-                            <TieredMenu
-                                model={inventoryReportMenu}
-                                popup
-                                ref={menuInventoryReport}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuInventoryReport.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/inventory/configurations/inv-config">Configuration</NavLink>
+                        {
+                            currentUser?.userAccess[2]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={inventoryReportMenu}
+                                        popup
+                                        ref={menuInventoryReport}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuInventoryReport.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/inventory/configurations/inv-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                      {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-10 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-8 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -367,23 +374,28 @@ const DynamicLinks = () => {
                                 Products
                             </button>
                         </div>
-                        <div>
-                            <TieredMenu
-                                model={inventoryReportMenu}
-                                popup
-                                ref={menuInventoryReport}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuInventoryReport.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/inventory/configurations/inv-config">Configuration</NavLink>
+                        {
+                            currentUser?.userAccess[2]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={inventoryReportMenu}
+                                        popup
+                                        ref={menuInventoryReport}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuInventoryReport.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/inventory/configurations/inv-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                 </div>
             );
@@ -419,7 +431,7 @@ const DynamicLinks = () => {
                         </div>
                     </div>
                     {/* Web */}
-                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm font-semibold">
+                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm">
                         <NavLink to="/human-resource">Overview</NavLink>
                         <div>
                             <TieredMenu
@@ -438,23 +450,28 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         <NavLink to="/human-resource/employees">Employees</NavLink>
-                        <div>
-                            <TieredMenu
-                                model={humanResouceReportMenu}
-                                popup
-                                ref={menuHumanResourceReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuHumanResourceReports.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/human-resource/configurations/hr-config">Configuration</NavLink> 
+                        {
+                            currentUser?.userAccess[6]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={humanResouceReportMenu}
+                                        popup
+                                        ref={menuHumanResourceReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuHumanResourceReports.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/human-resource/configurations/hr-config">Configuration</NavLink> 
+                            </>
+                        }
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -476,23 +493,28 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         <NavLink to="/human-resource/employees">Employees</NavLink>
-                        <div>
-                            <TieredMenu
-                                model={humanResouceReportMenu}
-                                popup
-                                ref={menuHumanResourceReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuHumanResourceReports.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/human-resource/configurations/hr-config">Configuration</NavLink> 
+                        {
+                            currentUser?.userAccess[6]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={humanResouceReportMenu}
+                                        popup
+                                        ref={menuHumanResourceReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuHumanResourceReports.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/human-resource/configurations/hr-config">Configuration</NavLink> 
+                            </>
+                        }
                     </ul>
                 </div>
             );
@@ -528,7 +550,7 @@ const DynamicLinks = () => {
                         </div>
                     </div>
                     {/* Web */}
-                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm font-semibold">
+                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm">
                         <NavLink to="/financial">Overview</NavLink>
                         <div>
                             <TieredMenu
@@ -578,23 +600,28 @@ const DynamicLinks = () => {
                                 Financial
                             </button>
                         </div>
-                        <div>
-                            <TieredMenu
-                                model={financialReportMenu}
-                                popup
-                                ref={menuFinancialReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuFinancialReports.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/financial/configurations/fn-config">Configuration</NavLink>
+                        {
+                            currentUser?.userAccess[4]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={financialReportMenu}
+                                        popup
+                                        ref={menuFinancialReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuFinancialReports.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/financial/configurations/fn-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -647,23 +674,28 @@ const DynamicLinks = () => {
                                 Financial
                             </button>
                         </div>
-                        <div>
-                            <TieredMenu
-                                model={financialReportMenu}
-                                popup
-                                ref={menuFinancialReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuFinancialReports.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/financial/configurations/fn-config">Configuration</NavLink>
+                        {
+                            currentUser?.userAccess[4]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={financialReportMenu}
+                                        popup
+                                        ref={menuFinancialReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuFinancialReports.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/financial/configurations/fn-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                 </div>
             );
@@ -699,7 +731,7 @@ const DynamicLinks = () => {
                         </div>
                     </div>
                     {/* Web */}
-                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm font-semibold">
+                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm">
                         <NavLink to="/supply-chain">Overview</NavLink>
                         {/* <div>
                             <TieredMenu
@@ -730,23 +762,28 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         <NavLink to="/supply-chain/suppliers">Suppliers</NavLink>
-                        <div>
-                            <TieredMenu
-                                model={supplyChainReportMenu}
-                                popup
-                                ref={menuSupplyChainReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuSupplyChainReports.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/supply-chain/configurations/sc-config">Configuration</NavLink>
+                        {
+                            currentUser?.userAccess[3]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={supplyChainReportMenu}
+                                        popup
+                                        ref={menuSupplyChainReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuSupplyChainReports.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/supply-chain/configurations/sc-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
@@ -780,23 +817,28 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         <NavLink to="/supply-chain/suppliers">Suppliers</NavLink>
-                        <div>
-                            <TieredMenu
-                                model={supplyChainReportMenu}
-                                popup
-                                ref={menuSupplyChainReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) =>
-                                    menuSupplyChainReports.current.toggle(e)
-                                }
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/supply-chain/configurations/sc-config">Configuration</NavLink>
+                        {
+                            currentUser?.userAccess[3]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={supplyChainReportMenu}
+                                        popup
+                                        ref={menuSupplyChainReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) =>
+                                            menuSupplyChainReports.current.toggle(e)
+                                        }
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/supply-chain/configurations/sc-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                 </div>
             );
@@ -832,46 +874,56 @@ const DynamicLinks = () => {
                         </div>
                     </div>
                     {/* Web */}
-                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm font-semibold">
+                    <ul className="md:flex hidden p-2 gap-3 header-link text-sm">
                         <NavLink to="/sales">Overview</NavLink>
                         <NavLink to="/sales/customers">Customers</NavLink>
                         <NavLink to="/sales/orders">Orders</NavLink>
-                        <div>
-                            <TieredMenu
-                                model={salesReports}
-                                popup
-                                ref={menuSalesReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) => menuSalesReports.current.toggle(e)}
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/sales/configurations/sl-config">Configuration</NavLink> 
+                        {
+                            currentUser?.userAccess[5]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={salesReports}
+                                        popup
+                                        ref={menuSalesReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) => menuSalesReports.current.toggle(e)}
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/sales/configurations/sl-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                     {/* Mobile */}
                     <ul className={`md:hidden flex bg-white absolute top-14 flex-col h-screen ${navControl ? 'left-0 w-1/2' : '-left-[100%]'} drop-shadow-lg py-6 pl-4 pr-10 gap-5 header-link text-sm font-semibold duration-200`}>
                         <NavLink to="/sales">Overview</NavLink>
                         <NavLink to="/sales/customers">Customers</NavLink>
                         <NavLink to="/sales/orders">Orders</NavLink>
-                        <div>
-                            <TieredMenu
-                                model={salesReports}
-                                popup
-                                ref={menuSalesReports}
-                                breakpoint="767px"
-                                className="text-sm"
-                            />
-                            <button
-                                onClick={(e) => menuSalesReports.current.toggle(e)}
-                            >
-                                Reporting
-                            </button>
-                        </div>
-                        <NavLink to="/sales/configurations/sl-config">Configuration</NavLink> 
+                        {
+                            currentUser?.userAccess[5]?.role === "Administrator" &&
+                            <>
+                                <div>
+                                    <TieredMenu
+                                        model={salesReports}
+                                        popup
+                                        ref={menuSalesReports}
+                                        breakpoint="767px"
+                                        className="text-sm"
+                                    />
+                                    <button
+                                        onClick={(e) => menuSalesReports.current.toggle(e)}
+                                    >
+                                        Reporting
+                                    </button>
+                                </div>
+                                <NavLink to="/sales/configurations/sl-config">Configuration</NavLink>
+                            </>
+                        }
                     </ul>
                 </div>
             );

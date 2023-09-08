@@ -84,6 +84,7 @@ input[type="month"]{
     font-weight: 600;
     font-size: .95rem;
 }
+
 .p-datatable-wrapper .p-datatable-table .p-datatable-tbody tr td{
     font-size: .9rem;
 }

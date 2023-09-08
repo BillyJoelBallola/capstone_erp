@@ -114,14 +114,14 @@ export const purchasePlanning = async (req, res) => {
         const purchasesResponse = await Purchase.find({}); 
         const materialsResponse = await RawMaterial.find({});
 
-        const confirmPurchase = purchasesResponse.filter(pur => pur.state === 2);
+        const confirmPurchase = purchasesResponse.filter(pur => pur?.state === 2);
 
         const planningPurchases = materialsResponse.map(material => {
             let inComing = 0;
 
             confirmPurchase.map(pur => {
                 pur.materials.map(mats => {
-                    if(mats.id.toString() === material._id.toString()){
+                    if(mats?.id?.toString() === material?._id?.toString()){
                         inComing += Number(mats.qty);
                     }
                 })

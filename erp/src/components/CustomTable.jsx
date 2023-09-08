@@ -421,7 +421,7 @@ const CustomTable = ({ name, dataValue, columns, setAction, metaKey}) => {
                         op === "financial" && formattedName === "supplier" &&
                         <NewLink />
                     } */}
-                    <span className="md:text-lg font-semibold">{`${name}s`}</span>
+                    <span className="md:text-lg">{`${name}s`}</span>
                 </div>
                 { 
                     metaKey === false && selectedRows?.length !== 0 && selectedRows?.length !== undefined && 
