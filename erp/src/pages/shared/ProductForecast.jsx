@@ -27,14 +27,14 @@ const ProductForecast = () => {
     useEffect(() => {
         axios.get("/erp/productions")
             .then(({ data }) => {
-                const incomingProduct = data.filter(item => (item.product._id === id && item.state === 2));
+                const incomingProduct = data.filter(item => (item?.product?._id === id && item?.state === 2));
                 return incomingProduct;
             })
             .then((incomingProduct) => {
                 axios.get("/erp/shipments").then(({ data }) => {
                     let outGoing = [];
                     data.map(shipment => {
-                        if(shipment.state >= 2 && (shipment.order.state === 2 || shipment.order.state === 3)){
+                        if(shipment?.state >= 2 && (shipment?.order?.state === 2 || shipment?.order?.state === 3)){
                             shipment?.order?.orders?.filter(prod => {
                                 if(prod.productId === id){
                                     return outGoing.push(shipment)

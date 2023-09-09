@@ -28,11 +28,11 @@ const MaterialForecast = () => {
             axios.get("/erp/purchases").then(({ data }) => {
                 const targetMaterial = data.find(item => {
                     if(item.state === 2){
-                        return item.materials.some(material => material.id === id);
+                        return item.materials.some(material => material?.id === id);
                     }
                 });
                 const rawMaterials = targetMaterial?.materials?.map(raw => (raw));
-                const mat = rawMaterials?.filter(raw => (raw.id === id));
+                const mat = rawMaterials?.filter(raw => (raw?.id === id));
                 setPurchasesMats(mat);
                 setPurchaseOrder([targetMaterial]);
             })
