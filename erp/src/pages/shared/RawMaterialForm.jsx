@@ -275,7 +275,7 @@ const RawMaterialForm = () => {
                                         </div>
                                         <div className='form-group'>
                                             <label htmlFor="" className={`${formik.touched.price && formik.errors.price ? "text-red-400" : ""}`}>
-                                                {formik.touched.price && formik.errors.price ? formik.errors.price : "Unit Price"}
+                                                {formik.touched.price && formik.errors.price ? formik.errors.price : "Price"}
                                             </label>    
                                             <input 
                                                 type="number" 

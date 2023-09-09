@@ -13,8 +13,7 @@ const ProductSchema = new Schema({
     rawMaterials: [Object],
     category: {
         type: Schema.Types.ObjectId, 
-        ref: "Category", 
-        required: true
+        ref: "Category"
     },
     measurement: {
         type: String, 

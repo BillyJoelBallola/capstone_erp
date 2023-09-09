@@ -518,7 +518,7 @@ const PaysliplForm = () => {
                                             <>
                                                 <div className="form-group">
                                                     <label htmlFor="" className={`${formik.touched.earning && formik.errors.earning ? "text-red-400" : ""}`}>
-                                                        {formik.touched.earning && formik.errors.earning ? formik.errors.earning : "Earning"}
+                                                        {formik.touched.earning && formik.errors.earning ? formik.errors.earning : "Production Earning"}
                                                     </label>   
                                                     <input 
                                                         type="number"

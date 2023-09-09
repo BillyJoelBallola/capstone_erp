@@ -25,6 +25,10 @@ const UserForm = () => {
                 name: "dashboard",
                 access: true,
             },
+            attendance: {
+                name: "attendance",
+                access: true,
+            },
             settings: {
                 name: "settings",
                 access: false,
@@ -83,7 +87,7 @@ const UserForm = () => {
                 return toast.error("Failed to add. user account must have atleast one[1] access right.", { position: toast.POSITION.BOTTOM_RIGHT }); 
             }
 
-            const userAccess = new Array(values.dashboard, values.settings, values.inventory, values.supplyChain, values.financial, values.sales, values.humanResource);
+            const userAccess = new Array(values.attendance, values.dashboard, values.settings, values.inventory, values.supplyChain, values.financial, values.sales, values.humanResource);
             
             if(id){
                 const { data } = await axios.put("/erp/update_user", { _id: values._id, name: values.name, email: values.email, password: values.password, role: values.role, status: values.status, userAccess: userAccess, userImage: values.userImage});

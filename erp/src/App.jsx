@@ -47,6 +47,7 @@ import ProductForecast from './pages/shared/ProductForecast';
 import MaterialForecast from './pages/shared/MaterialForecast';
 import InvoiceForm from './pages/shared/InvoiceForm';
 import CustomerForm from './pages/shared/CustomerForm';
+import Configurations from './pages/shared/Configurations';
 
 import Customers from './pages/sales/Customers';
 import Sales from './pages/sales/Sales';
@@ -62,7 +63,7 @@ import Attendance from './pages/humanResource/Attendance';
 import Payslips from './pages/humanResource/Payslips';
 import PaysliplForm from './pages/humanResource/PaysliplForm';
 
-import Configurations from './pages/shared/Configurations';
+import AttendancePage from './pages/Attendance/AttendancePage';
 
 const App = () => {
     return (
@@ -120,6 +121,7 @@ const App = () => {
                 <Route path='/human-resource/employees' element={<Employees />} />
                 <Route path='/human-resource/employees/employee-form/:id?' element={<EmployeeForm />} />
                 <Route path='/:op/configurations/:tab?' element={<Configurations />} />
+                <Route path='/attendance' element={<AttendancePage />} />
             </Route>
         </Routes>
     )

@@ -27,9 +27,9 @@ const SupplierForm = () => {
                 axios.get("/erp/supplier_time-rate"),
                 axios.get("/erp/purchases")
             ])
-            const rateData = rate.data.find(item => item.supplierId.toString() === id);
-            setOnTimeRate(rateData.rate);
-            setPurchasesNumber(purchases.data.filter(pur => pur.supplier._id.toString() === id).length);
+            const rateData = rate?.data?.find(item => item?.supplierId?.toString() === id);
+            setOnTimeRate(rateData?.rate);
+            setPurchasesNumber(purchases?.data?.filter(pur => pur?.supplier?._id?.toString() === id)?.length);
         }
 
         fetchPerformance();

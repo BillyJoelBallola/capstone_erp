@@ -50,7 +50,7 @@ const Planning = () => {
                     <span className='text-sm text-gray-400'>Raw materials need replenishment based on products that has customers demand with low quantity.</span>
                 </div>
                 <div className='max-h-[500px] overflow-y-auto'>
-                    {
+                    {/* {
                         suppliers?.filter(item => item.rawMaterials.length !== 0).length !== 0 ?
                         suppliers?.filter(item => item.rawMaterials.length !== 0).map((supplier, idx) => (
                             <div key={idx} className='flex flex-col m-2 bg-gray-200 rounded-lg p-4'> 
@@ -72,7 +72,6 @@ const Planning = () => {
                                             <div className='px-2 flex justify-between py-1 bg-white rounded-md' key={rawMat._id}>
                                                 <span>{rawMat.name}</span>
                                                 <span>
-                                                    {/* ₱{rawMat.price}/ */}
                                                     {rawMat.measurement}
                                                 </span>
                                             </div>
@@ -84,7 +83,10 @@ const Planning = () => {
                         <div className='p-4'>
                             <span>No items found.</span>
                         </div>
-                    }
+                    } */}
+                    <div className='p-4'>
+                        <span>No items found.</span>
+                    </div>
                 </div>
             </div> 
         )

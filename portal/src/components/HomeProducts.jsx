@@ -40,7 +40,7 @@ const HomeProducts = ({ query, display }) => {
                 quantity: 1
             }
     
-            const response = await axios.put("/erp/add_cart_item", { data: data, id: cart._id });
+            const response = await axios.put("/erp/add_cart_item", { data: data, id: cart?._id });
             if(response.statusText === "OK"){
                 setCartAction("addToCart");
                 setAddToCartButton(false);

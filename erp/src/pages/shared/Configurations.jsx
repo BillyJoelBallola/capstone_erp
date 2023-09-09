@@ -45,7 +45,7 @@ const InventoryConfiguration = ({ inventorySettings, setInventorySettings, stora
                     <div className='text-lg font-semibold'>
                         <span>Production Quantity</span>
                         <Tooltip target=".product-info" />
-                        <span className="pl-1 font-semibold text-gray-400 product-info" data-pr-tooltip={`Minimum: Production quantity should be higher or equal to this value.`}>?</span>
+                        <span className="pl-1 font-semibold text-gray-400 product-info" data-pr-tooltip={`Minimum: This value will use for reorder point.`}>?</span>
                     </div>
                     <div className='grid grid-cols-2 gap-4'>
                         <div className="form-group">

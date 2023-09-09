@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import humanResouceIcon from "../assets/human_resource.svg";
 import supplyChainIcon from "../assets/supply_chain.svg";
+import attendanceIcon from "../assets/attendance.svg";
 import { UserContext } from "../context/UserContext";
 import { TieredMenu } from "primereact/tieredmenu";
 import settingsIcon from "../assets/settings.svg";
@@ -258,6 +259,22 @@ const DynamicLinks = () => {
                     </div>
                 </div>
             );
+        case "attendance":
+            return (
+                <div className="flex gap-5 items-center">
+                    <NavLink to="/" className="grid place-items-center">
+                        <svg fill="#000000" className="w-4 h-4 hover:scale-[1.15] duration-150" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h4v4H0V0zm0 6h4v4H0V6zm0 6h4v4H0v-4zM6 0h4v4H6V0zm0 6h4v4H6V6zm0 6h4v4H6v-4zm6-12h4v4h-4V0zm0 6h4v4h-4V6zm0 6h4v4h-4v-4z" fillRule="evenodd"/>
+                        </svg>
+                    </NavLink>
+                    <div className="flex gap-2 items-center">
+                        <div className="w-5 aspect-square grid place-items-center">
+                            <img src={attendanceIcon} alt="icon" className="object-contain" />
+                        </div>
+                        <span className="font-semibold text-lg">Attendance</span>
+                    </div>
+                </div>
+            );
         case "inventory":
             return (
                 <div className="flex gap-5 md:items-center">
@@ -321,7 +338,7 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         {
-                            currentUser?.userAccess[2]?.role === "Administrator" &&
+                            currentUser?.userAccess[3]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -375,7 +392,7 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         {
-                            currentUser?.userAccess[2]?.role === "Administrator" &&
+                            currentUser?.userAccess[3]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -451,7 +468,7 @@ const DynamicLinks = () => {
                         </div>
                         <NavLink to="/human-resource/employees">Employees</NavLink>
                         {
-                            currentUser?.userAccess[6]?.role === "Administrator" &&
+                            currentUser?.userAccess[7]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -494,7 +511,7 @@ const DynamicLinks = () => {
                         </div>
                         <NavLink to="/human-resource/employees">Employees</NavLink>
                         {
-                            currentUser?.userAccess[6]?.role === "Administrator" &&
+                            currentUser?.userAccess[7]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -601,7 +618,7 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         {
-                            currentUser?.userAccess[4]?.role === "Administrator" &&
+                            currentUser?.userAccess[5]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -675,7 +692,7 @@ const DynamicLinks = () => {
                             </button>
                         </div>
                         {
-                            currentUser?.userAccess[4]?.role === "Administrator" &&
+                            currentUser?.userAccess[5]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -763,7 +780,7 @@ const DynamicLinks = () => {
                         </div>
                         <NavLink to="/supply-chain/suppliers">Suppliers</NavLink>
                         {
-                            currentUser?.userAccess[3]?.role === "Administrator" &&
+                            currentUser?.userAccess[4]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -818,7 +835,7 @@ const DynamicLinks = () => {
                         </div>
                         <NavLink to="/supply-chain/suppliers">Suppliers</NavLink>
                         {
-                            currentUser?.userAccess[3]?.role === "Administrator" &&
+                            currentUser?.userAccess[4]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -879,7 +896,7 @@ const DynamicLinks = () => {
                         <NavLink to="/sales/customers">Customers</NavLink>
                         <NavLink to="/sales/orders">Orders</NavLink>
                         {
-                            currentUser?.userAccess[5]?.role === "Administrator" &&
+                            currentUser?.userAccess[6]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu
@@ -905,7 +922,7 @@ const DynamicLinks = () => {
                         <NavLink to="/sales/customers">Customers</NavLink>
                         <NavLink to="/sales/orders">Orders</NavLink>
                         {
-                            currentUser?.userAccess[5]?.role === "Administrator" &&
+                            currentUser?.userAccess[6]?.role === "Administrator" &&
                             <>
                                 <div>
                                     <TieredMenu

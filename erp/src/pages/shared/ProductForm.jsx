@@ -138,7 +138,7 @@ const ProductForm = () => {
                 formik.values._id = data._id;
                 formik.values.productImg = data.productImg;
                 formik.values.name = data.name;
-                formik.values.category = data.category;
+                // formik.values.category = data.category;
                 formik.values.description = data.description;
                 formik.values.status = data.status;
                 formik.values.price = data.price;
@@ -187,8 +187,8 @@ const ProductForm = () => {
                 .required("Unit of Measurement is required."),
             storage: Yup.string()
                 .required("Storage is required."),
-            category: Yup.string()
-                .required("Category is required.")
+            // category: Yup.string()
+            //     .required("Category is required.")
         }),
         onSubmit: async (values) => {
             if(id){
@@ -561,7 +561,7 @@ const ProductForm = () => {
                                         </div>
                                         <div>
                                             <div className='grid gap-6'>
-                                                <div className='form-group'>
+                                                {/* <div className='form-group'>
                                                     <label htmlFor="" className={`${formik.touched.category && formik.errors.category ? "text-red-400" : ""}`}>
                                                         {formik.touched.category && formik.errors.category ? formik.errors.category : "Category"}
                                                     </label>  
@@ -578,7 +578,7 @@ const ProductForm = () => {
                                                             ))
                                                         }
                                                     </select>
-                                                </div>
+                                                </div> */}
                                                 <div className='form-group'>
                                                     <label htmlFor="" className={`${formik.touched.measurement && formik.errors.measurement ? "text-red-400" : ""}`}>
                                                         {formik.touched.measurement && formik.errors.measurement ? formik.errors.measurement : "Unit of Measurement"}
