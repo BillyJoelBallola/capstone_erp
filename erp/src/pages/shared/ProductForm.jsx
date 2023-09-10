@@ -146,6 +146,7 @@ const ProductForm = () => {
                 formik.values.measurement = data.measurement;
                 formik.values.storage = data.storage;
                 formik.values.date = data.date;
+                setInstructions(data.instructions);
                 setRawMaterials(data.rawMaterials);
                 setData(data);
                 setAction("");
@@ -391,7 +392,7 @@ const ProductForm = () => {
             setAction("");
         })
       }
-    }, [uploadedImage])
+    }, [uploadedImage]) 
 
     return (
         <>

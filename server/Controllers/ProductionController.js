@@ -127,7 +127,7 @@ export const productionPlanning = async (req, res) => {
 
         const pendingOrders = ordersResponse.filter(order => order?.state === 2);
         const confirmProduction = productionResponse.filter(prod => prod?.state === 2);
-        const shipping = shipmentResponse.filter(ship => ship?.state >= 2 && (ship?.order?.state === 2 || ship?.order?.state === 3));
+        const shipping = shipmentResponse.filter(ship => ship?.state === 2 && (ship?.order?.state === 2 || ship?.order?.state === 3));
 
         const planningProducts = productsResponse.map(product => {
             let totalDemand = 0;

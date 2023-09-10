@@ -520,7 +520,7 @@ const TableActionsButtons = ({ selectedRows, setSelectedRows, setAction, name, s
     }
 
     //human-resource -> employees 
-    if(formatName === "employee" && selectedRows?.length === 1){
+    if(formatName === "employee"){
         if (selectedRows?.length === 1) {
             return (
                 <>
