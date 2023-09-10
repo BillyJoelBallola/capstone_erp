@@ -171,7 +171,7 @@ const UserForm = () => {
                                         autoFocus
                                         type="text"
                                         style={{ fontSize: "larger", fontWeight: 600 }}
-                                        placeholder="e.g. Juan Dela Cruz"
+                                        placeholder="e.g. John Doe"
                                         name="name"
                                         value={formik.values.name}
                                         onChange={formik.handleChange}
@@ -186,7 +186,7 @@ const UserForm = () => {
                                     </label>
                                     <input
                                         type="email"
-                                        placeholder="e.g. juandelacruz@gmail.com"
+                                        placeholder="e.g. johndoe@gmail.com"
                                         name="email"
                                         value={formik.values.email}
                                         onChange={formik.handleChange}

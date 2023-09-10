@@ -406,7 +406,7 @@ const EmployeeForm = () => {
                                             <input 
                                                 type="email" 
                                                 name='email'
-                                                placeholder='e.g micaella@gmail.com'
+                                                placeholder='e.g johndoe@gmail.com'
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
